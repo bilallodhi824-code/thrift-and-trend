@@ -1,6 +1,7 @@
 # 🚀 Thrift & Trend — Complete Full-Stack Deployment Guide
 **Brand Tagline:** *Where Style Meets Savings*  
 **Official Instagram:** [@thriftandtread](https://www.instagram.com/thriftandtread?rpxt=MThkazBjd253NXd4cQ==)  
+**GitHub Repository:** [https://github.com/bilallodhi824-code/thrift-and-trend](https://github.com/bilallodhi824-code/thrift-and-trend)  
 **Database:** Microsoft SQL Server 2022 / 2025 (MSSQL)  
 **Backend:** Node.js + Express + TypeScript + Zod + JWT  
 **Frontend:** React 18 + TypeScript + Vite + Tailwind CSS  
