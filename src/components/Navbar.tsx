@@ -1,0 +1,483 @@
+import React, { useState, useEffect, useRef } from 'react';
+import {
+  ShoppingBag,
+  Heart,
+  Search,
+  X,
+  Menu,
+  ShieldCheck,
+  User as UserIcon,
+  Package,
+  LogOut,
+  ChevronDown,
+  LayoutDashboard,
+  Instagram
+} from 'lucide-react';
+import { useShop } from '../context/ShopContext';
+
+export const Navbar: React.FC = () => {
+  const {
+    cartCount,
+    wishlist,
+    setIsCartOpen,
+    setIsWishlistOpen,
+    setIsSizeGuideOpen,
+    setIsAuthModalOpen,
+    setIsOrderHistoryOpen,
+    isAdminDashboardOpen,
+    setIsAdminDashboardOpen,
+    user,
+    isAuthenticated,
+    isAdmin,
+    logout,
+    orders,
+    searchQuery,
+    setSearchQuery,
+    setSelectedCategory,
+    sizeUnit,
+    setSizeUnit,
+  } = useShop();
+
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const userMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close user dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+        setIsUserMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleNavCategory = (cat: 'all' | 'lifestyle' | 'running' | 'boots' | 'formal' | 'trail') => {
+    setSelectedCategory(cat);
+    setIsMobileMenuOpen(false);
+    const catalogEl = document.getElementById('catalog-section');
+    if (catalogEl) {
+      catalogEl.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <header
+      className={`sticky top-0 z-40 transition-all duration-300 ${
+        isScrolled
+          ? 'bg-[#FAF7EE]/95 backdrop-blur-md shadow-md border-b border-[#E2D9CA] py-2.5 sm:py-3'
+          : 'bg-[#FAF7EE] border-b border-[#E2D9CA] py-3.5 sm:py-4'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between gap-4">
+          
+          {/* Mobile hamburger */}
+          <div className="flex items-center lg:hidden">
+            <button
+              onClick={() => setIsMobileMenuOpen(prev => !prev)}
+              className="p-2 -ml-2 text-[#2B1A11] hover:text-black focus:outline-none"
+              aria-label="Toggle Navigation Menu"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
+          </div>
+
+          {/* Left Brand Identity with Logo Image */}
+          <div className="flex items-center space-x-3">
+            <a
+              href="#"
+              className="flex items-center space-x-2.5 group"
+              onClick={e => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }}
+            >
+              {/* Circular Crest Badge */}
+              <img
+                src="/images/logo/badge.jpg"
+                alt="Thrift and Trend Seal"
+                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover border-2 border-[#C59B6D] shadow-xs group-hover:scale-105 transition-transform"
+              />
+
+              {/* Wordmark and Tagline */}
+              <div className="flex flex-col">
+                <div className="flex items-baseline space-x-1">
+                  <span className="font-display text-lg sm:text-xl font-extrabold tracking-tight text-[#2B1A11] uppercase leading-none">
+                    THRIFT <span className="text-[#C59B6D]">&</span> TREND
+                  </span>
+                </div>
+                <span className="text-[8px] sm:text-[9px] font-bold tracking-[0.25em] text-[#C59B6D] uppercase mt-0.5">
+                  WHERE STYLE MEETS SAVINGS
+                </span>
+              </div>
+            </a>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden lg:flex items-center space-x-6 text-[12px] font-bold tracking-wider uppercase text-[#2B1A11]">
+            <button
+              onClick={() => handleNavCategory('all')}
+              className="hover:text-[#C59B6D] transition-colors"
+            >
+              All Drops
+            </button>
+            <button
+              onClick={() => handleNavCategory('lifestyle')}
+              className="hover:text-[#C59B6D] transition-colors"
+            >
+              Streetwear Heat
+            </button>
+            <button
+              onClick={() => handleNavCategory('running')}
+              className="hover:text-[#C59B6D] transition-colors"
+            >
+              Runners
+            </button>
+            <button
+              onClick={() => handleNavCategory('boots')}
+              className="hover:text-[#C59B6D] transition-colors"
+            >
+              Boots
+            </button>
+            <button
+              onClick={() => handleNavCategory('formal')}
+              className="hover:text-[#C59B6D] transition-colors"
+            >
+              Oxfords
+            </button>
+            <a
+              href="#grading-section"
+              className="hover:text-[#C59B6D] transition-colors text-[#264E36] flex items-center space-x-1"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              <span>T&T Lab</span>
+            </a>
+            
+            {/* Instagram Official Link */}
+            <a
+              href="https://www.instagram.com/thriftandtread?rpxt=MThkazBjd253NXd4cQ=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-[#C59B6D] text-pink-900 transition-colors flex items-center space-x-1 lowercase font-semibold text-[11px]"
+              title="Follow @thriftandtread on Instagram"
+            >
+              <Instagram className="w-3.5 h-3.5 text-[#C59B6D]" />
+              <span>@thriftandtread</span>
+            </a>
+          </nav>
+
+          {/* Right Actions: Search, Sizing, User Auth, Admin Portal, Saved, Bag */}
+          <div className="flex items-center space-x-2 sm:space-x-3">
+            
+            {/* Search Input */}
+            <div className="relative flex items-center">
+              {isSearchExpanded ? (
+                <div className="flex items-center bg-[#F3EFE6] rounded-full px-3.5 py-1.5 border border-[#C59B6D] w-48 sm:w-64 transition-all duration-300 shadow-inner">
+                  <Search className="w-3.5 h-3.5 text-[#C59B6D] mr-2 flex-shrink-0" />
+                  <input
+                    type="text"
+                    value={searchQuery}
+                    onChange={e => setSearchQuery(e.target.value)}
+                    placeholder="Search grails, savings..."
+                    className="w-full bg-transparent text-xs text-[#2B1A11] placeholder-stone-500 focus:outline-none"
+                    autoFocus
+                  />
+                  <button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setIsSearchExpanded(false);
+                    }}
+                    className="text-stone-400 hover:text-black ml-1"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsSearchExpanded(true)}
+                  className="p-2 text-[#2B1A11] hover:text-[#C59B6D] rounded-full hover:bg-[#F3EFE6] transition-colors"
+                  title="Search sneakers"
+                >
+                  <Search className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Sizing Scale Switcher */}
+            <div className="hidden sm:flex items-center border border-[#E2D9CA] rounded-full p-0.5 bg-[#F3EFE6] text-[10px] font-bold tracking-wider">
+              {(['EU', 'US'] as const).map(unit => (
+                <button
+                  key={unit}
+                  onClick={() => setSizeUnit(unit)}
+                  className={`px-2.5 py-0.5 rounded-full transition-all ${
+                    sizeUnit === unit
+                      ? 'bg-[#2B1A11] text-[#FAF7EE] shadow-xs'
+                      : 'text-[#2B1A11] hover:text-[#C59B6D]'
+                  }`}
+                >
+                  {unit}
+                </button>
+              ))}
+            </div>
+
+            {/* Size Guide Trigger */}
+            <button
+              onClick={() => setIsSizeGuideOpen(true)}
+              className="hidden md:inline-flex text-[11px] font-bold tracking-wider text-[#C59B6D] hover:text-[#2B1A11] transition-colors uppercase underline underline-offset-4"
+            >
+              Fit Guide
+            </button>
+
+            {/* Admin Dashboard Quick Launcher (When logged in as Admin) */}
+            {isAdmin && (
+              <button
+                onClick={() => setIsAdminDashboardOpen(!isAdminDashboardOpen)}
+                className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#1F140E] text-[#C59A6F] border border-[#C59A6F] hover:bg-[#2C1D14] transition-all text-xs font-bold tracking-wider uppercase shadow-sm"
+                title="Open MSSQL Admin Dashboard"
+              >
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                <span>Dashboard</span>
+              </button>
+            )}
+
+            {/* Saved Wishlist */}
+            <button
+              onClick={() => setIsWishlistOpen(true)}
+              className="relative p-2 text-[#2B1A11] hover:text-[#C59B6D] rounded-full hover:bg-[#F3EFE6] transition-colors"
+              title="Saved Grails"
+            >
+              <Heart className="w-4 h-4" />
+              {wishlist.length > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 bg-[#C59B6D] text-white text-[9px] font-extrabold w-4 h-4 rounded-full flex items-center justify-center shadow-xs">
+                  {wishlist.length}
+                </span>
+              )}
+            </button>
+
+            {/* User Account / MSSQL Login */}
+            <div className="relative" ref={userMenuRef}>
+              {isAuthenticated && user ? (
+                <div>
+                  <button
+                    onClick={() => setIsUserMenuOpen(prev => !prev)}
+                    className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#F3EFE6] border border-[#C59B6D]/40 text-[#2B1A11] hover:bg-[#EAE3D4] transition-all text-xs font-semibold"
+                    title="Account details"
+                  >
+                    <div className="w-5 h-5 rounded-full bg-[#C59B6D] text-[#1F140E] flex items-center justify-center text-[10px] font-bold">
+                      {user.fullName.charAt(0).toUpperCase()}
+                    </div>
+                    <span className="hidden sm:inline max-w-[80px] truncate">{user.fullName.split(' ')[0]}</span>
+                    <ChevronDown className="w-3.5 h-3.5 text-[#C59B6D]" />
+                  </button>
+
+                  {/* Dropdown Menu */}
+                  {isUserMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-[#1F140E]/10 py-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+                      <div className="px-4 py-2 border-b border-[#1F140E]/10">
+                        <p className="text-xs font-bold text-[#1F140E] truncate">{user.fullName}</p>
+                        <p className="text-[10px] text-gray-400 truncate">{user.email}</p>
+                        <span className="inline-block mt-1 px-1.5 py-0.5 bg-[#C59A6F]/15 text-[#C59A6F] text-[9px] font-bold rounded uppercase tracking-wider">
+                          MSSQL {user.role}
+                        </span>
+                      </div>
+
+                      {isAdmin && (
+                        <button
+                          onClick={() => {
+                            setIsUserMenuOpen(false);
+                            setIsAdminDashboardOpen(true);
+                          }}
+                          className="w-full px-4 py-2 text-left text-xs text-[#1F140E] hover:bg-[#FAF7EE] flex items-center gap-2 font-bold transition-colors bg-[#FAF7EE]/50"
+                        >
+                          <LayoutDashboard className="w-4 h-4 text-[#C59A6F]" />
+                          <span>Admin Dashboard</span>
+                        </button>
+                      )}
+
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          setIsOrderHistoryOpen(true);
+                        }}
+                        className="w-full px-4 py-2 text-left text-xs text-[#1F140E] hover:bg-[#FAF7EE] flex items-center justify-between transition-colors"
+                      >
+                        <span className="flex items-center gap-2">
+                          <Package className="w-4 h-4 text-[#C59A6F]" />
+                          <span>My Orders Vault</span>
+                        </span>
+                        {orders.length > 0 && (
+                          <span className="bg-[#1F140E] text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
+                            {orders.length}
+                          </span>
+                        )}
+                      </button>
+
+                      <div className="my-1 border-t border-[#1F140E]/10" />
+
+                      <button
+                        onClick={() => {
+                          setIsUserMenuOpen(false);
+                          logout();
+                        }}
+                        className="w-full px-4 py-2 text-left text-xs text-red-600 hover:bg-red-50 flex items-center gap-2 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4 text-red-500" />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button
+                  onClick={() => setIsAuthModalOpen(true)}
+                  className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-[#C59B6D]/60 text-[#2B1A11] hover:bg-[#F3EFE6] transition-all text-xs font-bold tracking-wider uppercase"
+                >
+                  <UserIcon className="w-3.5 h-3.5 text-[#C59B6D]" />
+                  <span className="hidden sm:inline">Sign In</span>
+                </button>
+              )}
+            </div>
+
+            {/* Shopping Bag Button */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative flex items-center space-x-1.5 bg-[#2B1A11] text-[#FAF7EE] hover:bg-[#3D2517] px-4 py-2.5 rounded-full transition-all duration-200 shadow-md hover:shadow-xl hover:-translate-y-0.5"
+              title="Shopping Bag"
+            >
+              <ShoppingBag className="w-3.5 h-3.5 text-[#C59B6D]" />
+              <span className="text-[11px] font-bold tracking-wider uppercase">
+                Bag
+              </span>
+              <span className="bg-[#C59B6D] text-[#2B1A11] text-[10px] font-extrabold px-1.5 py-0.2 rounded-full ml-1">
+                {cartCount}
+              </span>
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Drawer */}
+        {isMobileMenuOpen && (
+          <div className="lg:hidden mt-4 pt-4 border-t border-[#E2D9CA] animate-slide-down">
+            <div className="flex flex-col space-y-3 pb-3 text-xs tracking-widest uppercase font-bold text-[#2B1A11]">
+              <button
+                onClick={() => handleNavCategory('all')}
+                className="text-left py-2 px-1 text-[#2B1A11] hover:text-[#C59B6D]"
+              >
+                All Curated Drops
+              </button>
+              <button
+                onClick={() => handleNavCategory('lifestyle')}
+                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
+              >
+                Streetwear Heat
+              </button>
+              <button
+                onClick={() => handleNavCategory('running')}
+                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
+              >
+                Performance Runners
+              </button>
+              <button
+                onClick={() => handleNavCategory('boots')}
+                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
+              >
+                Suede Chelsea Boots
+              </button>
+              <button
+                onClick={() => handleNavCategory('formal')}
+                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
+              >
+                Savile Formal Oxfords
+              </button>
+
+              {/* Instagram link in mobile */}
+              <a
+                href="https://www.instagram.com/thriftandtread?rpxt=MThkazBjd253NXd4cQ=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-2 px-1 text-[#C59B6D] flex items-center space-x-2"
+              >
+                <Instagram className="w-4 h-4" />
+                <span className="lowercase">@thriftandtread</span>
+              </a>
+
+              {/* Mobile Auth actions */}
+              <div className="pt-2 border-t border-[#E2D9CA] flex flex-col space-y-2">
+                {isAdmin && (
+                  <button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsAdminDashboardOpen(true);
+                    }}
+                    className="flex items-center gap-2 text-[#C59B6D] py-1"
+                  >
+                    <LayoutDashboard className="w-4 h-4" />
+                    <span>Admin Dashboard Portal</span>
+                  </button>
+                )}
+
+                {isAuthenticated && user ? (
+                  <div className="flex items-center justify-between w-full pt-1">
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setIsOrderHistoryOpen(true);
+                      }}
+                      className="flex items-center gap-1.5 text-[#2B1A11]"
+                    >
+                      <Package className="w-4 h-4 text-[#C59B6D]" />
+                      <span>My Vault Orders ({orders.length})</span>
+                    </button>
+                    <button onClick={logout} className="text-red-600 text-[10px]">
+                      Sign Out
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsAuthModalOpen(true);
+                    }}
+                    className="flex items-center gap-1.5 text-[#C59B6D] py-1"
+                  >
+                    <UserIcon className="w-4 h-4" />
+                    <span>Sign In to Account</span>
+                  </button>
+                )}
+              </div>
+
+              <div className="pt-2 flex items-center justify-between border-t border-[#E2D9CA]">
+                <span className="text-stone-500 text-[10px] font-mono">Sizing Scale:</span>
+                <div className="flex space-x-1">
+                  {(['EU', 'US', 'UK'] as const).map(unit => (
+                    <button
+                      key={unit}
+                      onClick={() => setSizeUnit(unit)}
+                      className={`px-2.5 py-1 text-[10px] rounded-full font-bold ${
+                        sizeUnit === unit ? 'bg-[#2B1A11] text-[#FAF7EE]' : 'bg-[#ECE5D8] text-[#2B1A11]'
+                      }`}
+                    >
+                      {unit}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </header>
+  );
+};
