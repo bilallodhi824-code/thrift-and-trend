@@ -161,7 +161,7 @@ export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
       {/* Product Information Body */}
       <div className="p-5 flex-1 flex flex-col justify-between">
         <div>
-          {/* Metadata: Category & Legit Check */}
+          {/* Metadata: Category & Quality Check */}
           <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-stone-500 uppercase mb-1.5">
             <span className="flex items-center space-x-1 text-[#264E36] font-bold">
               <ShieldCheck className="w-3 h-3" />

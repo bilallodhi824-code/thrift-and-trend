@@ -315,7 +315,7 @@ export const Navbar: React.FC = () => {
                       >
                         <span className="flex items-center gap-2">
                           <Package className="w-4 h-4 text-[#C59A6F]" />
-                          <span>My Orders Vault</span>
+                          <span>My Orders</span>
                         </span>
                         {orders.length > 0 && (
                           <span className="bg-[#1F140E] text-white text-[10px] font-bold px-1.5 py-0.2 rounded-full">
@@ -438,7 +438,7 @@ export const Navbar: React.FC = () => {
                       className="flex items-center gap-1.5 text-[#2B1A11]"
                     >
                       <Package className="w-4 h-4 text-[#C59B6D]" />
-                      <span>My Vault Orders ({orders.length})</span>
+                      <span>My Orders ({orders.length})</span>
                     </button>
                     <button onClick={logout} className="text-red-600 text-[10px]">
                       Sign Out

@@ -5,7 +5,7 @@ export const SHOES: Shoe[] = [
     id: 'aero-velocity-86',
     slug: 'aero-velocity-86',
     name: "Aero Velocity '86 OG",
-    subtitle: 'Supercritical Nitrogen Track Runner • Vault Grail',
+    subtitle: 'Lightweight Track Runner • High Rebound Cushioning',
     category: 'running',
     gender: 'unisex',
     condition: '10/10 Deadstock',
@@ -24,19 +24,19 @@ export const SHOES: Shoe[] = [
       '/images/shoes/aero-velocity-86/main.jpg',
     ],
     description:
-      'The coveted 1986 speed silhouette thrifted in brand new deadstock condition. Featuring a breathable crimson red aerodynamic micro-mesh chassis with supercritical nitrogen foam and dual-density rubber crash pad. An archival collector favorite offering uncompromised track velocity at an unbeatable thrift price.',
+      'The coveted 1986 speed silhouette thrifted in brand new deadstock condition. Featuring a breathable crimson red aerodynamic micro-mesh chassis with responsive cushioning foam and dual-density rubber crash pad. An archival collector favorite offering uncompromised track velocity at an unbeatable thrift price.',
     story:
-      'Discovered brand-new from a deadstock collector vault in Milan. Inspected and verified by the T&T Sneaker Lab for factory stitch integrity, original box, and zero wear.',
+      'Discovered brand-new from an archival collection in Milan. Inspected and verified for factory stitch integrity, original box, and zero wear.',
     highlights: [
       'Condition: 10/10 Brand New Deadstock with Original Box',
       'Save $90 below current secondary sneaker market retail',
-      'Supercritical Nitrogen-charged energy return midsole',
+      'Responsive high-energy return cushioning midsole',
       '100% Verified Authentic with T&T Certificate of Legitimacy',
-      'Medical-grade UV & Ozone sanitized for pure fresh wear',
+      'Cleaned, conditioned, and inspected for premium wear',
     ],
     specs: {
       upper: 'Engineered Breathable Aerodynamic Micro-Mesh',
-      sole: 'Nitrogen-Charged Dual-Density EVA & Traction Pods',
+      sole: 'Dual-Density Cushioning EVA & Traction Pods',
       lining: 'Hydrophobic Moisture-Wicking Textile',
       insole: 'High-Rebound OrthoLite® Antimicrobial Footbed',
       origin: 'Ho Chi Minh City, Vietnam',
@@ -62,7 +62,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: '12-Point T&T Lab Verified: Original Box, Serial Match, UV Glue Check Pass, Zero Sole Tread Wear.',
+    authenticationNotes: 'Quality Verified: Original Box, Serial Match, Upper & Sole Bond Tested, Full Sole Tread.',
   },
   {
     id: 'atelier-classic-01',
@@ -76,7 +76,7 @@ export const SHOES: Shoe[] = [
     originalPrice: 290,
     rating: 5.0,
     reviewCount: 342,
-    badge: 'VAULT GRAIL',
+    badge: 'PREMIUM EDITION',
     colors: [
       { name: 'Pure Chalk White', hex: '#FAF9F6', imageIndex: 0 },
       { name: 'Cream Bone', hex: '#EDE8DF', imageIndex: 1 },
@@ -150,19 +150,19 @@ export const SHOES: Shoe[] = [
       '/images/shoes/volt-kinetic-racer/main.jpg',
     ],
     description:
-      'High-heat race day marvel in brand new Deadstock condition. Engineered with a full-length curved carbon-composite propulsion plate and dual nitrogen foam pods for explosive forward turnover.',
+      'High-heat race day marvel in brand new Deadstock condition. Engineered with a full-length curved carbon-composite propulsion plate and dual responsive foam pods for explosive forward turnover.',
     story:
       'Consigned from a pro marathon runner archive. Factory sealed, complete with original tags and box.',
     highlights: [
       'Condition: 10/10 Deadstock (Never laced, factory boxed)',
       'Curved carbon-composite rocker propulsion plate',
-      'Dual-zone pressurized nitrogen hyper-cushioning',
+      'Dual-zone responsive foam cushioning',
       'Save $105 off standard performance retail',
       'Ultralight weight of only 198 grams',
     ],
     specs: {
       upper: 'Ultra-Lightweight Translucent Matrix Weave',
-      sole: 'Carbon Composite Rocker Plate + Nitrogen Foam',
+      sole: 'Carbon Composite Plate + Responsive Foam',
       lining: 'Minimalist Hydrophobic Microfiber',
       insole: 'Featherweight Performance Liner',
       origin: 'Busan, South Korea',
@@ -188,7 +188,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab Certified: Carbon Fiber Plate Rigidity Verified, Factory Tags Attached.',
+    authenticationNotes: 'Quality Verified: Carbon Fiber Plate Rigidity Verified, Factory Tags Attached.',
   },
   {
     id: 'deck-street-low',
@@ -214,13 +214,13 @@ export const SHOES: Shoe[] = [
     description:
       'The essential skate and streetwear staple. Built with heavy-duty 12oz organic duck canvas and reinforced velvety calf suede on the toe box. Graded 9.5/10 Pristine with authentic waffle gum-rubber outsole.',
     story:
-      'An archival thrift gem from Tokyo’s Harajuku district. Cleaned, UV sterilized, and inspected for full rubber life.',
+      'An archival thrift gem from Tokyo’s Harajuku district. Cleaned, professionally cleaned, and inspected for full rubber life.',
     highlights: [
       'Condition: 9.5/10 Pristine (No heel drag, clean canvas)',
       'Under $100 price point — Save $55 vs retail',
       'Durable vulcanized waffle gum-rubber outsole',
       'Reinforced double-stitched toe cap and padded collar',
-      'UV Sanitized & ready to wear immediately',
+      'Cleaned & ready to wear immediately',
     ],
     specs: {
       upper: '12oz Heavyweight Organic Canvas & Suede',
@@ -250,7 +250,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: 100% Sole Flexibility, Original Vulcanized Glue Seal Intact.',
+    authenticationNotes: 'Quality Verified: 100% Sole Flexibility, Original Vulcanized Glue Seal Intact.',
   },
   {
     id: 'palermo-heritage-78',
@@ -312,7 +312,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: Pristine Amber Gum Outsole, Gold Foil Stamping Sharpness Verified.',
+    authenticationNotes: 'Quality Verified: Pristine Amber Gum Outsole, Gold Foil Stamping Sharpness Verified.',
   },
   {
     id: 'obsidian-stealth-pro',
@@ -336,19 +336,19 @@ export const SHOES: Shoe[] = [
       '/images/shoes/obsidian-stealth-pro/main.jpg',
     ],
     description:
-      'All-black matte monochrome running machine graded 9.5/10 Pristine. Crafted from water-repellent ripstop mesh, heat-welded tonal TPU structural overlays, hidden 3M Scotchlite reflective filaments, and dual-density nitrogen cushioning.',
+      'All-black matte monochrome running machine graded 9.5/10 Pristine. Crafted from water-repellent ripstop mesh, heat-welded tonal TPU structural overlays, hidden 3M Scotchlite reflective filaments, and dual-density responsive cushioning.',
     story:
       'Acquired from an urban techwear consignment in Seoul. Zero abrasive scuffs, pristine tread, sanitized with ozone.',
     highlights: [
       'Condition: 9.5/10 Pristine (Virtually unworn condition)',
       'Save $105 off technical performance retail',
-      'Dual-compound high-energy nitrogen cushioning core',
+      'Dual-compound responsive cushioning core',
       'Concealed 3M Scotchlite™ reflective night-vision filaments',
       'Quick-lock bungee speed toggle lacing',
     ],
     specs: {
       upper: 'DWR-Treated Micro-Ripstop & Welded TPU',
-      sole: 'Nitrogen-Charged Dual-Density Rebound Rubber',
+      sole: 'Dual-Density High-Rebound Rubber',
       lining: 'CoolMax® Temperature Regulating Textile',
       insole: 'Dual-Layer Memory Cushioning Footbed',
       origin: 'Busan, South Korea',
@@ -374,7 +374,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: 3M Reflective Weave Luminance Tested, Zero Cushioning Degradation.',
+    authenticationNotes: 'Quality Verified: 3M Reflective Weave Luminance Tested, Zero Cushioning Degradation.',
   },
   {
     id: 'savile-cap-oxford',
@@ -388,7 +388,7 @@ export const SHOES: Shoe[] = [
     originalPrice: 380,
     rating: 4.9,
     reviewCount: 88,
-    badge: 'VAULT GRAIL',
+    badge: 'PREMIUM EDITION',
     colors: [
       { name: 'Burnished Cognac', hex: '#8B4513', imageIndex: 0 },
       { name: 'Onyx Noir', hex: '#0D0D0D', imageIndex: 0 },
@@ -436,7 +436,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: Goodyear Welt Stitch Density Confirmed, Full Leather Insole Integrity.',
+    authenticationNotes: 'Quality Verified: Goodyear Welt Stitch Density Confirmed, Full Leather Insole Integrity.',
   },
   {
     id: 'monolith-suede-chelsea',
@@ -450,7 +450,7 @@ export const SHOES: Shoe[] = [
     originalPrice: 340,
     rating: 5.0,
     reviewCount: 116,
-    badge: 'VAULT GRAIL',
+    badge: 'PREMIUM EDITION',
     colors: [
       { name: 'Tobacco Suede', hex: '#6F4E37', imageIndex: 0 },
       { name: 'Shadow Charcoal', hex: '#2A2928', imageIndex: 0 },
@@ -497,7 +497,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: Vibram Sole Verified Authentic, Elastic Gore Tension at 100%.',
+    authenticationNotes: 'Quality Verified: Vibram Sole Verified Authentic, Elastic Gore Tension at 100%.',
   },
   {
     id: 'archival-high-70',
@@ -560,7 +560,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'Runs Large',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: Original Factory Box, Foxing Tape Seal Flawless, Zero Canvas Discoloration.',
+    authenticationNotes: 'Quality Verified: Original Factory Box, Foxing Tape Seal Flawless, Zero Canvas Discoloration.',
   },
   {
     id: 'alpine-ridge-hiker',
@@ -622,7 +622,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: Hydrophobic Membrane Water-Immersion Tested, Vibram Tread at 95% Depth.',
+    authenticationNotes: 'Quality Verified: Hydrophobic Membrane Water-Immersion Tested, Vibram Tread at 95% Depth.',
   },
   {
     id: 'grand-slam-vintage-74',
@@ -684,7 +684,7 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: Flawless White Leather Finish, Zero Sole Scuffing, Complete Insole Padding.',
+    authenticationNotes: 'Quality Verified: Flawless White Leather Finish, Zero Sole Scuffing, Complete Insole Padding.',
   },
   {
     id: 'monochrome-archive-runner',
@@ -747,6 +747,6 @@ export const SHOES: Shoe[] = [
         fitRating: 'True to Size',
       },
     ],
-    authenticationNotes: 'T&T Sneaker Lab: Deadstock Box Condition 10/10, Factory Tissue Included, Stitching Density Passed.',
+    authenticationNotes: 'Quality Verified: Deadstock Box Condition 10/10, Factory Tissue Included, Stitching Density Passed.',
   },
 ];

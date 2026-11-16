@@ -174,11 +174,11 @@ export const ProductModal: React.FC = () => {
               <div className="p-4 bg-[#F3EFE6] rounded-2xl border border-[#E2D9CA] space-y-2.5 text-[#2B1A11] text-xs">
                 <div className="flex items-center space-x-2.5">
                   <ShieldCheck className="w-4 h-4 text-[#264E36] flex-shrink-0" />
-                  <span className="font-medium">100% Legit Check Guarantee by T&T Sneaker Lab</span>
+                  <span className="font-medium">100% Authentic Quality Guaranteed</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <Sparkles className="w-4 h-4 text-[#C59B6D] flex-shrink-0" />
-                  <span className="font-medium">Medical-grade UV & Ozone sanitized before shipment</span>
+                  <span className="font-medium">Professionally inspected and cleaned before dispatch</span>
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <Truck className="w-4 h-4 text-[#2B1A11] flex-shrink-0" />
@@ -383,7 +383,7 @@ export const ProductModal: React.FC = () => {
                         : 'border-transparent text-stone-400 hover:text-[#2B1A11]'
                     }`}
                   >
-                    Lab Legit Check
+                    Authenticity
                   </button>
                   <button
                     onClick={() => setActiveTab('specs')}
@@ -431,22 +431,22 @@ export const ProductModal: React.FC = () => {
                   </div>
                 )}
 
-                {/* Tab 2: Legit Check & Authentication */}
+                {/* Tab 2: Authenticity & Inspection */}
                 {activeTab === 'authentication' && (
                   <div className="pt-4 space-y-3 text-xs animate-fade-in">
                     <div className="p-4 bg-[#F3EFE6] rounded-2xl border border-[#E2D9CA] space-y-2">
                       <div className="flex items-center space-x-2 text-[#264E36] font-bold">
                         <ShieldCheck className="w-4 h-4" />
-                        <span>Official 12-Point T&T Authentication Certificate</span>
+                        <span>Verified Quality & Authenticity Details</span>
                       </div>
                       <p className="text-stone-700 leading-relaxed">
                         {shoe.authenticationNotes}
                       </p>
                       <div className="pt-2 flex flex-wrap gap-2 text-[10px] font-mono">
-                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ UV Blacklight Pass</span>
-                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ Stitch Density Verified</span>
-                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ Box & SKU Matched</span>
-                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ Sole Grip 100% Tested</span>
+                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ Factory SKU Matched</span>
+                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ Quality Checked</span>
+                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ Genuine Condition</span>
+                        <span className="bg-white px-2.5 py-1 rounded-full border border-stone-200">✓ Original Sole Grip</span>
                       </div>
                     </div>
                   </div>

@@ -3,7 +3,7 @@
  * Connects frontend to Microsoft SQL Server (MSSQL) Express Backend
  */
 
-const API_BASE = import.meta.env.VITE_API_URL || '/api';
+const API_BASE = (import.meta as any).env?.VITE_API_URL || '/api';
 
 export interface User {
   id: number;

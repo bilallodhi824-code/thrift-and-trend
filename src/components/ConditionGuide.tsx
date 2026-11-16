@@ -5,25 +5,25 @@ const TIERS = [
   {
     grade: '10/10 DEADSTOCK',
     title: 'Brand New In Box',
-    desc: 'Unworn, unlaced factory condition. Includes original box, factory tags, and original accessories.',
+    desc: 'Unworn, unlaced condition. Includes original box, factory tags, and original accessories.',
     badgeColor: 'bg-[#264E36] text-white',
   },
   {
     grade: '9.5/10 PRISTINE',
-    title: 'Like New (Tried On)',
-    desc: 'Tried on indoors or worn once. Flawless uppers, zero heel drag, pristine insole logos.',
+    title: 'Like New Condition',
+    desc: 'Tried on indoors or worn once. Flawless uppers, zero heel wear, pristine insoles.',
     badgeColor: 'bg-[#2B1A11] text-[#FAF7EE]',
   },
   {
     grade: '9.0/10 EXCELLENT',
-    title: 'Gently Thrifted Grail',
-    desc: 'Light casual wear. Clean uppers with zero tears, full sole tread, thoroughly UV sanitized.',
+    title: 'Gently Pre-Owned',
+    desc: 'Light casual wear. Clean uppers with zero tears, full sole tread, thoroughly cleaned and inspected.',
     badgeColor: 'bg-[#C59B6D] text-white',
   },
   {
-    grade: '8.5/10 ARCHIVAL',
-    title: 'Vintage Character',
-    desc: 'Vintage collectibles with authentic patina. Cleaned, conditioned, and tested for full sole durability.',
+    grade: '8.5/10 CLASSIC',
+    title: 'Archival & Vintage',
+    desc: 'Vintage classics with authentic character. Hand-cleaned, conditioned, and verified for durable wear.',
     badgeColor: 'bg-stone-600 text-white',
   },
 ];
@@ -38,14 +38,14 @@ export const ConditionGuide: React.FC = () => {
           <div>
             <div className="text-[10px] font-mono tracking-widest text-[#C59B6D] uppercase flex items-center space-x-1.5 mb-1 font-bold">
               <ShieldCheck className="w-3.5 h-3.5 text-[#264E36]" />
-              <span>The T&T Sneaker Lab Standard</span>
+              <span>Transparent Quality Standards</span>
             </div>
             <h2 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#2B1A11]">
               Every Pair Inspected. Graded. Verified.
             </h2>
           </div>
           <p className="text-xs text-stone-600 max-w-md leading-relaxed">
-            Unlike unvetted peer-to-peer thrift apps, every sneaker at Thrift & Trend undergoes rigorous 12-point physical authentication and UV-ozone sterilization before listing.
+            We physically inspect every pair of footwear before listing to guarantee authentic condition, accurate grading, and zero surprises when your package arrives.
           </p>
         </div>
 
@@ -70,7 +70,7 @@ export const ConditionGuide: React.FC = () => {
 
               <div className="mt-4 pt-3 border-t border-stone-100 flex items-center space-x-1.5 text-[10px] text-[#264E36] font-mono font-bold">
                 <CheckCircle2 className="w-3 h-3" />
-                <span>Lab Certified Genuine</span>
+                <span>Quality Inspected</span>
               </div>
             </div>
           ))}

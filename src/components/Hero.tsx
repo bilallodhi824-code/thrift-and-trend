@@ -35,15 +35,15 @@ export const Hero: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-3 mb-8">
           <div className="inline-flex items-center space-x-2.5 bg-white border border-[#C59B6D]/70 rounded-full px-4 py-1.5 text-[11px] font-bold tracking-widest text-[#2B1A11] uppercase shadow-xs">
             <span className="w-2 h-2 rounded-full bg-[#264E36] animate-pulse"></span>
-            <span>Vault Release • Drop 044 Active</span>
+            <span>Premium Footwear Collection • Verified Authenticity</span>
           </div>
 
           <div className="flex items-center space-x-4 text-[11px] font-mono tracking-widest text-stone-600 uppercase">
-            <span className="hidden sm:inline">100% Legit Check Certified</span>
+            <span className="hidden sm:inline">100% Quality Checked</span>
             <span className="hidden sm:inline">•</span>
             <span className="text-[#2B1A11] font-bold flex items-center">
               <Star className="w-3.5 h-3.5 fill-[#C59B6D] text-[#C59B6D] mr-1" />
-              Over $850k Saved by Community
+              Trusted by Thousands of Footwear Lovers
             </span>
           </div>
         </div>
@@ -51,12 +51,12 @@ export const Hero: React.FC = () => {
         {/* Hero Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           
-          {/* Left Column: Bold Cinematic Typography & Mission */}
+          {/* Left Column: Bold Typography & Mission */}
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
               <div className="flex items-center space-x-2 text-xs font-mono font-bold tracking-ultra text-[#C59B6D] uppercase">
                 <Tag className="w-3.5 h-3.5" />
-                <span>ARCHIVAL THRIFT • STREETWEAR TRENDS</span>
+                <span>CURATED SNEAKERS • CASUALS • FORMALS</span>
               </div>
               <h1 className="font-display text-4xl sm:text-6xl xl:text-7xl font-black tracking-tightest text-[#2B1A11] uppercase leading-[0.92]">
                 Where Style
@@ -67,7 +67,7 @@ export const Hero: React.FC = () => {
             </div>
 
             <p className="text-sm sm:text-base text-stone-700 max-w-xl font-normal leading-relaxed">
-              Why pay inflated secondary market markups? We curate authenticated deadstock grails, archival thrift classics, and trending heat at up to <strong className="text-[#2B1A11] font-bold">60% below retail</strong>. Every pair is 12-point lab inspected, UV-sanitized, and guaranteed 100% legit.
+              Why pay inflated retail prices? We curate authentic sneakers, timeless classics, and premium formal footwear at up to <strong className="text-[#2B1A11] font-bold">60% below retail</strong>. Every pair is thoroughly inspected for condition, quality, and craftsmanship.
             </p>
 
             {/* CTAs */}
@@ -76,7 +76,7 @@ export const Hero: React.FC = () => {
                 onClick={() => scrollToCatalog()}
                 className="inline-flex items-center space-x-2.5 bg-[#2B1A11] text-[#FAF7EE] hover:bg-[#3D2517] px-7 py-4 rounded-full text-xs font-bold tracking-widest uppercase transition-all duration-300 shadow-lg hover:shadow-2xl hover:-translate-y-0.5 group"
               >
-                <span>Shop Vault Drops</span>
+                <span>Explore Footwear</span>
                 <ArrowDownRight className="w-4 h-4 text-[#C59B6D] group-hover:translate-x-0.5 group-hover:translate-y-0.5 transition-transform" />
               </button>
 
@@ -84,7 +84,7 @@ export const Hero: React.FC = () => {
                 onClick={() => setActiveShoeModal(activeShoe)}
                 className="inline-flex items-center space-x-2 bg-white text-[#2B1A11] border border-[#C59B6D] hover:border-[#2B1A11] px-6 py-4 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-xs hover:shadow-md"
               >
-                <span>Inspect Spotlight Deal</span>
+                <span>View Featured Pair</span>
                 <ArrowRight className="w-3.5 h-3.5 text-[#C59B6D]" />
               </button>
             </div>
@@ -92,25 +92,25 @@ export const Hero: React.FC = () => {
             {/* Quick Filter Shortcuts */}
             <div className="pt-4 flex flex-wrap items-center gap-2 text-xs">
               <span className="text-[11px] font-mono text-stone-500 uppercase tracking-wider mr-1 font-semibold">
-                Hot Grails:
+                Categories:
               </span>
               <button
                 onClick={() => scrollToCatalog('lifestyle')}
                 className="bg-white hover:bg-[#F3EFE6] border border-[#E2D9CA] hover:border-[#2B1A11] px-3.5 py-1 rounded-full text-[11px] font-bold text-[#2B1A11] transition-colors"
               >
-                Court & Skate Classics (From $85)
+                Court & Streetwear (From $85)
               </button>
               <button
                 onClick={() => scrollToCatalog('running')}
                 className="bg-white hover:bg-[#F3EFE6] border border-[#E2D9CA] hover:border-[#2B1A11] px-3.5 py-1 rounded-full text-[11px] font-bold text-[#2B1A11] transition-colors"
               >
-                Nitrogen Runners (Save $90+)
+                Performance Runners (Save $90+)
               </button>
               <button
                 onClick={() => scrollToCatalog('boots')}
                 className="bg-white hover:bg-[#F3EFE6] border border-[#E2D9CA] hover:border-[#2B1A11] px-3.5 py-1 rounded-full text-[11px] font-bold text-[#2B1A11] transition-colors"
               >
-                Vibram Suede Boots (Save $155)
+                Suede Chelsea Boots (Save $155)
               </button>
             </div>
 
@@ -120,7 +120,7 @@ export const Hero: React.FC = () => {
                 <ShieldCheck className="w-4 h-4 text-[#264E36] mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-wider text-[#2B1A11]">
-                    12-Pt Lab Check
+                    Quality Checked
                   </div>
                   <div className="text-[10px] text-stone-600">Guaranteed 100% Authentic</div>
                 </div>
@@ -130,9 +130,9 @@ export const Hero: React.FC = () => {
                 <Tag className="w-4 h-4 text-[#C59B6D] mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-wider text-[#2B1A11]">
-                    True Savings
+                    Direct Savings
                   </div>
-                  <div className="text-[10px] text-stone-600">Up to 60% below StockX</div>
+                  <div className="text-[10px] text-stone-600">Up to 60% below retail</div>
                 </div>
               </div>
 
@@ -140,9 +140,9 @@ export const Hero: React.FC = () => {
                 <Sparkles className="w-4 h-4 text-[#B8864E] mt-0.5 flex-shrink-0" />
                 <div>
                   <div className="text-[11px] font-bold uppercase tracking-wider text-[#2B1A11]">
-                    UV-Sanitized
+                    Fast Dispatch
                   </div>
-                  <div className="text-[10px] text-stone-600">Medical-grade fresh</div>
+                  <div className="text-[10px] text-stone-600">Free delivery on $150+</div>
                 </div>
               </div>
             </div>
@@ -193,7 +193,7 @@ export const Hero: React.FC = () => {
                 {/* Hover overlay */}
                 <div className="absolute inset-0 bg-[#2B1A11]/15 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                   <span className="bg-white/95 text-[#2B1A11] text-[11px] font-bold tracking-widest uppercase px-4 py-2 rounded-full shadow-xl backdrop-blur-xs flex items-center space-x-1.5 border border-[#C59B6D]">
-                    <span>Inspect Authentication Certificate</span>
+                    <span>View Product Details</span>
                     <span>→</span>
                   </span>
                 </div>

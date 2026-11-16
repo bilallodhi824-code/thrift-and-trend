@@ -33,7 +33,7 @@ export const OrderHistoryModal: React.FC = () => {
             </div>
             <div>
               <h2 className="text-lg font-serif tracking-wider font-semibold uppercase text-[#FAF7F2]">
-                Order Vault & Tracking
+                Order History & Tracking
               </h2>
               <p className="text-[11px] tracking-[0.15em] uppercase text-[#C59A6F] font-medium">
                 {user ? `${user.fullName}'s MSSQL Verified Orders` : 'Purchases Recorded in Database'}

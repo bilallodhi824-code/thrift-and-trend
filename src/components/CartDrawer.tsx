@@ -116,7 +116,7 @@ export const CartDrawer: React.FC = () => {
             <div className="flex items-center space-x-2">
               <ShoppingBag className="w-4 h-4 text-[#2B1A11]" />
               <h2 className="font-display text-sm font-black uppercase tracking-wider text-[#2B1A11]">
-                Your Vault Bag ({cart.reduce((s, i) => s + i.quantity, 0)})
+                Your Shopping Bag ({cart.reduce((s, i) => s + i.quantity, 0)})
               </h2>
             </div>
             <button
@@ -179,7 +179,7 @@ export const CartDrawer: React.FC = () => {
                     className="w-full bg-[#2B1A11] text-[#FAF7EE] py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#3D2517] transition-colors shadow-md flex items-center justify-center gap-2"
                   >
                     <Package className="w-4 h-4 text-[#C59B6D]" />
-                    <span>View In Vault Orders</span>
+                    <span>View In My Orders</span>
                   </button>
 
                   <button
@@ -199,16 +199,16 @@ export const CartDrawer: React.FC = () => {
                   <ShoppingBag className="w-7 h-7" />
                 </div>
                 <h3 className="font-display text-base font-bold uppercase tracking-wider text-[#2B1A11]">
-                  Your vault bag is empty
+                  Your shopping bag is empty
                 </h3>
                 <p className="text-xs text-stone-500 max-w-xs mx-auto">
-                  Explore our weekly drop of deadstock sneakers and archival thrift classics up to 60% off.
+                  Explore our curated collection of sneakers, runners, and timeless footwear.
                 </p>
                 <button
                   onClick={() => setIsCartOpen(false)}
                   className="bg-[#2B1A11] text-[#FAF7EE] text-xs font-bold uppercase tracking-widest px-6 py-3 rounded-full hover:bg-[#3D2517] transition-colors shadow-sm"
                 >
-                  Explore Drops
+                  Explore Shoes
                 </button>
               </div>
             ) : (
@@ -252,7 +252,7 @@ export const CartDrawer: React.FC = () => {
                   <div className="p-3 bg-[#FAF7EE] rounded-2xl border border-[#C59B6D]/40 flex items-center justify-between text-xs">
                     <div>
                       <p className="font-bold text-[#2B1A11]">Have an account?</p>
-                      <p className="text-[10px] text-stone-500">Sign in for 1-click checkout & vault tracking</p>
+                      <p className="text-[10px] text-stone-500">Sign in for 1-click checkout and order tracking</p>
                     </div>
                     <button
                       onClick={() => setIsAuthModalOpen(true)}

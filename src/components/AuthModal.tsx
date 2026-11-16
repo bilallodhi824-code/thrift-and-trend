@@ -262,7 +262,7 @@ export const AuthModal: React.FC = () => {
 
               <div className="pt-1 border-t border-[#1F140E]/10">
                 <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
-                  Shipping Address (For Vault Delivery)
+                  Shipping Address (For Delivery)
                 </label>
                 <div className="relative mb-2">
                   <MapPin className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />

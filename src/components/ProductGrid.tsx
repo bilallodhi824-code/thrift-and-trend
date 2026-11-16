@@ -18,7 +18,7 @@ export const ProductGrid: React.FC<{ shoes: Shoe[] }> = ({ shoes }) => {
           No matching footwear grails found
         </h3>
         <p className="text-xs text-stone-600 mb-6 leading-relaxed">
-          We could not locate any models matching your active filters. Reset your filters to explore the complete authenticated vault.
+          We could not locate any models matching your active filters. Reset your filters to view all available footwear.
         </p>
         <button
           onClick={() => {
@@ -41,7 +41,7 @@ export const ProductGrid: React.FC<{ shoes: Shoe[] }> = ({ shoes }) => {
         <div>
           <div className="text-[10px] font-mono tracking-widest text-[#C59B6D] uppercase flex items-center space-x-1.5 mb-1 font-bold">
             <Tag className="w-3.5 h-3.5" />
-            <span>Vault Drops • Up to 60% Below Retail</span>
+            <span>Curated Collection • Up to 60% Below Retail</span>
           </div>
           <h2 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-[#2B1A11]">
             Curated Grails & Streetwear Heat

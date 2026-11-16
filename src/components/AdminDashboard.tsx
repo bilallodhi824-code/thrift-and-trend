@@ -40,7 +40,7 @@ export const AdminDashboard: React.FC = () => {
     badge: 'NEW DROP',
     stock: 5,
     description: '',
-    story: 'Directly sourced from an archival consignment vault for Thrift & Trend.',
+    story: 'Curated premium footwear in authentic condition.',
     imageUrl: '/images/shoes/aero-velocity.jpg',
   });
 
@@ -102,7 +102,7 @@ export const AdminDashboard: React.FC = () => {
         badge: 'NEW DROP',
         stock: 5,
         description: '',
-        story: 'Directly sourced from an archival consignment vault for Thrift & Trend.',
+        story: 'Curated premium footwear in authentic condition.',
         imageUrl: '/images/shoes/aero-velocity.jpg',
       });
       await fetchDashboardData();
@@ -218,7 +218,7 @@ export const AdminDashboard: React.FC = () => {
             >
               <div className="flex items-center gap-2.5">
                 <ShoppingBag className={`w-4 h-4 ${activeTab === 'orders' ? 'text-[#C59A6F]' : 'text-stone-400'}`} />
-                <span>Orders Vault</span>
+                <span>Customer Orders</span>
               </div>
               {orders.length > 0 && (
                 <span className={`text-[10px] font-bold px-1.5 py-0.2 rounded-full ${activeTab === 'orders' ? 'bg-[#C59A6F] text-[#1F140E]' : 'bg-stone-200 text-stone-800'}`}>
@@ -417,7 +417,7 @@ export const AdminDashboard: React.FC = () => {
               <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#E2D9CA] pb-4">
                 <div>
                   <h2 className="text-xl font-serif font-bold text-[#1F140E] uppercase tracking-wide">
-                    Customer Orders Vault ({filteredOrders.length})
+                    Customer Orders ({filteredOrders.length})
                   </h2>
                   <p className="text-xs text-stone-500">
                     Live orders placed through the customer cart, saved in MSSQL tables.
@@ -573,7 +573,7 @@ export const AdminDashboard: React.FC = () => {
                   className="px-4 py-2.5 bg-[#1F140E] hover:bg-[#2C1D14] text-[#FAF7EE] rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-sm"
                 >
                   <Plus className="w-4 h-4 text-[#C59A6F]" />
-                  <span>Add New Grail Shoe</span>
+                  <span>Add New Shoe</span>
                 </button>
               </div>
 
@@ -697,7 +697,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl border border-[#C59A6F]/30 animate-in zoom-in-95">
             <div className="flex items-center justify-between pb-3 border-b border-stone-200 mb-4">
               <h3 className="text-base font-serif font-bold uppercase text-[#1F140E]">
-                Add New Grail to MSSQL
+                Add New Shoe to MSSQL
               </h3>
               <button onClick={() => setIsAddProductOpen(false)} className="text-stone-400 hover:text-black">
                 <X className="w-5 h-5" />
@@ -722,7 +722,7 @@ export const AdminDashboard: React.FC = () => {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. Supercritical Nitrogen Track Runner • Vault Grail"
+                  placeholder="e.g. Lightweight Running Shoe • Breathable Mesh"
                   value={productForm.subtitle}
                   onChange={e => setProductForm({ ...productForm, subtitle: e.target.value })}
                   className="w-full px-3 py-2 border rounded-xl"

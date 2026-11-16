@@ -89,7 +89,7 @@ const FootwearShopContent: React.FC = () => {
         {/* 3. Cinematic Hero: "WHERE STYLE MEETS SAVINGS" */}
         <Hero />
 
-        {/* 4. Condition Grading & Sneaker Lab Standard */}
+        {/* 4. Condition Grading & Quality Standard */}
         <ConditionGuide />
 
         {/* 5. Filter & Sorter Toolbar */}
@@ -98,7 +98,7 @@ const FootwearShopContent: React.FC = () => {
         {/* 6. Product Grid */}
         <ProductGrid shoes={filteredShoes} />
 
-        {/* 7. Circular Fashion Manifesto & VIP Vault Drops */}
+        {/* 7. Brand Philosophy & Quality Footwear */}
         <BrandPhilosophy />
       </main>
 

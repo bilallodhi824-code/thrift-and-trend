@@ -11,7 +11,7 @@ export const BrandPhilosophy: React.FC = () => {
     e.preventDefault();
     if (email.includes('@')) {
       setSubscribed(true);
-      showToast('You have been granted VIP Early Access to Monday Drops.');
+      showToast('Thank you! You are now subscribed to new footwear arrivals.');
     }
   };
 
@@ -23,13 +23,13 @@ export const BrandPhilosophy: React.FC = () => {
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-16">
           <div className="inline-flex items-center space-x-2 bg-white border border-[#C59B6D] rounded-full px-3.5 py-1 text-[10px] font-mono tracking-widest text-[#2B1A11] uppercase font-bold">
             <Tag className="w-3.5 h-3.5 text-[#C59B6D]" />
-            <span>The T&T Manifesto • Where Style Meets Savings</span>
+            <span>Thrift & Trend • Where Style Meets Savings</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-black uppercase tracking-tight text-[#2B1A11]">
-            Circular Footwear. Real Savings.
+            Quality Footwear. Real Savings.
           </h2>
           <p className="text-xs sm:text-sm text-stone-700 leading-relaxed">
-            The traditional sneaker secondary market is broken by artificial scarcity and astronomical reseller markups. At Thrift & Trend, we intercept authentic deadstock grails and gently thrifted icons to deliver coveted style without the markup.
+            The traditional retail market charges steep prices for quality footwear. At Thrift & Trend, we curate authentic sneakers, casual silhouettes, and formal dress shoes to deliver everyday style without the retail markup.
           </p>
         </div>
 
@@ -43,17 +43,17 @@ export const BrandPhilosophy: React.FC = () => {
                 <ShieldCheck className="w-6 h-6" />
               </div>
               <span className="text-[10px] font-mono tracking-widest uppercase text-[#C59B6D] block mb-1 font-bold">
-                PILLAR 01 // AUTHENTICATION
+                PILLAR 01 // AUTHENTICITY
               </span>
               <h3 className="font-display text-base font-extrabold uppercase tracking-wide text-[#2B1A11] mb-3">
-                12-Point Lab Verification
+                Quality Inspection
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                Zero fakes allowed. Every shoe passes physical inspection by veteran authenticators: blacklight UV adhesive tests, factory SKU matching, insole foam density, and stitching pitch verification.
+                Zero compromises on quality. Every pair passes careful inspection: factory label matching, upper condition, and sole integrity checked before listing.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-stone-100 text-[11px] font-mono font-bold text-[#264E36]">
-              100% Legit Check or 200% Money Back
+              100% Authentic Guarantee
             </div>
           </div>
 
@@ -70,7 +70,7 @@ export const BrandPhilosophy: React.FC = () => {
                 Up to 60% Below Retail
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                We benchmark against StockX and original brand retail to ensure our prices are unbeatable. Premium streetwear, classic skate, and Italian calfskin accessible to real sneakerheads.
+                We benchmark against original brand retail pricing to deliver genuine savings on timeless sneakers, classic athletic shoes, and genuine leather shoes.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-stone-100 text-[11px] font-mono font-bold text-[#C59B6D]">
@@ -85,39 +85,39 @@ export const BrandPhilosophy: React.FC = () => {
                 <Leaf className="w-6 h-6" />
               </div>
               <span className="text-[10px] font-mono tracking-widest uppercase text-[#C59B6D] block mb-1 font-bold">
-                PILLAR 03 // CIRCULAR SNEAKERS
+                PILLAR 03 // CIRCULAR FASHION
               </span>
               <h3 className="font-display text-base font-extrabold uppercase tracking-wide text-[#2B1A11] mb-3">
-                Zero Footwear Waste
+                Mindful Footwear
               </h3>
               <p className="text-xs text-stone-600 leading-relaxed">
-                By recirculating deadstock and pristine archival footwear, we keep vulcanized rubbers and leather hides out of global landfills while providing a sustainable alternative to fast-fashion waste.
+                By recirculating deadstock and pristine footwear, we support sustainable fashion and give great footwear a long, well-loved lifespan.
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-stone-100 text-[11px] font-mono font-bold text-[#2B1A11]">
-              Eco-Conscious Sneaker Culture
+              Sustainable Shoe Culture
             </div>
           </div>
 
         </div>
 
-        {/* VIP Vault Drop Invitation Card */}
+        {/* Newsletter Invitation Card */}
         <div className="mt-16 bg-[#2B1A11] text-[#FAF7EE] rounded-3xl p-8 sm:p-12 border-2 border-[#C59B6D] shadow-2xl relative overflow-hidden">
           <div className="max-w-2xl relative z-10">
             <span className="text-[10px] font-mono tracking-widest uppercase text-[#C59B6D] block mb-2 font-bold">
-              VIP DROPS // 24-HOUR ADVANCE ACCESS
+              EARLY ACCESS // NEW ARRIVALS
             </span>
             <h3 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight mb-3">
-              Never Miss A 10/10 Deadstock Steal
+              Never Miss A Great Footwear Deal
             </h3>
             <p className="text-xs sm:text-sm text-stone-300 leading-relaxed mb-6 font-normal">
-              Our rarest vault grails and biggest savings sell out within minutes of drop time. Join 25,000+ sneakerheads who receive private 24-hour advance SMS and email alerts.
+              Subscribe to receive weekly arrival updates, exclusive discount codes, and new seasonal shoe drops directly in your inbox.
             </p>
 
             {subscribed ? (
               <div className="flex items-center space-x-2 text-[#C59B6D] text-xs font-bold py-2">
                 <CheckCircle2 className="w-4 h-4" />
-                <span>You are on the VIP Vault list. Welcome to Thrift & Trend.</span>
+                <span>You are subscribed. Welcome to Thrift & Trend!</span>
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
@@ -125,7 +125,7 @@ export const BrandPhilosophy: React.FC = () => {
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="Enter your email for drop alerts..."
+                  placeholder="Enter your email address..."
                   required
                   className="bg-[#190E08] border border-[#C59B6D]/60 rounded-full px-5 py-3.5 text-xs text-white placeholder-stone-400 focus:outline-none focus:ring-1 focus:ring-[#C59B6D] flex-1"
                 />
@@ -133,7 +133,7 @@ export const BrandPhilosophy: React.FC = () => {
                   type="submit"
                   className="bg-[#C59B6D] hover:bg-[#B8864E] text-[#2B1A11] px-7 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-colors flex items-center justify-center space-x-2 shadow-md"
                 >
-                  <span>Join The Vault</span>
+                  <span>Subscribe</span>
                   <ArrowRight className="w-3.5 h-3.5 text-[#2B1A11]" />
                 </button>
               </form>

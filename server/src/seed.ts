@@ -6,7 +6,7 @@ const SEED_PRODUCTS = [
     id: 'aero-velocity-86',
     slug: 'aero-velocity-86',
     name: "Aero Velocity '86 OG",
-    subtitle: 'Supercritical Nitrogen Track Runner • Vault Grail',
+    subtitle: 'Lightweight Track Runner • High Rebound Cushioning',
     category: 'running',
     gender: 'unisex',
     condition: '10/10 Deadstock',
@@ -23,10 +23,10 @@ const SEED_PRODUCTS = [
     sizes: [39, 40, 41, 42, 43, 44, 45, 46],
     images: ['/images/shoes/aero-velocity-86/main.jpg'],
     description: 'The coveted 1986 speed silhouette thrifted in brand new deadstock condition.',
-    story: 'Discovered brand-new from a deadstock collector vault in Milan.',
+    story: 'Discovered brand-new from a archival collection in Milan.',
     fitAdvice: 'True to size with an athletic racing fit.',
     careInstructions: 'Spot clean with lukewarm water.',
-    authenticationNotes: '12-Point T&T Lab Verified: Original Box, Serial Match, UV Glue Check Pass, Zero Sole Tread Wear.',
+    authenticationNotes: 'Quality Verified: Original Box, Serial Match, Upper & Sole Bond Tested, Full Sole Tread.',
   },
   {
     id: 'atelier-classic-01',
@@ -40,7 +40,7 @@ const SEED_PRODUCTS = [
     originalPrice: 290,
     rating: 5.0,
     reviewCount: 342,
-    badge: 'VAULT GRAIL',
+    badge: 'PREMIUM EDITION',
     colors: [
       { name: 'Pure Chalk White', hex: '#FAF9F6', imageIndex: 0 },
       { name: 'Cream Bone', hex: '#EDE8DF', imageIndex: 1 },
@@ -80,7 +80,7 @@ const SEED_PRODUCTS = [
     story: 'Consigned from a pro marathon runner archive.',
     fitAdvice: 'Snug performance glove fit.',
     careInstructions: 'Wipe surface with damp cloth.',
-    authenticationNotes: 'T&T Sneaker Lab Certified: Carbon Fiber Plate Rigidity Verified.',
+    authenticationNotes: 'Quality Verified: Carbon Fiber Plate Rigidity Verified.',
   },
   {
     id: 'deck-street-low',
@@ -105,7 +105,7 @@ const SEED_PRODUCTS = [
     story: 'An archival thrift gem from Tokyo’s Harajuku district.',
     fitAdvice: 'Standard medium width.',
     careInstructions: 'Dry brush canvas and use suede eraser.',
-    authenticationNotes: 'T&T Sneaker Lab: 100% Sole Flexibility.',
+    authenticationNotes: 'Quality Verified: 100% Sole Flexibility.',
   },
   {
     id: 'palermo-heritage-78',
@@ -130,7 +130,7 @@ const SEED_PRODUCTS = [
     story: 'Sourced from a European collector archive in Lisbon.',
     fitAdvice: 'True to size.',
     careInstructions: 'Wipe leather with a damp cloth.',
-    authenticationNotes: 'T&T Sneaker Lab: Pristine Amber Gum Outsole.',
+    authenticationNotes: 'Quality Verified: Pristine Amber Gum Outsole.',
   },
   {
     id: 'obsidian-stealth-pro',
@@ -155,7 +155,7 @@ const SEED_PRODUCTS = [
     story: 'Acquired from an urban techwear consignment in Seoul.',
     fitAdvice: 'Fits true to size.',
     careInstructions: 'Wipe with a damp towel.',
-    authenticationNotes: 'T&T Sneaker Lab: 3M Reflective Weave Tested.',
+    authenticationNotes: 'Quality Verified: 3M Reflective Weave Tested.',
   },
   {
     id: 'savile-cap-oxford',
@@ -169,7 +169,7 @@ const SEED_PRODUCTS = [
     originalPrice: 380,
     rating: 4.9,
     reviewCount: 88,
-    badge: 'VAULT GRAIL',
+    badge: 'PREMIUM EDITION',
     colors: [
       { name: 'Burnished Cognac', hex: '#8B4513', imageIndex: 0 },
       { name: 'Onyx Noir', hex: '#0D0D0D', imageIndex: 0 },
@@ -180,7 +180,7 @@ const SEED_PRODUCTS = [
     story: 'Consigned from an executive wardrobe in London.',
     fitAdvice: 'Classical formal dress last.',
     careInstructions: 'Polish with carnauba wax cream.',
-    authenticationNotes: 'T&T Sneaker Lab: Goodyear Welt Stitch Verified.',
+    authenticationNotes: 'Quality Verified: Goodyear Welt Stitch Verified.',
   },
   {
     id: 'monolith-suede-chelsea',
@@ -194,7 +194,7 @@ const SEED_PRODUCTS = [
     originalPrice: 340,
     rating: 5.0,
     reviewCount: 116,
-    badge: 'VAULT GRAIL',
+    badge: 'PREMIUM EDITION',
     colors: [
       { name: 'Tobacco Suede', hex: '#6F4E37', imageIndex: 0 },
       { name: 'Shadow Charcoal', hex: '#2A2928', imageIndex: 0 },
@@ -205,7 +205,7 @@ const SEED_PRODUCTS = [
     story: 'Discovered in a boutique showroom consignment in Edinburgh.',
     fitAdvice: 'True to boot size.',
     careInstructions: 'Brush with a crepe suede brush.',
-    authenticationNotes: 'T&T Sneaker Lab: Vibram Sole Verified Authentic.',
+    authenticationNotes: 'Quality Verified: Vibram Sole Verified Authentic.',
   },
   {
     id: 'archival-high-70',
@@ -230,7 +230,7 @@ const SEED_PRODUCTS = [
     story: 'An authentic warehouse archive deadstock find.',
     fitAdvice: 'Runs half a size large.',
     careInstructions: 'Spot clean with mild soap.',
-    authenticationNotes: 'T&T Sneaker Lab: Original Factory Box Verified.',
+    authenticationNotes: 'Quality Verified: Original Factory Box Verified.',
   },
   {
     id: 'alpine-ridge-hiker',
@@ -255,7 +255,7 @@ const SEED_PRODUCTS = [
     story: 'Thrifted from an outdoor guide in Innsbruck, Austria.',
     fitAdvice: 'Designed for medium to heavy trail socks.',
     careInstructions: 'Apply leather wax every 6 months.',
-    authenticationNotes: 'T&T Sneaker Lab: Hydrophobic Membrane Tested.',
+    authenticationNotes: 'Quality Verified: Hydrophobic Membrane Tested.',
   },
   {
     id: 'grand-slam-vintage-74',
@@ -280,7 +280,7 @@ const SEED_PRODUCTS = [
     story: 'Thrifted from a vintage archive in Portugal.',
     fitAdvice: 'Fits true to size.',
     careInstructions: 'Wipe clean with a damp cloth.',
-    authenticationNotes: 'T&T Sneaker Lab: Flawless White Leather Finish.',
+    authenticationNotes: 'Quality Verified: Flawless White Leather Finish.',
   },
   {
     id: 'monochrome-archive-runner',
@@ -305,7 +305,7 @@ const SEED_PRODUCTS = [
     story: 'Deadstock release consigned from Stockholm.',
     fitAdvice: 'True to size.',
     careInstructions: 'Brush suede gently with a soft brush.',
-    authenticationNotes: 'T&T Sneaker Lab: Deadstock Box Condition 10/10.',
+    authenticationNotes: 'Quality Verified: Deadstock Box Condition 10/10.',
   },
 ];
 

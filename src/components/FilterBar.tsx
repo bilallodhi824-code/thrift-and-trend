@@ -4,12 +4,12 @@ import { useShop } from '../context/ShopContext';
 import { ShoeCategory, GenderCategory, SortOption } from '../types/shoe';
 
 const CATEGORIES: { label: string; value: ShoeCategory }[] = [
-  { label: 'All Vault Drops', value: 'all' },
-  { label: 'Streetwear Heat', value: 'lifestyle' },
+  { label: 'All Shoes', value: 'all' },
+  { label: 'Court & Streetwear', value: 'lifestyle' },
   { label: 'Running & Track', value: 'running' },
-  { label: 'Suede Boots', value: 'boots' },
-  { label: 'Savile Oxfords', value: 'formal' },
-  { label: 'Trail & Alpine', value: 'trail' },
+  { label: 'Chelsea & Boots', value: 'boots' },
+  { label: 'Formal Oxfords', value: 'formal' },
+  { label: 'Trail & Outdoor', value: 'trail' },
 ];
 
 const GENDERS: { label: string; value: GenderCategory }[] = [

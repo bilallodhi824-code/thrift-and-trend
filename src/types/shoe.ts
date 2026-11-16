@@ -43,7 +43,7 @@ export interface Shoe {
   originalPrice: number; // Market Value / Retail benchmark
   rating: number;
   reviewCount: number;
-  badge?: 'DEADSTOCK' | 'VAULT GRAIL' | 'STEAL OF THE WEEK' | 'TRENDING HEAT' | 'ARCHIVAL FIND';
+  badge?: 'DEADSTOCK' | 'PREMIUM EDITION' | 'STEAL OF THE WEEK' | 'TRENDING HEAT' | 'ARCHIVAL FIND';
   colors: ShoeColor[];
   sizes: number[]; // EU sizes
   images: string[];
