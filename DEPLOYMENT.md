@@ -1,5 +1,6 @@
 # 🚀 Thrift & Trend — Complete Full-Stack Deployment Guide
 **Brand Tagline:** *Where Style Meets Savings*  
+**Official Live Website:** [https://thrift-and-trend.vercel.app](https://thrift-and-trend.vercel.app) (also [https://thriftandtrend.vercel.app](https://thriftandtrend.vercel.app))  
 **Official Instagram:** [@thriftandtread](https://www.instagram.com/thriftandtread?rpxt=MThkazBjd253NXd4cQ==)  
 **GitHub Repository:** [https://github.com/bilallodhi824-code/thrift-and-trend](https://github.com/bilallodhi824-code/thrift-and-trend)  
 **Database:** Microsoft SQL Server 2022 / 2025 (MSSQL)  
