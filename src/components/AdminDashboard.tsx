@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { api, AdminStats, AdminOrder, AdminCustomer, NewProductPayload } from '../services/api';
+import { formatPrice } from '../utils/currency';
 
 export const AdminDashboard: React.FC = () => {
   const { isAdminDashboardOpen, setIsAdminDashboardOpen, user, showToast, refreshShoes } = useShop();
@@ -301,7 +302,7 @@ export const AdminDashboard: React.FC = () => {
                     <DollarSign className="w-4 h-4 text-[#C59A6F]" />
                   </div>
                   <div className="text-2xl font-serif font-bold text-[#1F140E]">
-                    ${(stats?.totalRevenue || 0).toFixed(2)}
+                    {formatPrice(stats?.totalRevenue || 0)}
                   </div>
                   <p className="text-[10px] text-emerald-700 font-semibold mt-1">Paid customer checkouts</p>
                 </div>
@@ -323,7 +324,7 @@ export const AdminDashboard: React.FC = () => {
                     <Tag className="w-4 h-4 text-emerald-600" />
                   </div>
                   <div className="text-2xl font-serif font-bold text-emerald-800">
-                    ${(stats?.totalSavings || 0).toFixed(2)}
+                    {formatPrice(stats?.totalSavings || 0)}
                   </div>
                   <p className="text-[10px] text-emerald-700 font-semibold mt-1">Delivered below retail value</p>
                 </div>
@@ -381,8 +382,8 @@ export const AdminDashboard: React.FC = () => {
                               <p className="text-[10px] text-stone-400">{o.customerEmail}</p>
                             </td>
                             <td className="py-3 font-mono text-[11px] text-[#C59A6F]">{o.trackingNumber}</td>
-                            <td className="py-3 font-bold">${o.totalAmount.toFixed(2)}</td>
-                            <td className="py-3 text-emerald-700 font-bold">-${o.totalSavings.toFixed(2)}</td>
+                            <td className="py-3 font-bold">{formatPrice(o.totalAmount)}</td>
+                            <td className="py-3 text-emerald-700 font-bold">-{formatPrice(o.totalSavings)}</td>
                             <td className="py-3">
                               <span className="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-50 text-amber-800 border border-amber-200">
                                 {o.status}
@@ -528,8 +529,8 @@ export const AdminDashboard: React.FC = () => {
                                 <span className="text-stone-400 ml-2">Color: {item.colorName} • Size: EU {item.sizeEU}</span>
                               </div>
                               <div className="text-right">
-                                <span className="text-stone-500">{item.quantity} x ${item.unitPrice.toFixed(2)} = </span>
-                                <span className="font-bold text-stone-900">${item.totalPrice.toFixed(2)}</span>
+                                <span className="text-stone-500">{item.quantity} x {formatPrice(item.unitPrice)} = </span>
+                                <span className="font-bold text-stone-900">{formatPrice(item.totalPrice)}</span>
                               </div>
                             </div>
                           ))}
@@ -540,12 +541,12 @@ export const AdminDashboard: React.FC = () => {
                       <div className="pt-2 border-t border-stone-100 flex flex-wrap items-center justify-between text-xs">
                         <div className="flex items-center gap-3">
                           <span className="text-emerald-800 font-bold bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
-                            Thrift Savings: -${order.totalSavings.toFixed(2)}
+                            Thrift Savings: -{formatPrice(order.totalSavings)}
                           </span>
-                          <span className="text-stone-500">Shipping: ${order.shippingFee.toFixed(2)}</span>
+                          <span className="text-stone-500">Shipping: {formatPrice(order.shippingFee)}</span>
                         </div>
                         <div className="text-sm font-bold text-[#1F140E]">
-                          Total Paid: ${order.totalAmount.toFixed(2)}
+                          Total Paid: {formatPrice(order.totalAmount)}
                         </div>
                       </div>
                     </div>
@@ -609,11 +610,11 @@ export const AdminDashboard: React.FC = () => {
 
                       <div className="flex items-center justify-between mt-3 text-xs">
                         <div>
-                          <span className="text-base font-bold text-[#1F140E] font-serif">${p.price}</span>
-                          <span className="text-xs text-stone-400 line-through ml-1.5">${p.originalPrice}</span>
+                          <span className="text-base font-bold text-[#1F140E] font-serif">{formatPrice(p.price)}</span>
+                          <span className="text-xs text-stone-400 line-through ml-1.5">{formatPrice(p.originalPrice)}</span>
                         </div>
                         <span className="text-[10px] font-mono text-emerald-800 font-bold bg-emerald-50 px-2 py-0.5 rounded">
-                          Save ${(p.originalPrice - p.price).toFixed(0)}
+                          Save {formatPrice(p.originalPrice - p.price)}
                         </span>
                       </div>
                     </div>
@@ -678,7 +679,7 @@ export const AdminDashboard: React.FC = () => {
                         </td>
                         <td className="py-3 font-mono font-bold">{c.orderCount}</td>
                         <td className="py-3 font-mono font-bold text-stone-900">
-                          ${c.totalSpent.toFixed(2)}
+                          {formatPrice(c.totalSpent)}
                         </td>
                       </tr>
                     ))}
@@ -762,18 +763,18 @@ export const AdminDashboard: React.FC = () => {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="font-bold text-stone-700 block mb-1">Thrift Price ($) *</label>
+                  <label className="font-bold text-stone-700 block mb-1">Thrift Price (Rs.) *</label>
                   <input
                     type="number"
                     required
-                    min={10}
+                    min={100}
                     value={productForm.price}
                     onChange={e => setProductForm({ ...productForm, price: parseFloat(e.target.value) || 0 })}
                     className="w-full px-3 py-2 border rounded-xl"
                   />
                 </div>
                 <div>
-                  <label className="font-bold text-stone-700 block mb-1">Retail Price ($) *</label>
+                  <label className="font-bold text-stone-700 block mb-1">Retail Price (Rs.) *</label>
                   <input
                     type="number"
                     required

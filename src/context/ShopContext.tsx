@@ -280,7 +280,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const subtotal = cart.reduce((sum, item) => sum + item.shoe.price * item.quantity, 0);
   const totalMarketValue = cart.reduce((sum, item) => sum + item.shoe.originalPrice * item.quantity, 0);
   const totalSavings = Math.max(0, totalMarketValue - subtotal);
-  const shipping = subtotal > 150 || subtotal === 0 ? 0 : 20;
+  const shipping = subtotal >= 3500 || subtotal === 0 ? 0 : 250;
   const total = subtotal + shipping;
 
   const checkoutOrder = async (shippingInfo: CheckoutInfo): Promise<OrderSummary> => {
@@ -297,7 +297,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         shippingAddress: shippingInfo.address,
         city: shippingInfo.city,
         postalCode: shippingInfo.postalCode,
-        country: shippingInfo.country || 'US',
+        country: shippingInfo.country || 'Pakistan',
         items: cart.map(item => ({
           shoeId: item.shoe.id,
           name: item.shoe.name,

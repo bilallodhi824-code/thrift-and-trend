@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Heart, Star, Eye, Plus, ShieldCheck } from 'lucide-react';
 import { Shoe, ShoeColor } from '../types/shoe';
 import { useShop } from '../context/ShopContext';
+import { formatPrice } from '../utils/currency';
 
 export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
   const {
@@ -159,16 +160,16 @@ export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
       )}
 
       {/* Product Information Body */}
-      <div className="p-5 flex-1 flex flex-col justify-between">
+      <div className="p-3.5 sm:p-5 flex-1 flex flex-col justify-between">
         <div>
           {/* Metadata: Category & Quality Check */}
-          <div className="flex items-center justify-between text-[10px] font-mono tracking-widest text-stone-500 uppercase mb-1.5">
+          <div className="flex items-center justify-between text-[9px] sm:text-[10px] font-mono tracking-wider sm:tracking-widest text-stone-500 uppercase mb-1">
             <span className="flex items-center space-x-1 text-[#264E36] font-bold">
-              <ShieldCheck className="w-3 h-3" />
-              <span>Verified Authentic</span>
+              <ShieldCheck className="w-3 h-3 flex-shrink-0" />
+              <span className="truncate">Authentic</span>
             </span>
             <div className="flex items-center space-x-1 text-[#2B1A11] font-sans">
-              <Star className="w-3.5 h-3.5 fill-[#C59B6D] text-[#C59B6D]" />
+              <Star className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-[#C59B6D] text-[#C59B6D] flex-shrink-0" />
               <span className="font-bold">{shoe.rating.toFixed(1)}</span>
               <span className="text-stone-400">({shoe.reviewCount})</span>
             </div>
@@ -177,25 +178,25 @@ export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
           {/* Product Title */}
           <h3
             onClick={() => setActiveShoeModal(shoe)}
-            className="font-display text-sm sm:text-base font-extrabold tracking-wide uppercase text-[#2B1A11] hover:text-[#C59B6D] transition-colors cursor-pointer truncate"
+            className="font-display text-xs sm:text-base font-extrabold tracking-wide uppercase text-[#2B1A11] hover:text-[#C59B6D] transition-colors cursor-pointer line-clamp-1"
           >
             {shoe.name}
           </h3>
 
           {/* Subtitle / Key Silhouette Description */}
-          <p className="text-xs text-stone-600 line-clamp-1 mt-0.5 font-normal">
+          <p className="text-[11px] sm:text-xs text-stone-600 line-clamp-1 mt-0.5 font-normal">
             {shoe.subtitle}
           </p>
 
           {/* Colorway Swatches */}
-          <div className="flex items-center space-x-2 mt-3.5">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 mt-2.5 sm:mt-3.5">
             {shoe.colors.map(color => {
               const isSelected = selectedColor.name === color.name;
               return (
                 <button
                   key={color.name}
                   onClick={e => handleColorClick(color, e)}
-                  className={`w-4 h-4 rounded-full transition-transform ${
+                  className={`w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full transition-transform ${
                     isSelected
                       ? 'ring-2 ring-[#2B1A11] ring-offset-2 scale-110 shadow-xs'
                       : 'hover:scale-105 opacity-85 border border-black/15'
@@ -205,31 +206,31 @@ export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
                 />
               );
             })}
-            <span className="text-[10px] text-stone-500 font-mono tracking-wider uppercase ml-1">
-              {shoe.colors.length} colorways
+            <span className="text-[9px] sm:text-[10px] text-stone-500 font-mono tracking-wider uppercase ml-1">
+              {shoe.colors.length} colors
             </span>
           </div>
         </div>
 
         {/* Footer: Price, Savings & Direct Action */}
-        <div className="mt-4 pt-3.5 border-t border-[#E8E2D5] flex items-center justify-between">
+        <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3.5 border-t border-[#E8E2D5] flex items-center justify-between gap-1">
           <div>
-            <div className="flex items-baseline space-x-2">
-              <span className="text-base font-black text-[#2B1A11] font-display">
-                ${shoe.price}
+            <div className="flex items-baseline space-x-1.5 sm:space-x-2">
+              <span className="text-xs sm:text-base font-black text-[#2B1A11] font-display">
+                {formatPrice(shoe.price)}
               </span>
-              <span className="text-xs text-stone-400 line-through">
-                ${shoe.originalPrice}
+              <span className="text-[10px] sm:text-xs text-stone-400 line-through">
+                {formatPrice(shoe.originalPrice)}
               </span>
             </div>
-            <div className="text-[10px] font-mono font-bold text-[#264E36] uppercase">
-              You Save ${savings}
+            <div className="text-[9px] sm:text-[10px] font-mono font-bold text-[#264E36] uppercase">
+              Save {formatPrice(savings)}
             </div>
           </div>
 
           <button
             onClick={() => setActiveShoeModal(shoe)}
-            className="text-[11px] font-bold tracking-widest uppercase text-[#C59B6D] hover:text-[#2B1A11] group-hover:translate-x-0.5 transition-transform flex items-center space-x-1"
+            className="text-[10px] sm:text-[11px] font-bold tracking-wider sm:tracking-widest uppercase text-[#C59B6D] hover:text-[#2B1A11] group-hover:translate-x-0.5 transition-transform flex items-center space-x-0.5 sm:space-x-1 flex-shrink-0"
           >
             <span>Details</span>
             <span>→</span>

@@ -164,7 +164,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2 text-xs text-stone-400">
               <li>
                 <span className="text-white font-sans font-bold block">Free Express Shipping</span>
-                <span>On orders above $150</span>
+                <span>On orders above Rs. 3,500</span>
               </li>
               <li>
                 <span className="text-white font-sans font-bold block">Quick Order Processing</span>

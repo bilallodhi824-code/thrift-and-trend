@@ -74,7 +74,7 @@ export const BrandPhilosophy: React.FC = () => {
               </p>
             </div>
             <div className="mt-6 pt-4 border-t border-stone-100 text-[11px] font-mono font-bold text-[#C59B6D]">
-              Average Savings: $95 Per Pair
+              Average Savings: Rs. 2,500+ Per Pair
             </div>
           </div>
 

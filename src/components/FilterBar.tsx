@@ -97,7 +97,7 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
                 className="bg-white border border-[#E2D9CA] text-[#2B1A11] text-[11px] font-bold uppercase tracking-wider rounded-full px-3.5 py-1.5 focus:outline-none focus:ring-1 focus:ring-[#C59B6D] cursor-pointer shadow-xs"
               >
                 <option value="featured">Featured Drops</option>
-                <option value="savings-desc">Biggest Savings ($$$)</option>
+                <option value="savings-desc">Biggest Savings (Rs.)</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
                 <option value="rating">Highest Rated</option>

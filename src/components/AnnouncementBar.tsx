@@ -4,7 +4,7 @@ import { ArrowRight, ShieldCheck, Sparkles, Tag, CheckCircle2, Instagram } from 
 const MESSAGES = [
   { text: 'WHERE STYLE MEETS SAVINGS • UP TO 60% OFF RETAIL SNEAKERS & SHOES', icon: Tag },
   { text: '100% AUTHENTIC QUALITY GUARANTEED • FULLY INSPECTED & CERTIFIED', icon: ShieldCheck },
-  { text: 'COMPLIMENTARY GLOBAL EXPRESS SHIPPING ON ORDERS OVER $150', icon: Sparkles },
+  { text: 'COMPLIMENTARY EXPRESS DELIVERY ACROSS PAKISTAN ON ORDERS OVER RS. 3,500', icon: Sparkles },
   { text: 'NEW SNEAKERS & CURATED FOOTWEAR ADDED WEEKLY', icon: CheckCircle2 },
 ];
 
@@ -50,7 +50,7 @@ export const AnnouncementBar: React.FC = () => {
             <span className="lowercase">@thriftandtread</span>
           </a>
           <span>•</span>
-          <span className="hover:text-white cursor-pointer transition-colors font-semibold">USD ($)</span>
+          <span className="hover:text-white cursor-pointer transition-colors font-semibold">PKR (Rs.)</span>
         </div>
       </div>
     </div>

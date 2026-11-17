@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, Trash2, Plus, Minus, ArrowRight, ShieldCheck, CheckCircle2, Sparkles, ShoppingBag, Tag, Package, UserCheck } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import { formatPrice } from '../utils/currency';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -39,7 +40,7 @@ export const CartDrawer: React.FC = () => {
 
   if (!isCartOpen) return null;
 
-  const freeShippingThreshold = 150;
+  const freeShippingThreshold = 3500;
   const amountToFreeShipping = Math.max(0, freeShippingThreshold - subtotal);
   const freeShippingProgress = Math.min(100, (subtotal / freeShippingThreshold) * 100);
 
@@ -108,7 +109,7 @@ export const CartDrawer: React.FC = () => {
     <div className="fixed inset-0 z-50 overflow-hidden bg-neutral-950/75 backdrop-blur-xs animate-fade-in">
       <div className="absolute inset-0" onClick={() => setIsCartOpen(false)} />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between border-l border-[#E2D9CA]">
           
           {/* Header */}
@@ -223,7 +224,7 @@ export const CartDrawer: React.FC = () => {
                     </span>
                   </div>
                   <span className="text-sm font-black font-mono">
-                    -${totalSavings + discountAmount}
+                    -{formatPrice(totalSavings + discountAmount)}
                   </span>
                 </div>
 
@@ -232,11 +233,11 @@ export const CartDrawer: React.FC = () => {
                   {amountToFreeShipping === 0 ? (
                     <div className="flex items-center space-x-1.5 text-[#264E36] font-bold">
                       <Sparkles className="w-3.5 h-3.5" />
-                      <span>Complimentary Global Express Delivery Unlocked!</span>
+                      <span>Complimentary Nationwide Express Delivery Unlocked!</span>
                     </div>
                   ) : (
                     <div className="text-stone-700">
-                      Add <span className="font-bold text-[#2B1A11]">${amountToFreeShipping}</span> more for free express shipping.
+                      Add <span className="font-bold text-[#2B1A11]">{formatPrice(amountToFreeShipping)}</span> more for free delivery across Pakistan.
                     </div>
                   )}
                   <div className="w-full bg-[#E2D9CA] h-1.5 rounded-full mt-2 overflow-hidden">
@@ -284,7 +285,7 @@ export const CartDrawer: React.FC = () => {
                               {item.shoe.name}
                             </h4>
                             <span className="text-xs font-black text-[#2B1A11] font-display">
-                              ${item.shoe.price * item.quantity}
+                              {formatPrice(item.shoe.price * item.quantity)}
                             </span>
                           </div>
 
@@ -297,7 +298,7 @@ export const CartDrawer: React.FC = () => {
                           </div>
 
                           <div className="text-[10px] text-[#264E36] font-mono font-bold mt-0.5">
-                            Saved ${(item.shoe.originalPrice - item.shoe.price) * item.quantity}
+                            Saved {formatPrice((item.shoe.originalPrice - item.shoe.price) * item.quantity)}
                           </div>
                         </div>
 
@@ -423,29 +424,29 @@ export const CartDrawer: React.FC = () => {
               <div className="space-y-1.5 text-xs text-stone-700">
                 <div className="flex justify-between">
                   <span>Market Value Benchmark</span>
-                  <span className="line-through text-stone-400 font-display">${totalMarketValue}</span>
+                  <span className="line-through text-stone-400 font-display">{formatPrice(totalMarketValue)}</span>
                 </div>
 
                 <div className="flex justify-between text-[#264E36] font-bold">
                   <span>Thrift Savings Discount</span>
-                  <span>-${totalSavings}</span>
+                  <span>-{formatPrice(totalSavings)}</span>
                 </div>
 
                 {discountPercent > 0 && (
                   <div className="flex justify-between text-[#C59B6D] font-bold">
                     <span>VIP Code Discount ({discountPercent}%)</span>
-                    <span>-${discountAmount.toFixed(2)}</span>
+                    <span>-{formatPrice(discountAmount)}</span>
                   </div>
                 )}
 
                 <div className="flex justify-between">
-                  <span>Express Global Shipping</span>
-                  <span>{shipping === 0 ? 'Complimentary' : `$${shipping}`}</span>
+                  <span>Nationwide Express Delivery</span>
+                  <span>{shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
                 </div>
 
                 <div className="flex justify-between pt-2 border-t border-[#E2D9CA] text-sm font-black text-[#2B1A11]">
                   <span>Total Due</span>
-                  <span className="font-display">${finalTotal.toFixed(2)}</span>
+                  <span className="font-display">{formatPrice(finalTotal)}</span>
                 </div>
               </div>
 
@@ -469,7 +470,7 @@ export const CartDrawer: React.FC = () => {
                   </span>
                 ) : (
                   <>
-                    <span>Checkout & Save ${(totalSavings + discountAmount).toFixed(0)}</span>
+                    <span>Checkout & Save {formatPrice(totalSavings + discountAmount)}</span>
                     <ArrowRight className="w-3.5 h-3.5 text-[#C59B6D]" />
                   </>
                 )}

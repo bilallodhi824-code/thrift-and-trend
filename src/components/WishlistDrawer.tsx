@@ -2,6 +2,7 @@ import React from 'react';
 import { X, Heart, Trash2, ShoppingBag } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { Shoe } from '../types/shoe';
+import { formatPrice } from '../utils/currency';
 
 export const WishlistDrawer: React.FC = () => {
   const {
@@ -26,7 +27,7 @@ export const WishlistDrawer: React.FC = () => {
     <div className="fixed inset-0 z-50 overflow-hidden bg-neutral-950/70 backdrop-blur-xs animate-fade-in">
       <div className="absolute inset-0" onClick={() => setIsWishlistOpen(false)} />
 
-      <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
+      <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between border-l border-stone-200">
           
           {/* Header */}
@@ -98,7 +99,7 @@ export const WishlistDrawer: React.FC = () => {
                             {shoe.name}
                           </h4>
                           <span className="text-xs font-bold text-neutral-950 font-display">
-                            ${shoe.price}
+                            {formatPrice(shoe.price)}
                           </span>
                         </div>
                         <p className="text-[11px] text-neutral-500 line-clamp-1 mt-0.5">

@@ -1,6 +1,7 @@
 import React from 'react';
 import { X, Package, Truck, CheckCircle2, Clock, MapPin, Tag, ArrowUpRight } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import { formatPrice } from '../utils/currency';
 
 export const OrderHistoryModal: React.FC = () => {
   const { isOrderHistoryOpen, setIsOrderHistoryOpen, orders, user } = useShop();
@@ -119,7 +120,7 @@ export const OrderHistoryModal: React.FC = () => {
                     {order.totalSavings > 0 && (
                       <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 px-2.5 py-1 rounded-lg">
                         <Tag className="w-3.5 h-3.5 text-emerald-600" />
-                        <span>Saved ${order.totalSavings.toFixed(2)} Below Retail</span>
+                        <span>Saved {formatPrice(order.totalSavings)} Below Retail</span>
                       </span>
                     )}
                     <span className="text-xs text-gray-500 font-medium">
@@ -130,7 +131,7 @@ export const OrderHistoryModal: React.FC = () => {
                   <div className="text-right">
                     <span className="text-[10px] text-gray-400 uppercase font-semibold block">Total Paid</span>
                     <span className="text-base font-bold font-serif text-[#1F140E]">
-                      ${order.totalAmount.toFixed(2)}
+                      {formatPrice(order.totalAmount)}
                     </span>
                   </div>
                 </div>

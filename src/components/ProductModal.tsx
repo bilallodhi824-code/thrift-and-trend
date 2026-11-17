@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Shoe, ShoeColor } from '../types/shoe';
 import { useShop } from '../context/ShopContext';
+import { formatPrice } from '../utils/currency';
 
 export const ProductModal: React.FC = () => {
   const {
@@ -123,7 +124,7 @@ export const ProductModal: React.FC = () => {
         </div>
 
         {/* Scrollable Lightbox Body */}
-        <div className="overflow-y-auto p-6 md:p-8 flex-1">
+        <div className="overflow-y-auto p-4 sm:p-6 md:p-8 flex-1">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12">
             
             {/* Left Column: Studio Photo Showcase */}
@@ -139,7 +140,7 @@ export const ProductModal: React.FC = () => {
 
                 {/* Savings Callout Pill */}
                 <div className="absolute top-4 left-4 bg-[#C59B6D] text-white text-[10px] font-mono font-bold tracking-wider uppercase px-3 py-1 rounded-full shadow-md">
-                  SAVE ${savings} ({savingsPercent}% OFF)
+                  SAVE {formatPrice(savings)} ({savingsPercent}% OFF)
                 </div>
 
                 <div className="absolute bottom-3 left-3 bg-[#2B1A11]/85 text-white text-[9px] font-mono tracking-widest uppercase px-2.5 py-1 rounded-full backdrop-blur-xs font-semibold">
@@ -182,7 +183,7 @@ export const ProductModal: React.FC = () => {
                 </div>
                 <div className="flex items-center space-x-2.5">
                   <Truck className="w-4 h-4 text-[#2B1A11] flex-shrink-0" />
-                  <span className="font-medium">Free express shipping on orders over $150</span>
+                  <span className="font-medium">Free express delivery in Pakistan on orders over Rs. 3,500</span>
                 </div>
               </div>
 
@@ -220,18 +221,18 @@ export const ProductModal: React.FC = () => {
                       Thrift & Trend Price
                     </div>
                     <div className="flex items-baseline space-x-2">
-                      <span className="text-3xl font-black font-display text-[#2B1A11]">
-                        ${shoe.price}
+                      <span className="text-2xl sm:text-3xl font-black font-display text-[#2B1A11]">
+                        {formatPrice(shoe.price)}
                       </span>
-                      <span className="text-sm text-stone-400 line-through">
-                        Retail: ${shoe.originalPrice}
+                      <span className="text-xs sm:text-sm text-stone-400 line-through">
+                        Retail: {formatPrice(shoe.originalPrice)}
                       </span>
                     </div>
                   </div>
 
                   <div className="text-right">
                     <div className="bg-[#264E36] text-white text-xs font-mono font-bold tracking-wider px-3 py-1 rounded-full uppercase shadow-xs">
-                      SAVE ${savings}
+                      SAVE {formatPrice(savings)}
                     </div>
                     <div className="text-[10px] text-stone-500 mt-1 font-mono">
                       {savingsPercent}% below market
@@ -339,11 +340,11 @@ export const ProductModal: React.FC = () => {
                   {/* Primary Add to Cart Button */}
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 w-full bg-[#2B1A11] hover:bg-[#3D2517] text-[#FAF7EE] py-4 px-6 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2 hover:-translate-y-0.5"
+                    className="flex-1 w-full bg-[#2B1A11] hover:bg-[#3D2517] text-[#FAF7EE] py-3.5 sm:py-4 px-5 sm:px-6 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2 hover:-translate-y-0.5"
                   >
-                    <span>Secure This Grail</span>
+                    <span>Secure This Pair</span>
                     <span>•</span>
-                    <span>${shoe.price * quantity}</span>
+                    <span>{formatPrice(shoe.price * quantity)}</span>
                   </button>
 
                   {/* Wishlist Heart */}
