@@ -1,26 +1,50 @@
 /**
  * Vercel Serverless Function - Thrift & Trend Backend API
- * Connects Vercel Cloud directly to MSSQL / Database architecture
+ * Connects Vercel Cloud directly to Database architecture
  * Handles Auth, Orders, Products, and Admin operations with 100% reliability
  */
 
-// In-memory runtime cache for serverless lifecycle
-const users = [
-  {
-    id: 1,
-    email: 'admin@thrift&trend.com',
-    passwordHash: 'Thirift&trend@@2026',
-    fullName: 'Thrift & Trend Master Admin',
-    role: 'admin',
-    phone: '+92 300 8241986',
-    address: 'Commercial Phase 5, DHA',
-    city: 'Karachi',
-    postalCode: '75500',
-    createdAt: new Date().toISOString(),
-  },
-];
+import fs from 'fs';
 
-const orders = [];
+const DB_FILE = '/tmp/tandt_cloud_db.json';
+
+const DEFAULT_ADMIN = {
+  id: 1,
+  email: 'admin@thrift&trend.com',
+  passwordHash: 'Thirift&trend@@2026',
+  fullName: 'Thrift & Trend Master Admin',
+  role: 'admin',
+  phone: '+92 300 8241986',
+  address: 'Commercial Phase 5, DHA',
+  city: 'Karachi',
+  postalCode: '75500',
+  createdAt: new Date().toISOString(),
+};
+
+function getDB() {
+  try {
+    if (fs.existsSync(DB_FILE)) {
+      const data = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
+      if (data && Array.isArray(data.users) && Array.isArray(data.orders)) {
+        if (!data.users.some(u => u.email.toLowerCase() === DEFAULT_ADMIN.email.toLowerCase())) {
+          data.users.unshift(DEFAULT_ADMIN);
+        }
+        return data;
+      }
+    }
+  } catch {
+    // fallback
+  }
+  return { users: [DEFAULT_ADMIN], orders: [] };
+}
+
+function saveDB(db) {
+  try {
+    fs.writeFileSync(DB_FILE, JSON.stringify(db, null, 2));
+  } catch {
+    // ignore
+  }
+}
 
 async function parseBody(req) {
   if (req.body && typeof req.body === 'object') return req.body;
@@ -63,11 +87,15 @@ export default async function handler(req, res) {
   const pathname = url.split('?')[0].replace(/\/$/, '') || '/api';
 
   try {
+    const db = getDB();
+
     // 1. Health check
     if (pathname === '/api/health' || pathname === '/api') {
       return res.status(200).json({
         status: 'healthy',
-        database: 'MSSQL / Cloud Connected',
+        database: 'Cloud Connected',
+        usersCount: db.users.length,
+        ordersCount: db.orders.length,
         timestamp: new Date().toISOString(),
       });
     }
@@ -89,7 +117,7 @@ export default async function handler(req, res) {
         return res.status(400).json({ message: 'Password must be at least 6 characters.' });
       }
 
-      const existing = users.find(u => u.email.toLowerCase() === email);
+      const existing = db.users.find(u => u.email.toLowerCase() === email);
       if (existing) {
         return res.status(400).json({ message: 'An account with this email already exists.' });
       }
@@ -107,13 +135,14 @@ export default async function handler(req, res) {
         createdAt: new Date().toISOString(),
       };
 
-      users.push(newUser);
+      db.users.push(newUser);
+      saveDB(db);
 
       const safeUser = { ...newUser };
       delete safeUser.passwordHash;
 
       return res.status(201).json({
-        message: 'Account created successfully in MSSQL database! Welcome to Thrift & Trend.',
+        message: 'Account created successfully! Welcome to Thrift & Trend.',
         token: `tandt_jwt_${newUser.id}_${Date.now()}`,
         user: safeUser,
       });
@@ -148,7 +177,7 @@ export default async function handler(req, res) {
         });
       }
 
-      const user = users.find(u => u.email.toLowerCase() === email && u.passwordHash === password);
+      const user = db.users.find(u => u.email.toLowerCase() === email && u.passwordHash === password);
       if (!user) {
         return res.status(401).json({ message: 'Invalid email or password. Please verify your credentials.' });
       }
@@ -165,7 +194,7 @@ export default async function handler(req, res) {
 
     // 4. Auth: Profile (me)
     if (pathname === '/api/auth/me') {
-      const user = users[0]; // fallback admin or customer
+      const user = db.users[0];
       const safeUser = { ...user };
       delete safeUser.passwordHash;
       return res.status(200).json(safeUser);
@@ -175,7 +204,7 @@ export default async function handler(req, res) {
     if (pathname === '/api/orders' && req.method === 'POST') {
       const body = await parseBody(req);
       const items = body.items || [];
-      const orderCount = orders.length + 1;
+      const orderCount = db.orders.length + 1;
       const orderId = `TT-2026-${String(orderCount).padStart(4, '0')}`;
       const trackingNumber = `TTPK-${Math.floor(10000000 + Math.random() * 90000000)}`;
 
@@ -206,45 +235,46 @@ export default async function handler(req, res) {
         items,
       };
 
-      orders.unshift(newOrder);
+      db.orders.unshift(newOrder);
+      saveDB(db);
 
       return res.status(201).json({
-        message: 'Order created successfully and cataloged in MSSQL database',
+        message: 'Order created successfully and cataloged in the vault',
         order: newOrder,
       });
     }
 
     // 6. Orders: List (GET /api/orders)
     if (pathname === '/api/orders' && req.method === 'GET') {
-      return res.status(200).json({ orders });
+      return res.status(200).json({ orders: db.orders });
     }
 
     // 7. Admin Stats
     if (pathname === '/api/admin/stats') {
-      const totalRevenue = orders.reduce((sum, o) => sum + o.totalAmount, 0);
-      const totalSavings = orders.reduce((sum, o) => sum + o.totalSavings, 0);
-      const customersCount = users.filter(u => u.role === 'customer').length;
+      const totalRevenue = db.orders.reduce((sum, o) => sum + o.totalAmount, 0);
+      const totalSavings = db.orders.reduce((sum, o) => sum + o.totalSavings, 0);
+      const customersCount = db.users.filter(u => u.role === 'customer').length;
 
       return res.status(200).json({
         totalRevenue,
-        totalOrders: orders.length,
+        totalOrders: db.orders.length,
         totalSavings,
-        totalProducts: 12,
-        totalInventoryUnits: 144,
+        totalProducts: 16,
+        totalInventoryUnits: 192,
         totalCustomers: customersCount,
-        statusBreakdown: { Confirmed: orders.length },
-        recentOrders: orders.slice(0, 5),
+        statusBreakdown: { Confirmed: db.orders.length },
+        recentOrders: db.orders.slice(0, 8),
       });
     }
 
     // 8. Admin Orders
     if (pathname === '/api/admin/orders') {
-      return res.status(200).json({ orders, count: orders.length });
+      return res.status(200).json({ orders: db.orders, count: db.orders.length });
     }
 
     // 9. Admin Customers
     if (pathname === '/api/admin/customers') {
-      const customers = users
+      const customers = db.users
         .filter(u => u.role === 'customer')
         .map(u => ({
           id: u.id,
@@ -256,9 +286,9 @@ export default async function handler(req, res) {
           city: u.city,
           postalCode: u.postalCode,
           createdAt: u.createdAt,
-          orderCount: orders.filter(o => o.customerEmail === u.email).length,
-          totalSpent: orders
-            .filter(o => o.customerEmail === u.email)
+          orderCount: db.orders.filter(o => o.customerEmail.toLowerCase() === u.email.toLowerCase()).length,
+          totalSpent: db.orders
+            .filter(o => o.customerEmail.toLowerCase() === u.email.toLowerCase())
             .reduce((sum, o) => sum + o.totalAmount, 0),
         }));
 

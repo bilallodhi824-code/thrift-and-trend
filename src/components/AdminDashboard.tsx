@@ -650,42 +650,50 @@ export const AdminDashboard: React.FC = () => {
                 </p>
               </div>
 
-              <div className="bg-white rounded-2xl border border-[#E2D9CA] p-5 shadow-sm overflow-x-auto">
-                <table className="w-full text-left text-xs">
-                  <thead>
-                    <tr className="border-b border-[#E2D9CA] text-stone-400 text-[10px] uppercase font-bold tracking-wider">
-                      <th className="pb-3">Customer ID</th>
-                      <th className="pb-3">Name</th>
-                      <th className="pb-3">Email</th>
-                      <th className="pb-3">Shipping Location</th>
-                      <th className="pb-3">Role</th>
-                      <th className="pb-3">Total Orders</th>
-                      <th className="pb-3">Total Spend</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-stone-100 font-medium">
-                    {customers.map(c => (
-                      <tr key={c.id} className="hover:bg-[#FAF7EE] transition-colors">
-                        <td className="py-3 font-mono text-stone-400">#{c.id}</td>
-                        <td className="py-3 font-bold text-stone-900">{c.fullName}</td>
-                        <td className="py-3 text-stone-600">{c.email}</td>
-                        <td className="py-3 text-stone-600">
-                          {c.address ? `${c.address}, ${c.city || ''} ${c.postalCode || ''}` : 'Not provided yet'}
-                        </td>
-                        <td className="py-3">
-                          <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${c.role === 'admin' ? 'bg-[#C59A6F]/20 text-[#C59A6F]' : 'bg-stone-100 text-stone-700'}`}>
-                            {c.role}
-                          </span>
-                        </td>
-                        <td className="py-3 font-mono font-bold">{c.orderCount}</td>
-                        <td className="py-3 font-mono font-bold text-stone-900">
-                          {formatPrice(c.totalSpent)}
-                        </td>
+              {customers.length === 0 ? (
+                <div className="bg-white rounded-2xl p-12 text-center border border-[#E2D9CA] space-y-2">
+                  <Users className="w-10 h-10 text-stone-300 mx-auto" />
+                  <p className="text-sm font-bold text-stone-700 uppercase">No registered customers yet</p>
+                  <p className="text-xs text-stone-400">Customer profiles created on the storefront will appear here in real-time.</p>
+                </div>
+              ) : (
+                <div className="bg-white rounded-2xl border border-[#E2D9CA] p-5 shadow-sm overflow-x-auto">
+                  <table className="w-full text-left text-xs">
+                    <thead>
+                      <tr className="border-b border-[#E2D9CA] text-stone-400 text-[10px] uppercase font-bold tracking-wider">
+                        <th className="pb-3">Customer ID</th>
+                        <th className="pb-3">Name</th>
+                        <th className="pb-3">Email</th>
+                        <th className="pb-3">Shipping Location</th>
+                        <th className="pb-3">Role</th>
+                        <th className="pb-3">Total Orders</th>
+                        <th className="pb-3">Total Spend</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
+                    </thead>
+                    <tbody className="divide-y divide-stone-100 font-medium">
+                      {customers.map(c => (
+                        <tr key={c.id} className="hover:bg-[#FAF7EE] transition-colors">
+                          <td className="py-3 font-mono text-stone-400">#{c.id}</td>
+                          <td className="py-3 font-bold text-stone-900">{c.fullName}</td>
+                          <td className="py-3 text-stone-600">{c.email}</td>
+                          <td className="py-3 text-stone-600">
+                            {c.address ? `${c.address}, ${c.city || ''} ${c.postalCode || ''}` : 'Not provided yet'}
+                          </td>
+                          <td className="py-3">
+                            <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase ${c.role === 'admin' ? 'bg-[#C59A6F]/20 text-[#C59A6F]' : 'bg-stone-100 text-stone-700'}`}>
+                              {c.role}
+                            </span>
+                          </td>
+                          <td className="py-3 font-mono font-bold">{c.orderCount}</td>
+                          <td className="py-3 font-mono font-bold text-stone-900">
+                            {formatPrice(c.totalSpent)}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
             </div>
           )}
 

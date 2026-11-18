@@ -308,26 +308,26 @@ async function executeWithFallback<T>(
   options: RequestInit = {},
   fallbackFn: () => T | Promise<T>
 ): Promise<T> {
-  const isCloudConfigured = Boolean((import.meta as any).env?.VITE_API_URL);
+  // Always attempt cloud API request first
+  try {
+    const token = tokenStorage.get();
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+      ...(options.headers as Record<string, string>),
+    };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  // If a live cloud URL is explicitly configured, attempt network request first
-  if (isCloudConfigured) {
-    try {
-      const token = tokenStorage.get();
-      const headers: Record<string, string> = {
-        'Content-Type': 'application/json',
-        ...(options.headers as Record<string, string>),
-      };
-      if (token) headers['Authorization'] = `Bearer ${token}`;
-
-      const res = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
-      if (res.ok) {
-        const data = await res.json().catch(() => null);
-        if (data) return data as T;
+    const res = await fetch(`${API_BASE}${endpoint}`, { ...options, headers });
+    if (res.ok) {
+      const data = await res.json().catch(() => null);
+      if (data) {
+        // Also run fallback to keep local storage in sync
+        try { await fallbackFn(); } catch {}
+        return data as T;
       }
-    } catch {
-      // Cloud API unreachable -> gracefully continue to resilient fallback
     }
+  } catch {
+    // Cloud API unreachable -> gracefully continue to resilient fallback
   }
 
   // Resilient Zero-Downtime Engine execution
@@ -652,56 +652,78 @@ export const api = {
 
   admin: {
     async getStats(): Promise<AdminStats> {
-      return executeWithFallback<AdminStats>('/admin/stats', { method: 'GET' }, () => {
-        const orders = getStoredOrders();
-        const users = getStoredUsers().filter(u => u.role === 'customer');
-        const custom = getStoredCustomProducts();
+      const orders = await api.admin.getOrders();
+      const customers = await api.admin.getCustomers();
+      const custom = getStoredCustomProducts();
 
-        const totalRevenue = orders.reduce((sum, o) => sum + o.totalAmount, 0);
-        const totalSavings = orders.reduce((sum, o) => sum + o.totalSavings, 0);
-        const totalProducts = SHOES.length + custom.length;
+      const totalRevenue = orders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+      const totalSavings = orders.reduce((sum, o) => sum + (o.totalSavings || 0), 0);
+      const totalProducts = SHOES.length + custom.length;
 
-        const statusBreakdown: Record<string, number> = {
-          Confirmed: 0,
-          Processing: 0,
-          Shipped: 0,
-          Delivered: 0,
-          Pending: 0,
-        };
+      const statusBreakdown: Record<string, number> = {
+        Confirmed: 0,
+        Processing: 0,
+        Shipped: 0,
+        Delivered: 0,
+        Pending: 0,
+      };
 
-        orders.forEach(o => {
-          const s = o.status || 'Confirmed';
-          statusBreakdown[s] = (statusBreakdown[s] || 0) + 1;
-        });
-
-        const recentOrders = orders.slice(0, 8).map(o => ({
-          id: o.id,
-          customerName: o.customerName,
-          customerEmail: o.customerEmail,
-          totalAmount: o.totalAmount,
-          totalSavings: o.totalSavings,
-          status: o.status,
-          trackingNumber: o.trackingNumber,
-          createdAt: o.createdAt,
-        }));
-
-        return {
-          totalRevenue,
-          totalOrders: orders.length,
-          totalSavings,
-          totalProducts,
-          totalInventoryUnits: totalProducts * 12,
-          totalCustomers: users.length,
-          statusBreakdown,
-          recentOrders,
-        };
+      orders.forEach(o => {
+        const s = o.status || 'Confirmed';
+        statusBreakdown[s] = (statusBreakdown[s] || 0) + 1;
       });
+
+      const recentOrders = orders.slice(0, 8).map(o => ({
+        id: o.id,
+        customerName: o.customerName,
+        customerEmail: o.customerEmail,
+        totalAmount: o.totalAmount,
+        totalSavings: o.totalSavings,
+        status: o.status,
+        trackingNumber: o.trackingNumber,
+        createdAt: o.createdAt,
+      }));
+
+      return {
+        totalRevenue,
+        totalOrders: orders.length,
+        totalSavings,
+        totalProducts,
+        totalInventoryUnits: totalProducts * 12,
+        totalCustomers: customers.length,
+        statusBreakdown,
+        recentOrders,
+      };
     },
 
     async getOrders(): Promise<AdminOrder[]> {
-      return executeWithFallback<AdminOrder[]>('/admin/orders', { method: 'GET' }, () => {
-        return getStoredOrders();
-      });
+      const localOrders = getStoredOrders();
+
+      let cloudOrders: AdminOrder[] = [];
+      try {
+        const token = tokenStorage.get();
+        const headers: Record<string, string> = {};
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        const res = await fetch(`${API_BASE}/admin/orders`, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          cloudOrders = Array.isArray(data) ? data : data.orders || [];
+        }
+      } catch {
+        // network fallback
+      }
+
+      const map = new Map<string, AdminOrder>();
+      for (const o of cloudOrders) {
+        map.set(o.id, o);
+      }
+      for (const o of localOrders) {
+        map.set(o.id, o);
+      }
+
+      return Array.from(map.values()).sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     },
 
     async updateOrderStatus(id: string, status: string, trackingNumber?: string): Promise<void> {
@@ -804,17 +826,36 @@ export const api = {
     },
 
     async getCustomers(): Promise<AdminCustomer[]> {
-      return executeWithFallback<AdminCustomer[]>('/admin/customers', { method: 'GET' }, () => {
-        const users = getStoredUsers().filter(u => u.role === 'customer');
-        const orders = getStoredOrders();
+      const localUsers = getStoredUsers().filter(u => u.role === 'customer');
+      const localOrders = getStoredOrders();
 
-        return users.map(u => {
-          const userOrders = orders.filter(
-            o => o.customerEmail.toLowerCase() === u.email.toLowerCase()
-          );
-          const totalSpent = userOrders.reduce((sum, o) => sum + o.totalAmount, 0);
+      let cloudCustomers: AdminCustomer[] = [];
+      try {
+        const token = tokenStorage.get();
+        const headers: Record<string, string> = {};
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+        const res = await fetch(`${API_BASE}/admin/customers`, { headers });
+        if (res.ok) {
+          const data = await res.json();
+          cloudCustomers = Array.isArray(data) ? data : data.customers || [];
+        }
+      } catch {
+        // network fallback
+      }
 
-          return {
+      // Merge cloud and local customers by email
+      const map = new Map<string, AdminCustomer>();
+      for (const c of cloudCustomers) {
+        map.set(c.email.toLowerCase(), c);
+      }
+      for (const u of localUsers) {
+        const userOrders = localOrders.filter(
+          o => o.customerEmail.toLowerCase() === u.email.toLowerCase()
+        );
+        const totalSpent = userOrders.reduce((sum, o) => sum + (o.totalAmount || 0), 0);
+
+        if (!map.has(u.email.toLowerCase())) {
+          map.set(u.email.toLowerCase(), {
             id: u.id,
             fullName: u.fullName,
             email: u.email,
@@ -826,9 +867,22 @@ export const api = {
             createdAt: u.createdAt || new Date().toISOString(),
             orderCount: userOrders.length,
             totalSpent,
-          };
-        });
-      });
+          });
+        } else {
+          const existing = map.get(u.email.toLowerCase())!;
+          existing.orderCount = Math.max(existing.orderCount || 0, userOrders.length);
+          existing.totalSpent = Math.max(existing.totalSpent || 0, totalSpent);
+          if (!existing.address && u.address) {
+            existing.address = u.address;
+            existing.city = u.city;
+            existing.postalCode = u.postalCode;
+          }
+        }
+      }
+
+      return Array.from(map.values()).sort(
+        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      );
     },
   },
 };

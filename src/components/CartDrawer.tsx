@@ -38,6 +38,11 @@ export const CartDrawer: React.FC = () => {
   const [guestPostalCode, setGuestPostalCode] = useState('');
   const [showGuestForm, setShowGuestForm] = useState(false);
 
+  const handleCloseCart = () => {
+    setLastCompletedOrder(null);
+    setIsCartOpen(false);
+  };
+
   if (!isCartOpen) return null;
 
   const freeShippingThreshold = 3500;
@@ -108,7 +113,7 @@ export const CartDrawer: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 overflow-hidden bg-neutral-950/75 backdrop-blur-xs animate-fade-in">
-      <div className="absolute inset-0" onClick={() => setIsCartOpen(false)} />
+      <div className="absolute inset-0" onClick={handleCloseCart} />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-0 sm:pl-10">
         <div className="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between border-l border-[#E2D9CA]">
@@ -122,8 +127,8 @@ export const CartDrawer: React.FC = () => {
               </h2>
             </div>
             <button
-              onClick={() => setIsCartOpen(false)}
-              className="p-1.5 text-stone-400 hover:text-black rounded-full hover:bg-[#E8E2D5] transition-colors"
+              onClick={handleCloseCart}
+              className="p-1.5 text-stone-400 hover:text-black rounded-full hover:bg-[#E8E2D5] transition-colors cursor-pointer"
             >
               <X className="w-5 h-5" />
             </button>
@@ -132,7 +137,7 @@ export const CartDrawer: React.FC = () => {
           {/* Body Content */}
           <div className="flex-1 overflow-y-auto px-6 py-4">
             
-            {lastCompletedOrder ? (
+            {lastCompletedOrder && (!user || user.role !== 'admin') ? (
               <div className="py-8 text-center space-y-4 animate-slide-up">
                 <div className="w-16 h-16 rounded-full bg-[#E8F2EC] text-[#264E36] flex items-center justify-center mx-auto shadow-sm">
                   <CheckCircle2 className="w-9 h-9" />
@@ -175,10 +180,11 @@ export const CartDrawer: React.FC = () => {
                 <div className="space-y-2 pt-2">
                   <button
                     onClick={() => {
+                      setLastCompletedOrder(null);
                       setIsCartOpen(false);
                       setIsOrderHistoryOpen(true);
                     }}
-                    className="w-full bg-[#2B1A11] text-[#FAF7EE] py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#3D2517] transition-colors shadow-md flex items-center justify-center gap-2"
+                    className="w-full bg-[#2B1A11] text-[#FAF7EE] py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#3D2517] transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Package className="w-4 h-4 text-[#C59B6D]" />
                     <span>View In My Orders</span>

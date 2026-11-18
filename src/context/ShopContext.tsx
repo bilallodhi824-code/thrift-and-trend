@@ -189,6 +189,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string) => {
     const res = await api.auth.login({ email, password });
     setUser(res.user);
+    setLastCompletedOrder(null);
     showToast(`Welcome back, ${res.user.fullName}!`, 'success');
     await loadOrders();
     if (res.user.role === 'admin') {
@@ -207,6 +208,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }) => {
     const res = await api.auth.register(payload);
     setUser(res.user);
+    setLastCompletedOrder(null);
     showToast(`Account created! Welcome to Thrift & Trend, ${res.user.fullName}.`, 'success');
   };
 
@@ -214,6 +216,8 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     api.auth.logout();
     setUser(null);
     setOrders([]);
+    setCart([]);
+    setLastCompletedOrder(null);
     setIsAdminDashboardOpen(false);
     showToast('You have been signed out.', 'info');
   };
