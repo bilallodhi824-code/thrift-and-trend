@@ -6,7 +6,6 @@ import { ShoeCategory, GenderCategory, SortOption } from '../types/shoe';
 interface CategoryOption {
   label: string;
   value: ShoeCategory;
-  count?: number;
 }
 
 const CATEGORIES: CategoryOption[] = [
@@ -35,6 +34,7 @@ const SORT_OPTIONS: { value: SortOption; label: string; tag: string }[] = [
 
 export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
   const {
+    shoes,
     selectedCategory,
     setSelectedCategory,
     selectedGender,
@@ -70,44 +70,58 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
     setIsSortOpen(false);
   };
 
+  const getCategoryCount = (val: ShoeCategory) => {
+    if (val === 'all') return shoes.length;
+    return shoes.filter(s => s.category === val).length;
+  };
+
   const currentSort = SORT_OPTIONS.find(s => s.value === sortBy) || SORT_OPTIONS[0];
 
   return (
-    <div className="py-3 sm:py-4 border-b border-[#E2D9CA] sticky top-[65px] sm:top-[69px] z-30 bg-[#FAF7EE]/95 backdrop-blur-md transition-all shadow-xs">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="py-3 sm:py-3.5 border-b border-[#E2D9CA] sticky top-[65px] sm:top-[69px] z-30 bg-[#FAF7EE]/95 backdrop-blur-md transition-all shadow-xs">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2.5">
         
-        {/* Responsive Container: flex on desktop, structured wrap */}
-        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-3 lg:gap-4">
-          
-          {/* Left: Category Navigation Pills with smooth horizontal scrolling */}
-          <div className="relative flex items-center min-w-0">
-            <div className="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1 w-full scroll-smooth">
-              {CATEGORIES.map(cat => {
-                const active = selectedCategory === cat.value;
-                return (
-                  <button
-                    key={cat.value}
-                    onClick={() => setSelectedCategory(cat.value)}
-                    className={`flex-shrink-0 px-4 py-2 rounded-full text-xs font-bold tracking-wider uppercase whitespace-nowrap transition-all duration-200 cursor-pointer ${
-                      active
-                        ? 'bg-[#2B1A11] text-[#FAF7EE] shadow-md border border-[#2B1A11] scale-[1.02]'
-                        : 'bg-white/80 border border-[#E2D9CA] text-stone-700 hover:text-[#2B1A11] hover:bg-[#EAE3D4] hover:border-[#C59B6D]/50'
-                    }`}
-                  >
-                    <span className="flex items-center gap-1.5">
-                      {active && <span className="w-1.5 h-1.5 rounded-full bg-[#C59B6D] animate-pulse" />}
-                      <span>{cat.label}</span>
-                    </span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+        {/* Tier 1: All 6 Categories - Always 100% visible, beautifully animated, never cut off */}
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          {CATEGORIES.map(cat => {
+            const active = selectedCategory === cat.value;
+            const count = getCategoryCount(cat.value);
+            return (
+              <button
+                key={cat.value}
+                onClick={() => setSelectedCategory(cat.value)}
+                className={`group relative px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs font-bold tracking-wider uppercase whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                  active
+                    ? 'bg-[#2B1A11] text-[#FAF7EE] shadow-md border border-[#2B1A11] scale-[1.02]'
+                    : 'bg-white/90 border border-[#E2D9CA] text-stone-700 hover:text-[#2B1A11] hover:bg-[#F3EFE6] hover:border-[#C59B6D] hover:-translate-y-0.5 hover:shadow-xs'
+                }`}
+              >
+                {active && (
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#C59B6D] animate-ping shrink-0" />
+                )}
+                <span>{cat.label}</span>
+                <span
+                  className={`text-[10px] font-mono px-1.5 py-0.5 rounded-full transition-colors ${
+                    active
+                      ? 'bg-white/20 text-[#FAF7EE]'
+                      : 'bg-[#F3EFE6] text-stone-500 group-hover:bg-[#EAE3D4]'
+                  }`}
+                >
+                  {count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
 
-          {/* Right Section: Gender Controls, Custom Animated Sort Dropdown & Vault Count */}
-          <div className="flex items-center justify-between lg:justify-end gap-2.5 sm:gap-3 flex-shrink-0 pt-1 lg:pt-0">
-            
-            {/* Gender filter segmented control */}
+        {/* Tier 2: Refinements & Controls Bar */}
+        <div className="flex flex-wrap items-center justify-between gap-2.5 pt-2 border-t border-[#E2D9CA]/60">
+          
+          {/* Left: Gender Filter & Reset */}
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono uppercase font-bold text-stone-500 tracking-wider hidden sm:inline">
+              Gender:
+            </span>
             <div className="flex items-center border border-[#E2D9CA] rounded-full p-0.5 bg-[#F3EFE6] shadow-2xs">
               {GENDERS.map(g => (
                 <button
@@ -124,6 +138,22 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
               ))}
             </div>
 
+            {/* Reset Filters Button */}
+            {isFiltered && (
+              <button
+                onClick={resetFilters}
+                className="inline-flex items-center gap-1.5 text-stone-600 hover:text-[#2B1A11] px-3 py-1.5 rounded-full hover:bg-[#EAE3D4] transition-all duration-150 cursor-pointer border border-[#E2D9CA] bg-white shadow-2xs text-[11px] font-bold uppercase tracking-wider group"
+                title="Reset all filters"
+              >
+                <RefreshCw className="w-3.5 h-3.5 text-[#C59B6D] group-hover:rotate-180 transition-transform duration-300" />
+                <span>Reset</span>
+              </button>
+            )}
+          </div>
+
+          {/* Right: Custom Animated Sort Dropdown & Vault Count */}
+          <div className="flex items-center gap-2.5 sm:gap-3 ml-auto">
+            
             {/* CUSTOM ANIMATED SORT DROPDOWN */}
             <div className="relative" ref={sortRef}>
               <button
@@ -197,20 +227,8 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
               )}
             </div>
 
-            {/* Reset Filters Button */}
-            {isFiltered && (
-              <button
-                onClick={resetFilters}
-                className="inline-flex items-center gap-1 text-stone-600 hover:text-black p-2 rounded-full hover:bg-[#EAE3D4] transition-all duration-150 cursor-pointer border border-[#E2D9CA] bg-white shadow-2xs"
-                title="Reset all filters"
-              >
-                <RefreshCw className="w-3.5 h-3.5 text-[#C59B6D] hover:rotate-180 transition-transform duration-300" />
-                <span className="text-[10px] uppercase font-bold tracking-wider hidden sm:inline">Reset</span>
-              </button>
-            )}
-
             {/* Silhouette Vault Count Indicator */}
-            <div className="hidden xl:flex items-center gap-1.5 pl-3 border-l border-[#E2D9CA] text-[11px] font-mono text-[#2B1A11] font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-1.5 pl-3 border-l border-[#E2D9CA] text-[11px] font-mono text-[#2B1A11] font-bold uppercase tracking-wider">
               <span className="w-2 h-2 rounded-full bg-[#264E36] animate-pulse" />
               <span>{totalCount} Grails</span>
             </div>
@@ -218,6 +236,7 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
           </div>
 
         </div>
+
       </div>
     </div>
   );

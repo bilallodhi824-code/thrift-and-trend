@@ -37,7 +37,7 @@ export const OrderHistoryModal: React.FC = () => {
                 Order History & Tracking
               </h2>
               <p className="text-[11px] tracking-[0.15em] uppercase text-[#C59A6F] font-medium">
-                {user ? `${user.fullName}'s MSSQL Verified Orders` : 'Purchases Recorded in Database'}
+                {user ? `${user.fullName}'s Verified Orders` : 'Purchases Recorded in Vault'}
               </p>
             </div>
           </div>
@@ -144,7 +144,7 @@ export const OrderHistoryModal: React.FC = () => {
         <div className="bg-[#1F140E]/5 px-6 py-3 border-t border-[#1F140E]/10 flex items-center justify-between text-[11px] text-gray-500">
           <span className="flex items-center gap-1.5">
             <CheckCircle2 className="w-3.5 h-3.5 text-[#C59A6F]" />
-            <span>MSSQL Verified • 12-Point Authentication Authenticated</span>
+            <span>Officially Verified • 12-Point Authentication Inspected</span>
           </span>
           <span>{orders.length} Total Orders</span>
         </div>

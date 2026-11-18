@@ -57,7 +57,7 @@ interface ShopContextType {
   shipping: number;
   total: number;
 
-  // Auth & MSSQL state
+  // Auth & Cloud database state
   user: User | null;
   isAuthenticated: boolean;
   isAdmin: boolean;
@@ -123,7 +123,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }, 3500);
   }, []);
 
-  // Fetch shoes from MSSQL backend if available
+  // Fetch shoes from cloud database backend if available
   const refreshShoes = useCallback(async () => {
     try {
       const dbShoes = await api.products.getAll();
@@ -219,6 +219,12 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const addToCart = (shoe: Shoe, color: ShoeColor, size: number, quantity = 1) => {
+    if (!user) {
+      showToast('Please sign in or create an account to add items to your bag.', 'info');
+      setIsAuthModalOpen(true);
+      return;
+    }
+
     setCart(prev => {
       const index = prev.findIndex(
         item => item.shoe.id === shoe.id && item.selectedColor.name === color.name && item.selectedSize === size
@@ -316,7 +322,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLastCompletedOrder(createdOrder);
       clearCart();
       await loadOrders();
-      showToast(`Order ${createdOrder.id} confirmed in MSSQL database!`, 'success');
+      showToast(`Order ${createdOrder.id} confirmed! Thank you for your purchase.`, 'success');
       return createdOrder;
     } catch (err: any) {
       showToast(err.message || 'Checkout failed. Please try again.', 'error');

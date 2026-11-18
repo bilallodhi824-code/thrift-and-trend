@@ -1,7 +1,7 @@
 /**
  * Thrift & Trend API & Resilient Database Service
  * High-Integrity Architecture:
- * 1. Primary: Cloud Database API (MSSQL / Express Backend)
+ * 1. Primary: Cloud Database API (Express Backend)
  * 2. Fail-Safe: Universal Resilient Client Database (Persistent Local & Session Storage)
  * 
  * Guarantees 100% lifetime zero-downtime authentication, registration, checkout,
@@ -466,7 +466,7 @@ export const api = {
           tokenStorage.setUser(safeUser);
 
           return {
-            message: 'Account created successfully in MSSQL database! Welcome to Thrift & Trend.',
+            message: 'Account created successfully! Welcome to Thrift & Trend.',
             token,
             user: safeUser,
           };
@@ -560,7 +560,7 @@ export const api = {
           };
 
           return {
-            message: 'Order created successfully and cataloged in MSSQL database',
+            message: 'Order created successfully and cataloged in the vault',
             order: summary,
           };
         }
@@ -772,7 +772,7 @@ export const api = {
           saveStoredCustomProducts(custom);
 
           return {
-            message: 'Product cataloged successfully in MSSQL database',
+            message: 'Product cataloged successfully in the database',
             id: newId,
             slug,
           };

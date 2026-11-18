@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Lock, Mail, User as UserIcon, MapPin, CheckCircle, ArrowRight, ShieldCheck } from 'lucide-react';
+import { X, Lock, Mail, User as UserIcon, MapPin, CheckCircle, ArrowRight, ShieldCheck, CheckCircle2, Sparkles } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
 export const AuthModal: React.FC = () => {
@@ -20,8 +20,15 @@ export const AuthModal: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [registeredSuccess, setRegisteredSuccess] = useState<{ name: string; email: string } | null>(null);
 
   if (!isAuthModalOpen) return null;
+
+  const handleClose = () => {
+    setIsAuthModalOpen(false);
+    setRegisteredSuccess(null);
+    setError(null);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +36,7 @@ export const AuthModal: React.FC = () => {
     setLoading(true);
     try {
       await login(loginEmail, loginPassword);
-      setIsAuthModalOpen(false);
+      handleClose();
       setLoginEmail('');
       setLoginPassword('');
     } catch (err: any) {
@@ -44,18 +51,29 @@ export const AuthModal: React.FC = () => {
     setError(null);
     setLoading(true);
     try {
+      const capturedName = regName.trim();
+      const capturedEmail = regEmail.trim();
+
       await register({
-        fullName: regName,
-        email: regEmail,
+        fullName: capturedName,
+        email: capturedEmail,
         password: regPassword,
         address: regAddress || undefined,
         city: regCity || undefined,
         postalCode: regPostalCode || undefined,
       });
-      setIsAuthModalOpen(false);
+
+      // Trigger Celebration Animation Screen
+      setRegisteredSuccess({
+        name: capturedName,
+        email: capturedEmail,
+      });
       setRegName('');
       setRegEmail('');
       setRegPassword('');
+      setRegAddress('');
+      setRegCity('');
+      setRegPostalCode('');
     } catch (err: any) {
       setError(err.message || 'Registration failed. Please try again.');
     } finally {
@@ -68,7 +86,7 @@ export const AuthModal: React.FC = () => {
       {/* Backdrop */}
       <div 
         className="absolute inset-0 bg-[#1F140E]/80 backdrop-blur-md transition-opacity" 
-        onClick={() => setIsAuthModalOpen(false)}
+        onClick={handleClose}
       />
 
       {/* Modal Dialog */}
@@ -77,7 +95,7 @@ export const AuthModal: React.FC = () => {
         {/* Header Bar */}
         <div className="bg-[#1F140E] p-6 text-white relative">
           <button
-            onClick={() => setIsAuthModalOpen(false)}
+            onClick={handleClose}
             className="absolute top-5 right-5 p-2 rounded-full text-[#FAF7F2]/60 hover:text-white hover:bg-white/10 transition-colors"
           >
             <X className="w-5 h-5" />
@@ -97,203 +115,260 @@ export const AuthModal: React.FC = () => {
             </div>
           </div>
 
-          <div className="flex gap-2 mt-5 p-1 bg-white/5 rounded-xl border border-white/10">
-            <button
-              onClick={() => { setTab('login'); setError(null); }}
-              className={`flex-1 py-2 text-xs font-medium tracking-wider uppercase rounded-lg transition-all ${
-                tab === 'login'
-                  ? 'bg-[#C59A6F] text-[#1F140E] font-semibold shadow-sm'
-                  : 'text-[#FAF7F2]/70 hover:text-white'
-              }`}
-            >
-              Sign In
-            </button>
-            <button
-              onClick={() => { setTab('register'); setError(null); }}
-              className={`flex-1 py-2 text-xs font-medium tracking-wider uppercase rounded-lg transition-all ${
-                tab === 'register'
-                  ? 'bg-[#C59A6F] text-[#1F140E] font-semibold shadow-sm'
-                  : 'text-[#FAF7F2]/70 hover:text-white'
-              }`}
-            >
-              Create Account
-            </button>
-          </div>
-        </div>
-
-        {/* Form Body */}
-        <div className="p-6">
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0"></span>
-              <span>{error}</span>
+          {!registeredSuccess && (
+            <div className="flex gap-2 mt-5 p-1 bg-white/5 rounded-xl border border-white/10">
+              <button
+                onClick={() => { setTab('login'); setError(null); }}
+                className={`flex-1 py-2 text-xs font-medium tracking-wider uppercase rounded-lg transition-all cursor-pointer ${
+                  tab === 'login'
+                    ? 'bg-[#C59A6F] text-[#1F140E] font-bold shadow-sm'
+                    : 'text-[#FAF7F2]/70 hover:text-white'
+                }`}
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => { setTab('register'); setError(null); }}
+                className={`flex-1 py-2 text-xs font-medium tracking-wider uppercase rounded-lg transition-all cursor-pointer ${
+                  tab === 'register'
+                    ? 'bg-[#C59A6F] text-[#1F140E] font-bold shadow-sm'
+                    : 'text-[#FAF7F2]/70 hover:text-white'
+                }`}
+              >
+                Create Account
+              </button>
             </div>
           )}
+        </div>
 
-          {tab === 'login' ? (
-            <form onSubmit={handleLogin} className="space-y-4">
-              <div>
-                <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1.5">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    required
-                    value={loginEmail}
-                    onChange={e => setLoginEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
+        {/* Form Body or Celebration Animation */}
+        <div className="p-6">
+          
+          {/* REGISTRATION CELEBRATION ANIMATION SCREEN */}
+          {registeredSuccess ? (
+            <div className="py-4 text-center space-y-5 animate-in fade-in zoom-in-95 duration-300">
+              {/* Animated Glowing Ring & Checkmark */}
+              <div className="relative mx-auto w-20 h-20 flex items-center justify-center">
+                <div className="absolute inset-0 rounded-full bg-[#264E36]/20 animate-ping" />
+                <div className="relative w-18 h-18 rounded-full bg-gradient-to-tr from-[#264E36] to-[#3a7552] text-[#FAF7F2] flex items-center justify-center shadow-xl border-2 border-[#C59A6F]">
+                  <CheckCircle2 className="w-10 h-10 animate-bounce" />
                 </div>
               </div>
 
               <div>
-                <div className="flex justify-between items-center mb-1.5">
-                  <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80">
-                    Password
-                  </label>
-                  <span className="text-[10px] text-[#C59A6F] hover:underline cursor-pointer">
-                    Forgot password?
-                  </span>
+                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#E8F2EC] text-[#264E36] text-[10px] font-mono font-bold tracking-widest uppercase border border-[#264E36]/20">
+                  <Sparkles className="w-3 h-3 text-[#C59A6F]" />
+                  <span>Account Verified & Registered</span>
+                </span>
+                <h3 className="text-xl font-serif font-black text-[#1F140E] uppercase tracking-wide mt-2">
+                  Welcome, {registeredSuccess.name}!
+                </h3>
+                <p className="text-xs text-stone-600 max-w-xs mx-auto mt-1 leading-relaxed">
+                  Your customer profile has been securely created. You are now logged in and can add shoes to your bag.
+                </p>
+              </div>
+
+              {/* Verified Perks Grid */}
+              <div className="p-4 bg-white rounded-2xl border border-[#E2D9CA] text-left text-xs space-y-2.5 shadow-2xs">
+                <div className="flex items-center gap-2 text-stone-700">
+                  <span className="w-5 h-5 rounded-full bg-[#E8F2EC] text-[#264E36] flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
+                  <span className="font-medium">Instant Login: <strong>{registeredSuccess.email}</strong></span>
                 </div>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="password"
-                    required
-                    value={loginPassword}
-                    onChange={e => setLoginPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
+                <div className="flex items-center gap-2 text-stone-700">
+                  <span className="w-5 h-5 rounded-full bg-[#E8F2EC] text-[#264E36] flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
+                  <span className="font-medium">Shopping Bag Unlocked (Add to Cart Active)</span>
+                </div>
+                <div className="flex items-center gap-2 text-stone-700">
+                  <span className="w-5 h-5 rounded-full bg-[#E8F2EC] text-[#264E36] flex items-center justify-center text-[10px] font-bold shrink-0">✓</span>
+                  <span className="font-medium">100% Legit Check Guarantee on Every Drop</span>
                 </div>
               </div>
 
+              {/* CTA to start shopping */}
               <button
-                type="submit"
-                disabled={loading}
-                className="w-full mt-2 py-3 bg-[#1F140E] hover:bg-[#2C1D14] text-[#FAF7F2] font-semibold text-xs tracking-wider uppercase rounded-xl transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
+                onClick={handleClose}
+                className="w-full py-3.5 bg-[#1F140E] hover:bg-[#2C1D14] text-[#FAF7F2] font-bold text-xs tracking-widest uppercase rounded-xl transition-all shadow-lg flex items-center justify-center gap-2 hover:-translate-y-0.5 cursor-pointer"
               >
-                {loading ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <>
-                    <span>Sign In</span>
-                    <ArrowRight className="w-4 h-4 text-[#C59A6F]" />
-                  </>
-                )}
+                <span>Start Shopping Now</span>
+                <ArrowRight className="w-4 h-4 text-[#C59A6F]" />
               </button>
-            </form>
+            </div>
           ) : (
-            <form onSubmit={handleRegister} className="space-y-3">
-              <div>
-                <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
-                  Full Name
-                </label>
-                <div className="relative">
-                  <UserIcon className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    required
-                    value={regName}
-                    onChange={e => setRegName(e.target.value)}
-                    placeholder="Enter your full name"
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
+            <>
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-800 text-xs rounded-xl flex items-center gap-2 animate-in fade-in">
+                  <span className="w-1.5 h-1.5 rounded-full bg-red-600 shrink-0"></span>
+                  <span>{error}</span>
                 </div>
-              </div>
+              )}
 
-              <div>
-                <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
-                  Email Address
-                </label>
-                <div className="relative">
-                  <Mail className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="email"
-                    required
-                    value={regEmail}
-                    onChange={e => setRegEmail(e.target.value)}
-                    placeholder="customer@domain.com"
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
-                </div>
-              </div>
+              {tab === 'login' ? (
+                <form onSubmit={handleLogin} className="space-y-4">
+                  <div>
+                    <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1.5">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="email"
+                        required
+                        value={loginEmail}
+                        onChange={e => setLoginEmail(e.target.value)}
+                        placeholder="customer@domain.com"
+                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                    </div>
+                  </div>
 
-              <div>
-                <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
-                  Create Password (min 6 chars)
-                </label>
-                <div className="relative">
-                  <Lock className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="password"
-                    required
-                    minLength={6}
-                    value={regPassword}
-                    onChange={e => setRegPassword(e.target.value)}
-                    placeholder="••••••••"
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
-                </div>
-              </div>
+                  <div>
+                    <div className="flex justify-between items-center mb-1.5">
+                      <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80">
+                        Password
+                      </label>
+                      <span className="text-[10px] text-[#C59A6F] hover:underline cursor-pointer">
+                        Forgot password?
+                      </span>
+                    </div>
+                    <div className="relative">
+                      <Lock className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="password"
+                        required
+                        value={loginPassword}
+                        onChange={e => setLoginPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                    </div>
+                  </div>
 
-              <div className="pt-1 border-t border-[#1F140E]/10">
-                <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
-                  Shipping Address (For Delivery)
-                </label>
-                <div className="relative mb-2">
-                  <MapPin className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    value={regAddress}
-                    onChange={e => setRegAddress(e.target.value)}
-                    placeholder="Street Address"
-                    className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
-                </div>
-                <div className="grid grid-cols-2 gap-2">
-                  <input
-                    type="text"
-                    value={regCity}
-                    onChange={e => setRegCity(e.target.value)}
-                    placeholder="City"
-                    className="w-full px-3 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
-                  <input
-                    type="text"
-                    value={regPostalCode}
-                    onChange={e => setRegPostalCode(e.target.value)}
-                    placeholder="Postal Code"
-                    className="w-full px-3 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
-                  />
-                </div>
-              </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full mt-2 py-3 bg-[#1F140E] hover:bg-[#2C1D14] text-[#FAF7F2] font-semibold text-xs tracking-wider uppercase rounded-xl transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  >
+                    {loading ? (
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <span>Sign In</span>
+                        <ArrowRight className="w-4 h-4 text-[#C59A6F]" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              ) : (
+                <form onSubmit={handleRegister} className="space-y-3">
+                  <div>
+                    <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
+                      Full Name
+                    </label>
+                    <div className="relative">
+                      <UserIcon className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        required
+                        value={regName}
+                        onChange={e => setRegName(e.target.value)}
+                        placeholder="e.g. Hamza Tariq"
+                        className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                    </div>
+                  </div>
 
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full mt-3 py-3 bg-[#1F140E] hover:bg-[#2C1D14] text-[#FAF7F2] font-semibold text-xs tracking-wider uppercase rounded-xl transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50"
-              >
-                {loading ? (
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                ) : (
-                  <>
-                    <span>Create Customer Account</span>
-                    <CheckCircle className="w-4 h-4 text-[#C59A6F]" />
-                  </>
-                )}
-              </button>
-            </form>
+                  <div>
+                    <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <Mail className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="email"
+                        required
+                        value={regEmail}
+                        onChange={e => setRegEmail(e.target.value)}
+                        placeholder="customer@domain.com"
+                        className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div>
+                    <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
+                      Create Password (min 6 chars)
+                    </label>
+                    <div className="relative">
+                      <Lock className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="password"
+                        required
+                        minLength={6}
+                        value={regPassword}
+                        onChange={e => setRegPassword(e.target.value)}
+                        placeholder="••••••••"
+                        className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="pt-1 border-t border-[#1F140E]/10">
+                    <label className="block text-[11px] font-semibold tracking-wider uppercase text-[#1F140E]/80 mb-1">
+                      Shipping Address (For Delivery)
+                    </label>
+                    <div className="relative mb-2">
+                      <MapPin className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
+                      <input
+                        type="text"
+                        value={regAddress}
+                        onChange={e => setRegAddress(e.target.value)}
+                        placeholder="Street Address"
+                        className="w-full pl-10 pr-4 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2">
+                      <input
+                        type="text"
+                        value={regCity}
+                        onChange={e => setRegCity(e.target.value)}
+                        placeholder="City"
+                        className="w-full px-3 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                      <input
+                        type="text"
+                        value={regPostalCode}
+                        onChange={e => setRegPostalCode(e.target.value)}
+                        placeholder="Postal Code"
+                        className="w-full px-3 py-2 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full mt-3 py-3 bg-[#1F140E] hover:bg-[#2C1D14] text-[#FAF7F2] font-semibold text-xs tracking-wider uppercase rounded-xl transition-all shadow-md flex items-center justify-center gap-2 disabled:opacity-50 cursor-pointer"
+                  >
+                    {loading ? (
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    ) : (
+                      <>
+                        <span>Create Customer Account</span>
+                        <CheckCircle className="w-4 h-4 text-[#C59A6F]" />
+                      </>
+                    )}
+                  </button>
+                </form>
+              )}
+
+              {/* Database & Security Trust Badge */}
+              <div className="mt-5 pt-4 border-t border-[#1F140E]/10 flex items-center justify-center gap-2 text-[10px] tracking-wider uppercase text-gray-500 font-medium">
+                <ShieldCheck className="w-4 h-4 text-[#C59A6F]" />
+                <span>256-Bit SSL Encrypted • Verified Security</span>
+              </div>
+            </>
           )}
 
-          {/* Database & Security Trust Badge */}
-          <div className="mt-5 pt-4 border-t border-[#1F140E]/10 flex items-center justify-center gap-2 text-[10px] tracking-wider uppercase text-gray-500 font-medium">
-            <ShieldCheck className="w-4 h-4 text-[#C59A6F]" />
-            <span>MSSQL 2025 Express • Bcrypt + JWT Auth</span>
-          </div>
         </div>
 
       </div>

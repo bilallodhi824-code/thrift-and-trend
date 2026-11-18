@@ -11,6 +11,7 @@ import {
   Info,
   Share2,
   Sparkles,
+  Lock,
 } from 'lucide-react';
 import { Shoe, ShoeColor } from '../types/shoe';
 import { useShop } from '../context/ShopContext';
@@ -26,6 +27,8 @@ export const ProductModal: React.FC = () => {
     sizeUnit,
     setIsSizeGuideOpen,
     showToast,
+    user,
+    setIsAuthModalOpen,
   } = useShop();
 
   if (!activeShoeModal) return null;
@@ -57,6 +60,11 @@ export const ProductModal: React.FC = () => {
   };
 
   const handleAddToCart = () => {
+    if (!user) {
+      showToast('Please sign in or create an account to add items to your bag.', 'info');
+      setIsAuthModalOpen(true);
+      return;
+    }
     addToCart(shoe, selectedColor, selectedSize, quantity);
     setActiveShoeModal(null);
   };
@@ -340,11 +348,22 @@ export const ProductModal: React.FC = () => {
                   {/* Primary Add to Cart Button */}
                   <button
                     onClick={handleAddToCart}
-                    className="flex-1 w-full bg-[#2B1A11] hover:bg-[#3D2517] text-[#FAF7EE] py-3.5 sm:py-4 px-5 sm:px-6 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2 hover:-translate-y-0.5"
+                    className="flex-1 w-full bg-[#2B1A11] hover:bg-[#3D2517] text-[#FAF7EE] py-3.5 sm:py-4 px-5 sm:px-6 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2 hover:-translate-y-0.5 cursor-pointer"
                   >
-                    <span>Secure This Pair</span>
-                    <span>•</span>
-                    <span>{formatPrice(shoe.price * quantity)}</span>
+                    {!user ? (
+                      <>
+                        <Lock className="w-3.5 h-3.5 text-[#C59B6D]" />
+                        <span>Sign In to Add to Bag</span>
+                        <span>•</span>
+                        <span>{formatPrice(shoe.price * quantity)}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Secure This Pair</span>
+                        <span>•</span>
+                        <span>{formatPrice(shoe.price * quantity)}</span>
+                      </>
+                    )}
                   </button>
 
                   {/* Wishlist Heart */}

@@ -71,7 +71,7 @@ export const CartDrawer: React.FC = () => {
 
       // Validate guest fields
       if (!guestName || !guestEmail || !guestAddress || !guestCity || !guestPostalCode) {
-        showToast('Please fill in your shipping details for MSSQL checkout.', 'error');
+        showToast('Please fill in your shipping details for checkout.', 'error');
         return;
       }
 
@@ -139,19 +139,19 @@ export const CartDrawer: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-[10px] uppercase font-bold tracking-widest text-[#264E36] bg-[#E8F2EC] px-3 py-1 rounded-full">
-                    MSSQL Database Verified
+                    Verified & Encrypted Order
                   </span>
                   <h3 className="font-display text-xl font-black uppercase tracking-tight text-[#2B1A11] mt-2">
                     Grail Order Confirmed!
                   </h3>
                   <p className="text-xs text-stone-600 leading-relaxed max-w-xs mx-auto mt-1">
-                    Your authenticated footwear order has been cataloged in Microsoft SQL Server.
+                    Your authenticated footwear order has been securely placed and cataloged.
                   </p>
                 </div>
 
                 <div className="p-4 bg-[#FAF7EE] rounded-2xl border border-[#E2D9CA] text-left text-xs space-y-2.5">
                   <div className="flex justify-between items-center text-stone-600">
-                    <span className="font-medium">MSSQL Order ID:</span>
+                    <span className="font-medium">Order Reference:</span>
                     <span className="font-mono font-bold text-[#2B1A11] bg-white px-2 py-0.5 rounded border border-[#E2D9CA]">
                       {lastCompletedOrder.id}
                     </span>
@@ -345,7 +345,7 @@ export const CartDrawer: React.FC = () => {
                   <div className="p-4 bg-[#FAF7EE] rounded-2xl border border-[#C59B6D]/50 space-y-3 animate-in fade-in">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-bold uppercase tracking-wider text-[#2B1A11]">
-                        Delivery Information (MSSQL)
+                        Delivery Information
                       </span>
                       <button
                         onClick={() => setShowGuestForm(false)}
@@ -467,7 +467,7 @@ export const CartDrawer: React.FC = () => {
                 {isPlacingOrder ? (
                   <span className="flex items-center space-x-2">
                     <span className="w-3.5 h-3.5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Saving Order to MSSQL...</span>
+                    <span>Processing Your Order...</span>
                   </span>
                 ) : (
                   <>
@@ -479,7 +479,7 @@ export const CartDrawer: React.FC = () => {
 
               <div className="flex items-center justify-center space-x-2 text-[10px] text-stone-500 uppercase tracking-widest pt-1 font-mono">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#264E36]" />
-                <span>MSSQL Encrypted Checkout • 100% Authentic</span>
+                <span>256-Bit Encrypted Checkout • 100% Authentic</span>
               </div>
             </div>
           )}

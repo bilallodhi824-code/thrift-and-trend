@@ -82,7 +82,7 @@ const FootwearShopContent: React.FC = () => {
       {/* 1. Global Announcement Bar */}
       <AnnouncementBar />
 
-      {/* 2. Top Header Navigation with Official T&T Logo, MSSQL Auth & Admin Launcher */}
+      {/* 2. Top Header Navigation with Official T&T Logo, Auth & Admin Launcher */}
       <Navbar />
 
       <main className="flex-1">

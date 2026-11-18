@@ -245,14 +245,14 @@ export const Navbar: React.FC = () => {
               <button
                 onClick={() => setIsAdminDashboardOpen(!isAdminDashboardOpen)}
                 className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#1F140E] text-[#C59A6F] border border-[#C59A6F] hover:bg-[#2C1D14] transition-all text-xs font-bold tracking-wider uppercase shadow-xs"
-                title="Open MSSQL Admin Dashboard"
+                title="Open Admin Dashboard"
               >
                 <LayoutDashboard className="w-3.5 h-3.5" />
                 <span>Admin</span>
               </button>
             )}
 
-            {/* User Account / MSSQL Login */}
+            {/* User Account / Customer Login */}
             <div className="relative" ref={userMenuRef}>
               {isAuthenticated && user ? (
                 <div>
@@ -275,7 +275,7 @@ export const Navbar: React.FC = () => {
                         <p className="text-xs font-bold text-[#1F140E] truncate">{user.fullName}</p>
                         <p className="text-[10px] text-gray-400 truncate">{user.email}</p>
                         <span className="inline-block mt-1 px-1.5 py-0.5 bg-[#C59A6F]/15 text-[#C59A6F] text-[9px] font-bold rounded uppercase tracking-wider">
-                          MSSQL {user.role}
+                          Verified {user.role}
                         </span>
                       </div>
 
@@ -355,13 +355,78 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pt-4 border-t border-[#E2D9CA] animate-slide-down pb-2">
-            <div className="flex flex-col space-y-2 text-xs tracking-widest uppercase font-bold text-[#2B1A11]">
+          <div className="lg:hidden mt-3 pt-3 border-t border-[#E2D9CA] animate-in slide-in-from-top-2 duration-200 pb-3">
+            
+            {/* User status card on mobile */}
+            <div className="mb-3 p-3 bg-white rounded-2xl border border-[#E2D9CA] shadow-2xs">
+              {isAuthenticated && user ? (
+                <div className="space-y-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2.5">
+                      <div className="w-8 h-8 rounded-full bg-[#C59B6D] text-[#1F140E] flex items-center justify-center text-xs font-bold">
+                        {user.fullName.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-[#2B1A11] truncate">{user.fullName}</p>
+                        <p className="text-[10px] text-stone-500 truncate">{user.email}</p>
+                      </div>
+                    </div>
+                    <span className="text-[9px] uppercase font-mono font-bold text-[#264E36] bg-[#E8F2EC] px-2 py-0.5 rounded-full shrink-0">
+                      Verified {user.role}
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-stone-100 text-[11px] font-bold">
+                    <button
+                      onClick={() => {
+                        setIsMobileMenuOpen(false);
+                        setIsOrderHistoryOpen(true);
+                      }}
+                      className="py-1.5 px-2 bg-[#FAF7EE] hover:bg-[#EAE3D4] text-[#2B1A11] rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <Package className="w-3.5 h-3.5 text-[#C59B6D]" />
+                      <span>My Orders</span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        logout();
+                        setIsMobileMenuOpen(false);
+                      }}
+                      className="py-1.5 px-2 bg-red-50 hover:bg-red-100 text-red-700 rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      <LogOut className="w-3.5 h-3.5" />
+                      <span>Sign Out</span>
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <p className="text-[11px] text-stone-600 font-medium text-center">
+                    Sign in to unlock your cart and save footwear grails
+                  </p>
+                  <button
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      setIsAuthModalOpen(true);
+                    }}
+                    className="w-full py-2.5 px-4 bg-[#2B1A11] hover:bg-[#3D2517] text-[#FAF7EE] rounded-xl text-xs font-bold tracking-wider uppercase flex items-center justify-center gap-2 shadow-xs cursor-pointer"
+                  >
+                    <UserIcon className="w-4 h-4 text-[#C59B6D]" />
+                    <span>Sign In or Register</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col space-y-1 text-xs tracking-wider uppercase font-bold text-[#2B1A11]">
+              <span className="text-[10px] font-mono text-stone-400 px-2 pt-1 pb-0.5 tracking-widest uppercase">
+                Categories
+              </span>
               {navCategories.map(cat => (
                 <button
                   key={cat.value}
                   onClick={() => handleNavCategory(cat.value)}
-                  className="text-left py-2 px-2 text-[#2B1A11] hover:text-[#C59B6D] hover:bg-[#F3EFE6] rounded-xl transition-colors"
+                  className="text-left py-2 px-3 text-[#2B1A11] hover:text-[#C59B6D] hover:bg-[#F3EFE6] rounded-xl transition-colors cursor-pointer"
                 >
                   {cat.label}
                 </button>
@@ -370,21 +435,21 @@ export const Navbar: React.FC = () => {
               <a
                 href="#grading-section"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="py-2 px-2 text-[#264E36] flex items-center space-x-2 hover:bg-[#E8F2EC] rounded-xl transition-colors"
+                className="py-2 px-3 text-[#264E36] flex items-center space-x-2 hover:bg-[#E8F2EC] rounded-xl transition-colors"
               >
                 <ShieldCheck className="w-4 h-4 text-[#264E36]" />
                 <span>T&T Lab & Legit Check</span>
               </a>
 
               {/* Mobile Sizing Scale Switcher */}
-              <div className="pt-3 pb-1 px-2 flex items-center justify-between border-t border-[#E2D9CA]">
+              <div className="pt-3 pb-1 px-3 flex items-center justify-between border-t border-[#E2D9CA]">
                 <span className="text-stone-500 text-[10px] font-mono">Sizing Scale:</span>
                 <div className="flex space-x-1">
                   {(['EU', 'US'] as const).map(unit => (
                     <button
                       key={unit}
                       onClick={() => setSizeUnit(unit)}
-                      className={`px-3 py-1 text-[10px] rounded-full font-bold transition-all ${
+                      className={`px-3 py-1 text-[10px] rounded-full font-bold transition-all cursor-pointer ${
                         sizeUnit === unit ? 'bg-[#2B1A11] text-[#FAF7EE]' : 'bg-[#ECE5D8] text-[#2B1A11]'
                       }`}
                     >
@@ -400,7 +465,7 @@ export const Navbar: React.FC = () => {
                   setIsMobileMenuOpen(false);
                   setIsSizeGuideOpen(true);
                 }}
-                className="text-left py-2 px-2 text-[#C59B6D] flex items-center gap-1.5"
+                className="text-left py-2 px-3 text-[#C59B6D] flex items-center gap-1.5 cursor-pointer"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Size & Fit Guide</span>

@@ -90,7 +90,7 @@ export const AdminDashboard: React.FC = () => {
     e.preventDefault();
     try {
       await api.admin.createProduct(productForm);
-      showToast(`Product "${productForm.name}" created in MSSQL!`, 'success');
+      showToast(`Product "${productForm.name}" created successfully!`, 'success');
       setIsAddProductOpen(false);
       setProductForm({
         name: '',
@@ -109,17 +109,17 @@ export const AdminDashboard: React.FC = () => {
       await fetchDashboardData();
       await refreshShoes();
     } catch (err: any) {
-      showToast(err.message || 'Failed to create product in MSSQL', 'error');
+      showToast(err.message || 'Failed to create product', 'error');
     }
   };
 
   const handleDeleteProduct = async (productId: string, productName: string) => {
-    if (!window.confirm(`Are you sure you want to delete "${productName}" from the MSSQL database?`)) {
+    if (!window.confirm(`Are you sure you want to delete "${productName}" from the catalog?`)) {
       return;
     }
     try {
       await api.admin.deleteProduct(productId);
-      showToast(`Product "${productName}" deleted from MSSQL.`, 'info');
+      showToast(`Product "${productName}" deleted successfully.`, 'info');
       await fetchDashboardData();
       await refreshShoes();
     } catch (err: any) {
@@ -146,7 +146,7 @@ export const AdminDashboard: React.FC = () => {
                 Thrift & Trend Portal
               </h1>
               <span className="px-2 py-0.5 bg-[#C59A6F]/20 text-[#C59A6F] border border-[#C59A6F]/40 text-[9px] font-bold rounded-full uppercase tracking-wider">
-                MSSQL Database
+                Enterprise Database
               </span>
             </div>
             <p className="text-[10px] tracking-widest uppercase text-[#C59A6F]/80">
@@ -164,7 +164,7 @@ export const AdminDashboard: React.FC = () => {
             title="Refresh database records"
           >
             <RefreshCw className={`w-3.5 h-3.5 text-[#C59A6F] ${loading ? 'animate-spin' : ''}`} />
-            <span>Sync MSSQL</span>
+            <span>Sync Database</span>
           </button>
 
           <button
@@ -315,7 +315,7 @@ export const AdminDashboard: React.FC = () => {
                   <div className="text-2xl font-serif font-bold text-[#1F140E]">
                     {stats?.totalOrders || orders.length}
                   </div>
-                  <p className="text-[10px] text-stone-500 font-semibold mt-1">MSSQL recorded orders</p>
+                  <p className="text-[10px] text-stone-500 font-semibold mt-1">Verified recorded orders</p>
                 </div>
 
                 <div className="bg-white p-5 rounded-2xl border border-[#E2D9CA] shadow-sm">
@@ -421,7 +421,7 @@ export const AdminDashboard: React.FC = () => {
                     Customer Orders ({filteredOrders.length})
                   </h2>
                   <p className="text-xs text-stone-500">
-                    Live orders placed through the customer cart, saved in MSSQL tables.
+                    Live orders placed through the customer cart, stored in the database.
                   </p>
                 </div>
 
@@ -565,7 +565,7 @@ export const AdminDashboard: React.FC = () => {
                     Footwear Catalog Inventory ({products.length})
                   </h2>
                   <p className="text-xs text-stone-500">
-                    Live products stored in MSSQL `Products` table. Add, inspect, and remove drops.
+                    Live products stored in the active catalog. Add, inspect, and remove drops.
                   </p>
                 </div>
 
@@ -627,7 +627,7 @@ export const AdminDashboard: React.FC = () => {
                       <button
                         onClick={() => handleDeleteProduct(p.id, p.name)}
                         className="text-stone-400 hover:text-red-600 transition-colors p-1"
-                        title="Delete shoe from MSSQL"
+                        title="Delete shoe from catalog"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -646,7 +646,7 @@ export const AdminDashboard: React.FC = () => {
                   Registered Customers ({customers.length})
                 </h2>
                 <p className="text-xs text-stone-500">
-                  Customer profiles registered in MSSQL `Users` table with purchase telemetry.
+                  Customer profiles and verified accounts with purchase history.
                 </p>
               </div>
 
@@ -692,13 +692,13 @@ export const AdminDashboard: React.FC = () => {
         </main>
       </div>
 
-      {/* MODAL: ADD NEW PRODUCT TO MSSQL */}
+      {/* MODAL: ADD NEW PRODUCT TO CATALOG */}
       {isAddProductOpen && (
         <div className="fixed inset-0 z-60 bg-black/70 flex items-center justify-center p-4">
           <div className="bg-white rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl border border-[#C59A6F]/30 animate-in zoom-in-95">
             <div className="flex items-center justify-between pb-3 border-b border-stone-200 mb-4">
               <h3 className="text-base font-serif font-bold uppercase text-[#1F140E]">
-                Add New Shoe to MSSQL
+                Add New Shoe to Catalog
               </h3>
               <button onClick={() => setIsAddProductOpen(false)} className="text-stone-400 hover:text-black">
                 <X className="w-5 h-5" />
@@ -833,7 +833,7 @@ export const AdminDashboard: React.FC = () => {
                   type="submit"
                   className="px-5 py-2 bg-[#1F140E] hover:bg-[#2C1D14] text-[#FAF7EE] rounded-xl font-bold uppercase tracking-wider"
                 >
-                  Commit To MSSQL
+                  Publish Product
                 </button>
               </div>
             </form>
