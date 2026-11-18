@@ -95,9 +95,10 @@ export const CartDrawer: React.FC = () => {
         await checkoutOrder({
           name: user.fullName,
           email: user.email,
-          address: user.address || '742 Evergreen Terrace',
-          city: user.city || 'Portland',
-          postalCode: user.postalCode || '97201',
+          address: user.address || 'Commercial Area, Phase 5, DHA',
+          city: user.city || 'Karachi',
+          postalCode: user.postalCode || '75500',
+          country: 'Pakistan',
         });
       } catch {
         // error handled in shop context
@@ -163,11 +164,11 @@ export const CartDrawer: React.FC = () => {
                   </div>
                   <div className="flex justify-between text-stone-600">
                     <span>Total Paid:</span>
-                    <span className="font-bold text-[#2B1A11]">${lastCompletedOrder.totalAmount.toFixed(2)}</span>
+                    <span className="font-bold text-[#2B1A11]">Rs. {lastCompletedOrder.totalAmount.toLocaleString()}</span>
                   </div>
                   <div className="flex justify-between text-[#264E36]">
                     <span>Total Thrift Savings:</span>
-                    <span className="font-bold">-${lastCompletedOrder.totalSavings.toFixed(2)} Below Retail</span>
+                    <span className="font-bold">-Rs. {lastCompletedOrder.totalSavings.toLocaleString()} Below Retail</span>
                   </div>
                 </div>
 
