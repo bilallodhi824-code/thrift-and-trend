@@ -11,7 +11,7 @@ import {
   LogOut,
   ChevronDown,
   LayoutDashboard,
-  Instagram
+  Sparkles,
 } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
@@ -33,22 +33,25 @@ export const Navbar: React.FC = () => {
     orders,
     searchQuery,
     setSearchQuery,
+    selectedCategory,
     setSelectedCategory,
     sizeUnit,
     setSizeUnit,
   } = useShop();
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 15);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -63,6 +66,13 @@ export const Navbar: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // Focus search input when opened
+  useEffect(() => {
+    if (isSearchOpen && searchInputRef.current) {
+      searchInputRef.current.focus();
+    }
+  }, [isSearchOpen]);
+
   const handleNavCategory = (cat: 'all' | 'lifestyle' | 'running' | 'boots' | 'formal' | 'trail') => {
     setSelectedCategory(cat);
     setIsMobileMenuOpen(false);
@@ -71,6 +81,14 @@ export const Navbar: React.FC = () => {
       catalogEl.scrollIntoView({ behavior: 'smooth' });
     }
   };
+
+  const navCategories = [
+    { label: 'All Drops', value: 'all' as const },
+    { label: 'Streetwear', value: 'lifestyle' as const },
+    { label: 'Runners', value: 'running' as const },
+    { label: 'Boots', value: 'boots' as const },
+    { label: 'Oxfords', value: 'formal' as const },
+  ];
 
   return (
     <header
@@ -81,142 +99,118 @@ export const Navbar: React.FC = () => {
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center justify-between gap-3 sm:gap-4">
           
-          {/* Mobile hamburger */}
-          <div className="flex items-center lg:hidden">
+          {/* Left Brand Identity with Logo Image */}
+          <div className="flex items-center space-x-3">
+            {/* Mobile hamburger button */}
             <button
               onClick={() => setIsMobileMenuOpen(prev => !prev)}
-              className="p-2 -ml-2 text-[#2B1A11] hover:text-black focus:outline-none"
-              aria-label="Toggle Navigation Menu"
+              className="p-2 -ml-2 text-[#2B1A11] hover:text-[#C59B6D] lg:hidden focus:outline-none transition-colors"
+              aria-label="Toggle navigation"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-          </div>
 
-          {/* Left Brand Identity with Logo Image */}
-          <div className="flex items-center space-x-3">
             <a
               href="#"
-              className="flex items-center space-x-2.5 group"
+              className="flex items-center space-x-3 group"
               onClick={e => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: 'smooth' });
               }}
             >
               {/* Circular Crest Badge */}
-              <img
-                src="/images/logo/badge.jpg"
-                alt="Thrift and Trend Seal"
-                className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover border-2 border-[#C59B6D] shadow-xs group-hover:scale-105 transition-transform"
-              />
+              <div className="relative">
+                <img
+                  src="/images/logo/badge.jpg"
+                  alt="Thrift and Trend Seal"
+                  className="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover border-2 border-[#C59B6D] shadow-xs group-hover:scale-105 transition-transform"
+                />
+              </div>
 
               {/* Wordmark and Tagline */}
               <div className="flex flex-col">
-                <div className="flex items-baseline space-x-1">
-                  <span className="font-display text-lg sm:text-xl font-extrabold tracking-tight text-[#2B1A11] uppercase leading-none">
+                <div className="flex items-baseline">
+                  <span className="font-display text-lg sm:text-xl font-black tracking-tight text-[#2B1A11] uppercase leading-none">
                     THRIFT <span className="text-[#C59B6D]">&</span> TREND
                   </span>
                 </div>
-                <span className="text-[8px] sm:text-[9px] font-bold tracking-[0.25em] text-[#C59B6D] uppercase mt-0.5">
+                <span className="text-[8px] sm:text-[9px] font-bold tracking-[0.25em] text-[#C59B6D] uppercase mt-0.5 font-mono">
                   WHERE STYLE MEETS SAVINGS
                 </span>
               </div>
             </a>
           </div>
 
-          {/* Desktop Navigation Links */}
-          <nav className="hidden lg:flex items-center space-x-6 text-[12px] font-bold tracking-wider uppercase text-[#2B1A11]">
-            <button
-              onClick={() => handleNavCategory('all')}
-              className="hover:text-[#C59B6D] transition-colors"
-            >
-              All Drops
-            </button>
-            <button
-              onClick={() => handleNavCategory('lifestyle')}
-              className="hover:text-[#C59B6D] transition-colors"
-            >
-              Streetwear Heat
-            </button>
-            <button
-              onClick={() => handleNavCategory('running')}
-              className="hover:text-[#C59B6D] transition-colors"
-            >
-              Runners
-            </button>
-            <button
-              onClick={() => handleNavCategory('boots')}
-              className="hover:text-[#C59B6D] transition-colors"
-            >
-              Boots
-            </button>
-            <button
-              onClick={() => handleNavCategory('formal')}
-              className="hover:text-[#C59B6D] transition-colors"
-            >
-              Oxfords
-            </button>
+          {/* Desktop Center Category Navigation */}
+          <nav className="hidden lg:flex items-center space-x-1 xl:space-x-2 text-[12px] font-bold tracking-wider uppercase text-[#2B1A11]">
+            {navCategories.map(cat => {
+              const isActive = selectedCategory === cat.value;
+              return (
+                <button
+                  key={cat.value}
+                  onClick={() => handleNavCategory(cat.value)}
+                  className={`relative px-3 py-1.5 rounded-full transition-all duration-200 cursor-pointer ${
+                    isActive
+                      ? 'text-[#C59B6D] bg-[#F3EFE6] font-extrabold shadow-2xs'
+                      : 'text-stone-700 hover:text-[#2B1A11] hover:bg-[#F3EFE6]/60'
+                  }`}
+                >
+                  <span>{cat.label}</span>
+                </button>
+              );
+            })}
+
+            {/* T&T Authenticity Lab link */}
             <a
               href="#grading-section"
-              className="hover:text-[#C59B6D] transition-colors text-[#264E36] flex items-center space-x-1"
+              className="relative px-3 py-1.5 rounded-full text-stone-700 hover:text-[#264E36] hover:bg-[#E8F2EC]/60 transition-all duration-200 flex items-center space-x-1.5 font-bold"
             >
-              <ShieldCheck className="w-3.5 h-3.5" />
+              <ShieldCheck className="w-3.5 h-3.5 text-[#264E36]" />
               <span>T&T Lab</span>
-            </a>
-            
-            {/* Instagram Official Link */}
-            <a
-              href="https://www.instagram.com/thriftandtread?rpxt=MThkazBjd253NXd4cQ=="
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-[#C59B6D] text-pink-900 transition-colors flex items-center space-x-1 lowercase font-semibold text-[11px]"
-              title="Follow @thriftandtread on Instagram"
-            >
-              <Instagram className="w-3.5 h-3.5 text-[#C59B6D]" />
-              <span>@thriftandtread</span>
             </a>
           </nav>
 
-          {/* Right Actions: Search, Sizing, User Auth, Admin Portal, Saved, Bag */}
-          <div className="flex items-center space-x-2 sm:space-x-3">
+          {/* Right Action Bar: Search, Sizing, User Auth, Admin Portal, Saved, Bag */}
+          <div className="flex items-center space-x-2 sm:space-x-2.5">
             
-            {/* Search Input */}
+            {/* Search Input Container */}
             <div className="relative flex items-center">
-              {isSearchExpanded ? (
-                <div className="flex items-center bg-[#F3EFE6] rounded-full px-3.5 py-1.5 border border-[#C59B6D] w-48 sm:w-64 transition-all duration-300 shadow-inner">
+              {isSearchOpen ? (
+                <div className="flex items-center bg-white rounded-full px-3 py-1.5 border border-[#C59B6D] w-48 sm:w-64 transition-all duration-300 shadow-md animate-in fade-in zoom-in-95">
                   <Search className="w-3.5 h-3.5 text-[#C59B6D] mr-2 flex-shrink-0" />
                   <input
+                    ref={searchInputRef}
                     type="text"
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
-                    placeholder="Search grails, savings..."
-                    className="w-full bg-transparent text-xs text-[#2B1A11] placeholder-stone-500 focus:outline-none"
-                    autoFocus
+                    placeholder="Search grails, styles..."
+                    className="w-full bg-transparent text-xs text-[#2B1A11] placeholder-stone-400 focus:outline-none"
                   />
                   <button
                     onClick={() => {
                       setSearchQuery('');
-                      setIsSearchExpanded(false);
+                      setIsSearchOpen(false);
                     }}
-                    className="text-stone-400 hover:text-black ml-1"
+                    className="text-stone-400 hover:text-black ml-1 p-0.5 rounded-full hover:bg-stone-100"
                   >
-                    <X className="w-3 h-3" />
+                    <X className="w-3.5 h-3.5" />
                   </button>
                 </div>
               ) : (
                 <button
-                  onClick={() => setIsSearchExpanded(true)}
+                  onClick={() => setIsSearchOpen(true)}
                   className="p-2 text-[#2B1A11] hover:text-[#C59B6D] rounded-full hover:bg-[#F3EFE6] transition-colors"
-                  title="Search sneakers"
+                  title="Search footwear"
                 >
                   <Search className="w-4 h-4" />
                 </button>
               )}
             </div>
 
-            {/* Sizing Scale Switcher */}
-            <div className="hidden sm:flex items-center border border-[#E2D9CA] rounded-full p-0.5 bg-[#F3EFE6] text-[10px] font-bold tracking-wider">
+            {/* Sizing Unit Switcher (EU / US) */}
+            <div className="hidden md:flex items-center border border-[#E2D9CA] rounded-full p-0.5 bg-[#F3EFE6] text-[10px] font-bold tracking-wider">
               {(['EU', 'US'] as const).map(unit => (
                 <button
                   key={unit}
@@ -224,33 +218,13 @@ export const Navbar: React.FC = () => {
                   className={`px-2.5 py-0.5 rounded-full transition-all ${
                     sizeUnit === unit
                       ? 'bg-[#2B1A11] text-[#FAF7EE] shadow-xs'
-                      : 'text-[#2B1A11] hover:text-[#C59B6D]'
+                      : 'text-stone-600 hover:text-[#2B1A11]'
                   }`}
                 >
                   {unit}
                 </button>
               ))}
             </div>
-
-            {/* Size Guide Trigger */}
-            <button
-              onClick={() => setIsSizeGuideOpen(true)}
-              className="hidden md:inline-flex text-[11px] font-bold tracking-wider text-[#C59B6D] hover:text-[#2B1A11] transition-colors uppercase underline underline-offset-4"
-            >
-              Fit Guide
-            </button>
-
-            {/* Admin Dashboard Quick Launcher (When logged in as Admin) */}
-            {isAdmin && (
-              <button
-                onClick={() => setIsAdminDashboardOpen(!isAdminDashboardOpen)}
-                className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#1F140E] text-[#C59A6F] border border-[#C59A6F] hover:bg-[#2C1D14] transition-all text-xs font-bold tracking-wider uppercase shadow-sm"
-                title="Open MSSQL Admin Dashboard"
-              >
-                <LayoutDashboard className="w-3.5 h-3.5" />
-                <span>Dashboard</span>
-              </button>
-            )}
 
             {/* Saved Wishlist */}
             <button
@@ -265,6 +239,18 @@ export const Navbar: React.FC = () => {
                 </span>
               )}
             </button>
+
+            {/* Admin Dashboard Quick Launch (When Master Admin is logged in) */}
+            {isAdmin && (
+              <button
+                onClick={() => setIsAdminDashboardOpen(!isAdminDashboardOpen)}
+                className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#1F140E] text-[#C59A6F] border border-[#C59A6F] hover:bg-[#2C1D14] transition-all text-xs font-bold tracking-wider uppercase shadow-xs"
+                title="Open MSSQL Admin Dashboard"
+              >
+                <LayoutDashboard className="w-3.5 h-3.5" />
+                <span>Admin</span>
+              </button>
+            )}
 
             {/* User Account / MSSQL Login */}
             <div className="relative" ref={userMenuRef}>
@@ -342,10 +328,10 @@ export const Navbar: React.FC = () => {
               ) : (
                 <button
                   onClick={() => setIsAuthModalOpen(true)}
-                  className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full border border-[#C59B6D]/60 text-[#2B1A11] hover:bg-[#F3EFE6] transition-all text-xs font-bold tracking-wider uppercase"
+                  className="flex items-center space-x-1.5 px-3 sm:px-3.5 py-1.5 rounded-full border border-[#C59B6D]/60 text-[#2B1A11] hover:bg-[#F3EFE6] transition-all text-xs font-bold tracking-wider uppercase shadow-2xs"
                 >
                   <UserIcon className="w-3.5 h-3.5 text-[#C59B6D]" />
-                  <span className="hidden sm:inline">Sign In</span>
+                  <span>Sign In</span>
                 </button>
               )}
             </div>
@@ -353,14 +339,14 @@ export const Navbar: React.FC = () => {
             {/* Shopping Bag Button */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative flex items-center space-x-1.5 bg-[#2B1A11] text-[#FAF7EE] hover:bg-[#3D2517] px-4 py-2.5 rounded-full transition-all duration-200 shadow-md hover:shadow-xl hover:-translate-y-0.5"
+              className="relative flex items-center space-x-1.5 bg-[#2B1A11] text-[#FAF7EE] hover:bg-[#3D2517] px-3.5 sm:px-4 py-2 sm:py-2 rounded-full transition-all duration-200 shadow-md hover:shadow-lg hover:-translate-y-0.2 cursor-pointer"
               title="Shopping Bag"
             >
               <ShoppingBag className="w-3.5 h-3.5 text-[#C59B6D]" />
-              <span className="text-[11px] font-bold tracking-wider uppercase">
+              <span className="text-[11px] font-bold tracking-wider uppercase hidden sm:inline">
                 Bag
               </span>
-              <span className="bg-[#C59B6D] text-[#2B1A11] text-[10px] font-extrabold px-1.5 py-0.2 rounded-full ml-1">
+              <span className="bg-[#C59B6D] text-[#2B1A11] text-[10px] font-extrabold px-1.5 py-0.2 rounded-full ml-0.5">
                 {cartCount}
               </span>
             </button>
@@ -369,103 +355,36 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Navigation Drawer */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden mt-4 pt-4 border-t border-[#E2D9CA] animate-slide-down">
-            <div className="flex flex-col space-y-3 pb-3 text-xs tracking-widest uppercase font-bold text-[#2B1A11]">
-              <button
-                onClick={() => handleNavCategory('all')}
-                className="text-left py-2 px-1 text-[#2B1A11] hover:text-[#C59B6D]"
-              >
-                All Curated Drops
-              </button>
-              <button
-                onClick={() => handleNavCategory('lifestyle')}
-                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
-              >
-                Streetwear Heat
-              </button>
-              <button
-                onClick={() => handleNavCategory('running')}
-                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
-              >
-                Performance Runners
-              </button>
-              <button
-                onClick={() => handleNavCategory('boots')}
-                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
-              >
-                Suede Chelsea Boots
-              </button>
-              <button
-                onClick={() => handleNavCategory('formal')}
-                className="text-left py-2 px-1 text-stone-700 hover:text-[#C59B6D]"
-              >
-                Savile Formal Oxfords
-              </button>
+          <div className="lg:hidden mt-4 pt-4 border-t border-[#E2D9CA] animate-slide-down pb-2">
+            <div className="flex flex-col space-y-2 text-xs tracking-widest uppercase font-bold text-[#2B1A11]">
+              {navCategories.map(cat => (
+                <button
+                  key={cat.value}
+                  onClick={() => handleNavCategory(cat.value)}
+                  className="text-left py-2 px-2 text-[#2B1A11] hover:text-[#C59B6D] hover:bg-[#F3EFE6] rounded-xl transition-colors"
+                >
+                  {cat.label}
+                </button>
+              ))}
 
-              {/* Instagram link in mobile */}
               <a
-                href="https://www.instagram.com/thriftandtread?rpxt=MThkazBjd253NXd4cQ=="
-                target="_blank"
-                rel="noopener noreferrer"
-                className="py-2 px-1 text-[#C59B6D] flex items-center space-x-2"
+                href="#grading-section"
+                onClick={() => setIsMobileMenuOpen(false)}
+                className="py-2 px-2 text-[#264E36] flex items-center space-x-2 hover:bg-[#E8F2EC] rounded-xl transition-colors"
               >
-                <Instagram className="w-4 h-4" />
-                <span className="lowercase">@thriftandtread</span>
+                <ShieldCheck className="w-4 h-4 text-[#264E36]" />
+                <span>T&T Lab & Legit Check</span>
               </a>
 
-              {/* Mobile Auth actions */}
-              <div className="pt-2 border-t border-[#E2D9CA] flex flex-col space-y-2">
-                {isAdmin && (
-                  <button
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      setIsAdminDashboardOpen(true);
-                    }}
-                    className="flex items-center gap-2 text-[#C59B6D] py-1"
-                  >
-                    <LayoutDashboard className="w-4 h-4" />
-                    <span>Admin Dashboard Portal</span>
-                  </button>
-                )}
-
-                {isAuthenticated && user ? (
-                  <div className="flex items-center justify-between w-full pt-1">
-                    <button
-                      onClick={() => {
-                        setIsMobileMenuOpen(false);
-                        setIsOrderHistoryOpen(true);
-                      }}
-                      className="flex items-center gap-1.5 text-[#2B1A11]"
-                    >
-                      <Package className="w-4 h-4 text-[#C59B6D]" />
-                      <span>My Orders ({orders.length})</span>
-                    </button>
-                    <button onClick={logout} className="text-red-600 text-[10px]">
-                      Sign Out
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => {
-                      setIsMobileMenuOpen(false);
-                      setIsAuthModalOpen(true);
-                    }}
-                    className="flex items-center gap-1.5 text-[#C59B6D] py-1"
-                  >
-                    <UserIcon className="w-4 h-4" />
-                    <span>Sign In to Account</span>
-                  </button>
-                )}
-              </div>
-
-              <div className="pt-2 flex items-center justify-between border-t border-[#E2D9CA]">
+              {/* Mobile Sizing Scale Switcher */}
+              <div className="pt-3 pb-1 px-2 flex items-center justify-between border-t border-[#E2D9CA]">
                 <span className="text-stone-500 text-[10px] font-mono">Sizing Scale:</span>
                 <div className="flex space-x-1">
-                  {(['EU', 'US', 'UK'] as const).map(unit => (
+                  {(['EU', 'US'] as const).map(unit => (
                     <button
                       key={unit}
                       onClick={() => setSizeUnit(unit)}
-                      className={`px-2.5 py-1 text-[10px] rounded-full font-bold ${
+                      className={`px-3 py-1 text-[10px] rounded-full font-bold transition-all ${
                         sizeUnit === unit ? 'bg-[#2B1A11] text-[#FAF7EE]' : 'bg-[#ECE5D8] text-[#2B1A11]'
                       }`}
                     >
@@ -474,6 +393,18 @@ export const Navbar: React.FC = () => {
                   ))}
                 </div>
               </div>
+
+              {/* Mobile Fit Guide Trigger */}
+              <button
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setIsSizeGuideOpen(true);
+                }}
+                className="text-left py-2 px-2 text-[#C59B6D] flex items-center gap-1.5"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Size & Fit Guide</span>
+              </button>
             </div>
           </div>
         )}
