@@ -27,6 +27,7 @@ lerna-debug.log*
 
 # Editor & OS files
 .vscode/
+.vs/
 .idea/
 *.suo
 *.ntvs*
