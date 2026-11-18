@@ -191,5 +191,5 @@ The database schema is defined in `server/database/schema.sql`:
 
 | Role | Email | Password | Access |
 |---|---|---|---|
-| **Administrator** | `admin@thriftandtrend.com` | `Admin123!` | Complete Admin Dashboard & MSSQL Control |
+| **Master Administrator** | `admin@thrift&trend.com` | `Thirift&trend@@2026` | Complete Admin Dashboard & MSSQL Control |
 *(Real customers create their own accounts via the Registration form)*

@@ -312,29 +312,17 @@ const SEED_PRODUCTS = [
 export async function seedDatabase() {
   console.log('[Seed] Starting MSSQL database seeding for Thrift & Trend...');
 
-  // 1. Seed Demo Customer and Admin
-  const existingUsers = await query('SELECT Id FROM Users WHERE Email = @email', { email: 'customer@thriftandtrend.com' });
-  if (existingUsers.length === 0) {
-    const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash('Password123!', salt);
-    await execute(
-      `INSERT INTO Users (Email, PasswordHash, FullName, Role, Phone, Address, City, PostalCode, Country)
-       VALUES ('customer@thriftandtrend.com', @passwordHash, 'Alex Rivera', 'customer', '+1 555-0192', '742 Evergreen Terrace', 'Portland', '97201', 'US')`,
-      { passwordHash }
-    );
-    console.log('[Seed] Created demo customer: customer@thriftandtrend.com (Password: Password123!)');
-  }
-
-  const existingAdmin = await query('SELECT Id FROM Users WHERE Email = @email', { email: 'admin@thriftandtrend.com' });
+  // 1. Seed Master Admin (No demo customers)
+  const existingAdmin = await query('SELECT Id FROM Users WHERE Email = @email', { email: 'admin@thrift&trend.com' });
   if (existingAdmin.length === 0) {
     const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash('Admin123!', salt);
+    const passwordHash = await bcrypt.hash('Thirift&trend@@2026', salt);
     await execute(
       `INSERT INTO Users (Email, PasswordHash, FullName, Role, Phone, Address, City, PostalCode, Country)
-       VALUES ('admin@thriftandtrend.com', @passwordHash, 'T&T Lab Director', 'admin', '+1 555-0100', '100 Sneaker Vault Way', 'New York', '10001', 'US')`,
+       VALUES ('admin@thrift&trend.com', @passwordHash, 'Thrift & Trend Master Admin', 'admin', '+92 300 8241986', 'Commercial Phase 5, DHA', 'Karachi', '75500', 'Pakistan')`,
       { passwordHash }
     );
-    console.log('[Seed] Created demo admin: admin@thriftandtrend.com (Password: Admin123!)');
+    console.log('[Seed] Created master admin: admin@thrift&trend.com');
   }
 
   // 2. Seed Products

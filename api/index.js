@@ -8,9 +8,9 @@
 const users = [
   {
     id: 1,
-    email: 'admin@thriftandtrend.com',
-    passwordHash: 'Admin123!',
-    fullName: 'Thrift & Trend Admin',
+    email: 'admin@thrift&trend.com',
+    passwordHash: 'Thirift&trend@@2026',
+    fullName: 'Thrift & Trend Master Admin',
     role: 'admin',
     phone: '+92 300 8241986',
     address: 'Commercial Phase 5, DHA',
@@ -125,15 +125,26 @@ export default async function handler(req, res) {
       const email = (body.email || '').trim().toLowerCase();
       const password = (body.password || '').trim();
 
-      // Check admin default
-      if (email === 'admin@thriftandtrend.com' && password === 'Admin123!') {
-        const adminUser = users[0];
-        const safeUser = { ...adminUser };
-        delete safeUser.passwordHash;
+      // Strictly check Master Admin credentials
+      const isMasterAdmin =
+        (email === 'admin@thrift&trend.com' || email === 'admin@thriftandtrend.com') &&
+        password === 'Thirift&trend@@2026';
+
+      if (isMasterAdmin) {
+        const adminUser = {
+          id: 1,
+          email: 'admin@thrift&trend.com',
+          fullName: 'Thrift & Trend Master Admin',
+          role: 'admin',
+          phone: '+92 300 8241986',
+          address: 'Commercial Phase 5, DHA',
+          city: 'Karachi',
+          postalCode: '75500',
+        };
         return res.status(200).json({
-          message: 'Admin authenticated successfully',
+          message: 'Master Admin authenticated successfully',
           token: `tandt_jwt_admin_${Date.now()}`,
-          user: safeUser,
+          user: adminUser,
         });
       }
 

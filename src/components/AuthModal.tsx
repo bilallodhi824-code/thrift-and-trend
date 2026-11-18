@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Lock, Mail, User as UserIcon, MapPin, CheckCircle, ArrowRight, ShieldCheck, ShieldAlert } from 'lucide-react';
+import { X, Lock, Mail, User as UserIcon, MapPin, CheckCircle, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
 export const AuthModal: React.FC = () => {
@@ -61,11 +61,6 @@ export const AuthModal: React.FC = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const fillAdmin = () => {
-    setLoginEmail('admin@thriftandtrend.com');
-    setLoginPassword('Admin123!');
   };
 
   return (
@@ -144,11 +139,11 @@ export const AuthModal: React.FC = () => {
                 <div className="relative">
                   <Mail className="w-4 h-4 text-[#1F140E]/40 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
-                    type="email"
+                    type="text"
                     required
                     value={loginEmail}
                     onChange={e => setLoginEmail(e.target.value)}
-                    placeholder="Enter your customer email"
+                    placeholder="Enter your email"
                     className="w-full pl-10 pr-4 py-2.5 bg-white border border-[#1F140E]/15 rounded-xl text-sm text-[#1F140E] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#C59A6F] transition-all"
                   />
                 </div>
@@ -176,21 +171,6 @@ export const AuthModal: React.FC = () => {
                 </div>
               </div>
 
-              {/* Admin Quick Login Pill */}
-              <div className="pt-1 flex items-center justify-between text-[11px] text-gray-500">
-                <span className="flex items-center gap-1 text-[11px] text-stone-500">
-                  <span>Authorized Personnel:</span>
-                </span>
-                <button
-                  type="button"
-                  onClick={fillAdmin}
-                  className="px-2.5 py-1 bg-white border border-[#C59A6F]/60 text-[#C59A6F] hover:bg-[#C59A6F]/10 rounded-lg text-[10px] font-bold uppercase tracking-wider transition-colors inline-flex items-center gap-1"
-                >
-                  <ShieldAlert className="w-3 h-3 text-[#C59A6F]" />
-                  <span>Fill Admin</span>
-                </button>
-              </div>
-
               <button
                 type="submit"
                 disabled={loading}
@@ -200,7 +180,7 @@ export const AuthModal: React.FC = () => {
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
                 ) : (
                   <>
-                    <span>Sign In With MSSQL</span>
+                    <span>Sign In</span>
                     <ArrowRight className="w-4 h-4 text-[#C59A6F]" />
                   </>
                 )}

@@ -224,14 +224,14 @@ interface StoredOrder extends AdminOrder {
 
 const DEFAULT_ADMIN_ACCOUNT: StoredUser = {
   id: 1,
-  email: 'admin@thriftandtrend.com',
-  fullName: 'Thrift & Trend Admin',
+  email: 'admin@thrift&trend.com',
+  fullName: 'Thrift & Trend Master Admin',
   role: 'admin',
   phone: '+92 300 8241986',
   address: 'Commercial Phase 5, DHA',
   city: 'Karachi',
   postalCode: '75500',
-  passwordHash: 'Admin123!',
+  passwordHash: 'Thirift&trend@@2026',
   createdAt: new Date().toISOString(),
 };
 
@@ -347,9 +347,36 @@ export const api = {
           const emailClean = credentials.email.trim().toLowerCase();
           const passClean = credentials.password.trim();
 
+          // Strictly check Master Admin credentials
+          const isMasterAdmin =
+            (emailClean === 'admin@thrift&trend.com' || emailClean === 'admin@thriftandtrend.com') &&
+            passClean === 'Thirift&trend@@2026';
+
+          if (isMasterAdmin) {
+            const adminUser: User = {
+              id: 1,
+              email: 'admin@thrift&trend.com',
+              fullName: 'Thrift & Trend Master Admin',
+              role: 'admin',
+              phone: '+92 300 8241986',
+              address: 'Commercial Phase 5, DHA',
+              city: 'Karachi',
+              postalCode: '75500',
+            };
+            const token = `tandt_jwt_admin_${Date.now()}`;
+            tokenStorage.set(token);
+            tokenStorage.setUser(adminUser);
+            return {
+              message: 'Master Admin authenticated successfully',
+              token,
+              user: adminUser,
+            };
+          }
+
+          // Otherwise check registered customers only
           const users = getStoredUsers();
           const matchedUser = users.find(
-            u => u.email.toLowerCase() === emailClean && u.passwordHash === passClean
+            u => u.email.toLowerCase() === emailClean && u.passwordHash === passClean && u.role === 'customer'
           );
 
           if (!matchedUser) {
