@@ -88,6 +88,7 @@ export const Navbar: React.FC = () => {
     { label: 'Runners', value: 'running' as const },
     { label: 'Boots', value: 'boots' as const },
     { label: 'Oxfords', value: 'formal' as const },
+    { label: 'Trail', value: 'trail' as const },
   ];
 
   return (

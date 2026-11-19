@@ -8,14 +8,15 @@ export const Hero: React.FC = () => {
   const [featuredIndex, setFeaturedIndex] = useState(0);
 
   const spotlightList = [
-    shoes.find(s => s.id === 'aero-velocity-86') || shoes[0],
     shoes.find(s => s.id === 'atelier-classic-01') || shoes[1],
-    shoes.find(s => s.id === 'palermo-heritage-78') || shoes[2],
+    shoes.find(s => s.id === 'apex-derby') || shoes[0],
+    shoes.find(s => s.id === 'monolith-chelsea') || shoes[2],
+    shoes.find(s => s.id === 'aero-velocity-86') || shoes[3],
   ].filter(Boolean);
 
   const activeShoe = spotlightList[featuredIndex] || shoes[0];
 
-  const scrollToCatalog = (cat?: 'lifestyle' | 'running' | 'boots' | 'formal') => {
+  const scrollToCatalog = (cat?: 'lifestyle' | 'running' | 'boots' | 'formal' | 'trail') => {
     if (cat) setSelectedCategory(cat);
     const el = document.getElementById('catalog-section');
     if (el) {
@@ -96,6 +97,12 @@ export const Hero: React.FC = () => {
                 Categories:
               </span>
               <button
+                onClick={() => scrollToCatalog('formal')}
+                className="bg-white hover:bg-[#F3EFE6] border border-[#E2D9CA] hover:border-[#2B1A11] px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold text-[#2B1A11] transition-colors"
+              >
+                Formal Oxfords & Derbies
+              </button>
+              <button
                 onClick={() => scrollToCatalog('lifestyle')}
                 className="bg-white hover:bg-[#F3EFE6] border border-[#E2D9CA] hover:border-[#2B1A11] px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold text-[#2B1A11] transition-colors"
               >
@@ -111,7 +118,13 @@ export const Hero: React.FC = () => {
                 onClick={() => scrollToCatalog('boots')}
                 className="bg-white hover:bg-[#F3EFE6] border border-[#E2D9CA] hover:border-[#2B1A11] px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold text-[#2B1A11] transition-colors"
               >
-                Suede Chelsea Boots (Save Rs. 4,400+)
+                Chelsea & Boots (Save Rs. 4,400+)
+              </button>
+              <button
+                onClick={() => scrollToCatalog('trail')}
+                className="bg-white hover:bg-[#F3EFE6] border border-[#E2D9CA] hover:border-[#2B1A11] px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-bold text-[#2B1A11] transition-colors"
+              >
+                Trail & Outdoor
               </button>
             </div>
 

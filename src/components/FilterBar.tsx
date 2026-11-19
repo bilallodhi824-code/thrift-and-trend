@@ -1,20 +1,32 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { RefreshCw, SlidersHorizontal, ChevronDown, Check, Sparkles } from 'lucide-react';
+import {
+  RefreshCw,
+  SlidersHorizontal,
+  ChevronDown,
+  Check,
+  Sparkles,
+  Flame,
+  Zap,
+  Shield,
+  Briefcase,
+  Compass,
+} from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { ShoeCategory, GenderCategory, SortOption } from '../types/shoe';
 
 interface CategoryOption {
   label: string;
   value: ShoeCategory;
+  icon: React.ComponentType<{ className?: string }>;
 }
 
 const CATEGORIES: CategoryOption[] = [
-  { label: 'All Shoes', value: 'all' },
-  { label: 'Court & Streetwear', value: 'lifestyle' },
-  { label: 'Running & Track', value: 'running' },
-  { label: 'Chelsea & Boots', value: 'boots' },
-  { label: 'Formal Oxfords', value: 'formal' },
-  { label: 'Trail & Outdoor', value: 'trail' },
+  { label: 'All Shoes', value: 'all', icon: Sparkles },
+  { label: 'Court & Streetwear', value: 'lifestyle', icon: Flame },
+  { label: 'Running & Track', value: 'running', icon: Zap },
+  { label: 'Chelsea & Boots', value: 'boots', icon: Shield },
+  { label: 'Formal Oxfords', value: 'formal', icon: Briefcase },
+  { label: 'Trail & Outdoor', value: 'trail', icon: Compass },
 ];
 
 const GENDERS: { label: string; value: GenderCategory }[] = [
@@ -81,23 +93,26 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
     <div className="py-3 sm:py-3.5 border-b border-[#E2D9CA] sticky top-[65px] sm:top-[69px] z-30 bg-[#FAF7EE]/95 backdrop-blur-md transition-all shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-2.5">
         
-        {/* Tier 1: All 6 Categories - Always 100% visible, beautifully animated, never cut off */}
-        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+        {/* Tier 1: All 6 Categories - Responsive, fully visible, animated, never cut off */}
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto no-scrollbar sm:flex-wrap pb-1 sm:pb-0">
           {CATEGORIES.map(cat => {
             const active = selectedCategory === cat.value;
             const count = getCategoryCount(cat.value);
+            const Icon = cat.icon;
             return (
               <button
                 key={cat.value}
                 onClick={() => setSelectedCategory(cat.value)}
-                className={`group relative px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs font-bold tracking-wider uppercase whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 ${
+                className={`group relative px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full text-xs font-bold tracking-wider uppercase whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-2 shrink-0 ${
                   active
-                    ? 'bg-[#2B1A11] text-[#FAF7EE] shadow-md border border-[#2B1A11] scale-[1.02]'
-                    : 'bg-white/90 border border-[#E2D9CA] text-stone-700 hover:text-[#2B1A11] hover:bg-[#F3EFE6] hover:border-[#C59B6D] hover:-translate-y-0.5 hover:shadow-xs'
+                    ? 'bg-[#2B1A11] text-[#FAF7EE] shadow-md border border-[#2B1A11] scale-[1.02] active-pill-glow'
+                    : 'bg-white/90 border border-[#E2D9CA] text-stone-700 hover:text-[#2B1A11] hover:bg-[#F3EFE6] hover:border-[#C59B6D] hover:-translate-y-0.5 hover:shadow-xs active:scale-95'
                 }`}
               >
-                {active && (
+                {active ? (
                   <span className="w-1.5 h-1.5 rounded-full bg-[#C59B6D] animate-ping shrink-0" />
+                ) : (
+                  <Icon className="w-3.5 h-3.5 text-[#C59B6D] group-hover:scale-110 transition-transform shrink-0" />
                 )}
                 <span>{cat.label}</span>
                 <span
@@ -181,7 +196,7 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
 
               {/* Animated Floating Dropdown Panel */}
               {isSortOpen && (
-                <div className="absolute right-0 mt-2 w-64 sm:w-72 bg-[#FAF7EE]/98 backdrop-blur-xl border border-[#C59B6D]/40 shadow-2xl rounded-2xl p-1.5 z-50 animate-in fade-in zoom-in-95 duration-150 origin-top-right">
+                <div className="absolute right-0 mt-2 w-64 sm:w-72 bg-[#FAF7EE]/98 backdrop-blur-xl border border-[#C59B6D]/50 shadow-2xl rounded-2xl p-1.5 z-50 animate-dropdown">
                   <div className="px-3 py-2 border-b border-[#E2D9CA]/80 mb-1 flex items-center justify-between">
                     <span className="text-[10px] font-mono uppercase font-bold tracking-widest text-[#C59B6D] flex items-center gap-1.5">
                       <Sparkles className="w-3 h-3 text-[#C59B6D]" />

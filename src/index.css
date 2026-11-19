@@ -39,3 +39,34 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Luxury Micro-Animations */
+@keyframes dropdownSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-dropdown {
+  animation: dropdownSlide 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transform-origin: top right;
+}
+
+@keyframes pillPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(197, 155, 109, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(197, 155, 109, 0);
+  }
+}
+
+.active-pill-glow {
+  animation: pillPulse 2.5s infinite ease-in-out;
+}
+
