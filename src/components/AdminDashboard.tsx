@@ -12,11 +12,14 @@ import {
   X,
   ExternalLink,
   ChevronRight,
-  TrendingUp
+  TrendingUp,
+  Download,
+  MessageCircle,
 } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { api, AdminStats, AdminOrder, AdminCustomer, NewProductPayload } from '../services/api';
 import { formatPrice } from '../utils/currency';
+import { getWhatsAppAdminTrackingUpdateUrl } from '../utils/whatsapp';
 
 export const AdminDashboard: React.FC = () => {
   const { isAdminDashboardOpen, setIsAdminDashboardOpen, user, showToast, refreshShoes } = useShop();
@@ -84,6 +87,53 @@ export const AdminDashboard: React.FC = () => {
     } catch (err: any) {
       showToast(err.message || 'Failed to update order', 'error');
     }
+  };
+
+  const exportOrdersToCSV = () => {
+    if (orders.length === 0) {
+      showToast('No customer orders available to export yet.', 'info');
+      return;
+    }
+    const headers = [
+      'Order ID',
+      'Customer Name',
+      'Email',
+      'Phone',
+      'Address',
+      'City',
+      'Postal Code',
+      'Items Purchased',
+      'Total Amount (PKR)',
+      'Total Savings (PKR)',
+      'Status',
+      'Tracking Number',
+      'Date Created',
+    ];
+    const rows = orders.map(o => [
+      o.id,
+      `"${(o.customerName || '').replace(/"/g, '""')}"`,
+      `"${(o.customerEmail || '').replace(/"/g, '""')}"`,
+      `"${(o.customerPhone || '').replace(/"/g, '""')}"`,
+      `"${(o.shippingAddress || '').replace(/"/g, '""')}"`,
+      `"${(o.city || '').replace(/"/g, '""')}"`,
+      `"${(o.postalCode || '').replace(/"/g, '""')}"`,
+      `"${(o.items || []).map(i => `${i.productName} (${i.colorName}, EU ${i.sizeEU}) x${i.quantity}`).join('; ').replace(/"/g, '""')}"`,
+      o.totalAmount,
+      o.totalSavings,
+      o.status,
+      o.trackingNumber,
+      `"${new Date(o.createdAt).toLocaleString()}"`,
+    ]);
+
+    const csvContent = 'data:text/csv;charset=utf-8,\uFEFF' + [headers.join(','), ...rows.map(e => e.join(','))].join('\n');
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encodedUri);
+    link.setAttribute('download', `thrift_and_trend_orders_${new Date().toISOString().split('T')[0]}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    showToast('Orders exported to CSV/Excel format!', 'success');
   };
 
   const handleCreateProduct = async (e: React.FormEvent) => {
@@ -425,9 +475,17 @@ export const AdminDashboard: React.FC = () => {
                   </p>
                 </div>
 
-                {/* Filter status */}
+                {/* Toolbar: Export & Filter */}
                 <div className="flex items-center space-x-2">
-                  <span className="text-xs text-stone-500 font-bold">Filter Status:</span>
+                  <button
+                    onClick={exportOrdersToCSV}
+                    className="px-3.5 py-1.5 bg-white hover:bg-[#FAF7EE] text-[#1F140E] border border-[#C59A6F] rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+                    title="Export Orders to CSV/Excel"
+                  >
+                    <Download className="w-3.5 h-3.5 text-[#C59A6F]" />
+                    <span>Export CSV</span>
+                  </button>
+                  <span className="text-xs text-stone-500 font-bold hidden sm:inline">Filter:</span>
                   <select
                     value={orderStatusFilter}
                     onChange={e => setOrderStatusFilter(e.target.value)}
@@ -505,13 +563,23 @@ export const AdminDashboard: React.FC = () => {
 
                         <div>
                           <span className="text-[10px] font-bold uppercase tracking-wider text-stone-400 block mb-1">
-                            Courier Tracking Number
+                            Courier Tracking &amp; WhatsApp Notification
                           </span>
-                          <div className="flex items-center gap-2 mt-1">
+                          <div className="flex items-center gap-2 mt-1 flex-wrap">
                             <Truck className="w-3.5 h-3.5 text-[#C59A6F]" />
                             <span className="font-mono font-bold text-[#1F140E] bg-white px-2 py-0.5 rounded border border-[#E2D9CA]">
                               {order.trackingNumber}
                             </span>
+                            <a
+                              href={getWhatsAppAdminTrackingUpdateUrl(order.customerPhone || '03008241986', order.customerName, order.id, order.trackingNumber, 'TCS / Trax')}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="px-2.5 py-1 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-lg text-[10px] font-bold uppercase tracking-wider flex items-center gap-1 transition-colors shadow-2xs"
+                              title="Send WhatsApp Delivery Update to Customer"
+                            >
+                              <MessageCircle className="w-3 h-3 fill-white" />
+                              <span>WhatsApp Update</span>
+                            </a>
                           </div>
                         </div>
                       </div>

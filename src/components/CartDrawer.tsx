@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { X, Trash2, Plus, Minus, ArrowRight, ShieldCheck, CheckCircle2, Sparkles, ShoppingBag, Tag, Package, UserCheck } from 'lucide-react';
+import { X, Trash2, Plus, Minus, ArrowRight, ShieldCheck, CheckCircle2, Sparkles, ShoppingBag, Tag, Package, UserCheck, MessageCircle, Truck } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { formatPrice } from '../utils/currency';
+import { getWhatsAppCartOrderUrl, getWhatsAppOrderConfirmationUrl } from '../utils/whatsapp';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -178,13 +179,23 @@ export const CartDrawer: React.FC = () => {
                 </div>
 
                 <div className="space-y-2 pt-2">
+                  <a
+                    href={getWhatsAppOrderConfirmationUrl(lastCompletedOrder)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-white" />
+                    <span>Fast-Track & Confirm on WhatsApp</span>
+                  </a>
+
                   <button
                     onClick={() => {
                       setLastCompletedOrder(null);
                       setIsCartOpen(false);
                       setIsOrderHistoryOpen(true);
                     }}
-                    className="w-full bg-[#2B1A11] text-[#FAF7EE] py-3.5 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#3D2517] transition-colors shadow-md flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full bg-[#2B1A11] text-[#FAF7EE] py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#3D2517] transition-colors shadow-sm flex items-center justify-center gap-2 cursor-pointer"
                   >
                     <Package className="w-4 h-4 text-[#C59B6D]" />
                     <span>View In My Orders</span>
@@ -195,7 +206,7 @@ export const CartDrawer: React.FC = () => {
                       setLastCompletedOrder(null);
                       setIsCartOpen(false);
                     }}
-                    className="w-full py-2.5 text-xs text-stone-600 hover:text-black uppercase tracking-wider font-semibold"
+                    className="w-full py-2 text-xs text-stone-600 hover:text-black uppercase tracking-wider font-semibold"
                   >
                     Continue Shopping
                   </button>
@@ -465,10 +476,11 @@ export const CartDrawer: React.FC = () => {
                 </div>
               )}
 
+              {/* Standard Web Checkout */}
               <button
                 onClick={handleCheckoutClick}
                 disabled={isPlacingOrder}
-                className="w-full bg-[#2B1A11] hover:bg-[#3D2517] text-[#FAF7EE] py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2 disabled:opacity-50 hover:-translate-y-0.5"
+                className="w-full bg-[#2B1A11] hover:bg-[#3D2517] text-[#FAF7EE] py-3.5 sm:py-4 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2 disabled:opacity-50 hover:-translate-y-0.5 cursor-pointer"
               >
                 {isPlacingOrder ? (
                   <span className="flex items-center space-x-2">
@@ -483,9 +495,35 @@ export const CartDrawer: React.FC = () => {
                 )}
               </button>
 
-              <div className="flex items-center justify-center space-x-2 text-[10px] text-stone-500 uppercase tracking-widest pt-1 font-mono">
+              {/* Direct WhatsApp Cart Order (Game Changer for Pakistan) */}
+              <a
+                href={getWhatsAppCartOrderUrl(cart, finalTotal, totalSavings + discountAmount, user?.fullName, user?.city)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2 cursor-pointer hover:-translate-y-0.5"
+              >
+                <MessageCircle className="w-4 h-4 fill-white" />
+                <span>Order via WhatsApp (COD)</span>
+              </a>
+
+              {/* Courier Partners & Trust Badges */}
+              <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-stone-500 border-t border-[#E2D9CA]/70">
+                <div className="flex items-center space-x-1 text-[#264E36] font-bold">
+                  <Truck className="w-3.5 h-3.5" />
+                  <span>TCS / Trax COD</span>
+                </div>
+                <div className="flex items-center space-x-1.5 font-bold">
+                  <span className="text-[#E51B24]">TCS</span>
+                  <span>•</span>
+                  <span className="text-[#0057B8]">TRAX</span>
+                  <span>•</span>
+                  <span className="text-[#2B1A11]">LEOPARDS</span>
+                </div>
+              </div>
+
+              <div className="flex items-center justify-center space-x-2 text-[10px] text-stone-500 uppercase tracking-widest pt-0.5 font-mono">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#264E36]" />
-                <span>256-Bit Encrypted Checkout • 100% Authentic</span>
+                <span>7-Day Return Guarantee • 100% Authentic</span>
               </div>
             </div>
           )}

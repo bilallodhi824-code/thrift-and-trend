@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowRight, ShieldCheck, Sparkles, Tag, CheckCircle2, Instagram } from 'lucide-react';
+import { ArrowRight, ShieldCheck, Sparkles, Truck, RefreshCw, MessageCircle } from 'lucide-react';
+import { WHATSAPP_DISPLAY, WHATSAPP_PHONE } from '../utils/whatsapp';
 
 const MESSAGES = [
-  { text: 'WHERE STYLE MEETS SAVINGS • UP TO 60% OFF RETAIL SNEAKERS & SHOES', icon: Tag },
-  { text: '100% AUTHENTIC QUALITY GUARANTEED • FULLY INSPECTED & CERTIFIED', icon: ShieldCheck },
+  { text: 'CASH ON DELIVERY ACROSS PAKISTAN • 7-DAY EASY RETURN & EXCHANGE GUARANTEE', icon: RefreshCw },
+  { text: 'FAST DISPATCH IN 24H • DELIVERY IN 2–4 WORKING DAYS VIA TCS, TRAX & LEOPARDS', icon: Truck },
+  { text: '100% AUTHENTIC QUALITY GUARANTEED • OPEN PARCEL BEFORE PAYMENT IN MAJOR CITIES', icon: ShieldCheck },
+  { text: 'DIRECT WHATSAPP HELPLINE: +92 300 8241986 • INSTANT COD ORDER CONFIRMATION', icon: MessageCircle },
   { text: 'COMPLIMENTARY EXPRESS DELIVERY ACROSS PAKISTAN ON ORDERS OVER RS. 3,500', icon: Sparkles },
-  { text: 'NEW SNEAKERS & CURATED FOOTWEAR ADDED WEEKLY', icon: CheckCircle2 },
 ];
 
 export const AnnouncementBar: React.FC = () => {
@@ -37,17 +39,17 @@ export const AnnouncementBar: React.FC = () => {
           <ArrowRight className="w-3 h-3 text-[#C59B6D] hidden sm:inline" />
         </div>
 
-        {/* Right Official Instagram & currency */}
+        {/* Right Official WhatsApp & Currency */}
         <div className="hidden lg:flex items-center space-x-3 text-[#C59B6D] text-[10px] font-mono">
           <a
-            href="https://www.instagram.com/thriftandtread?rpxt=MThkazBjd253NXd4cQ=="
+            href={`https://wa.me/${WHATSAPP_PHONE}`}
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-white transition-colors flex items-center space-x-1 font-semibold"
-            title="Follow us on Instagram"
+            title="Chat on WhatsApp"
           >
-            <Instagram className="w-3.5 h-3.5 text-[#C59B6D]" />
-            <span className="lowercase">@thriftandtread</span>
+            <MessageCircle className="w-3.5 h-3.5 text-[#25D366]" />
+            <span className="text-white font-sans">{WHATSAPP_DISPLAY}</span>
           </a>
           <span>•</span>
           <span className="hover:text-white cursor-pointer transition-colors font-semibold">PKR (Rs.)</span>

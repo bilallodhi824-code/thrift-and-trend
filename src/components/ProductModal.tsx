@@ -12,10 +12,13 @@ import {
   Share2,
   Sparkles,
   Lock,
+  MessageCircle,
+  Camera,
 } from 'lucide-react';
 import { Shoe, ShoeColor } from '../types/shoe';
 import { useShop } from '../context/ShopContext';
 import { formatPrice } from '../utils/currency';
+import { getWhatsAppShoeOrderUrl } from '../utils/whatsapp';
 
 export const ProductModal: React.FC = () => {
   const {
@@ -42,7 +45,7 @@ export const ProductModal: React.FC = () => {
   const [selectedColor, setSelectedColor] = useState<ShoeColor>(shoe.colors[0]);
   const [selectedSize, setSelectedSize] = useState<number>(shoe.sizes[2] || shoe.sizes[0]);
   const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState<'overview' | 'specs' | 'authentication' | 'reviews'>('overview');
+  const [activeTab, setActiveTab] = useState<'overview' | 'real-photos' | 'specs' | 'authentication' | 'reviews'>('overview');
 
   useEffect(() => {
     setActiveImageIndex(0);
@@ -70,9 +73,10 @@ export const ProductModal: React.FC = () => {
   };
 
   const handleShare = () => {
+    const directUrl = `https://thriftandtrend.vercel.app/product/${shoe.slug || shoe.id}`;
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      showToast('Grail link copied to clipboard.');
+      navigator.clipboard.writeText(directUrl);
+      showToast(`Link for ${shoe.name} copied! Perfect for WhatsApp or Instagram story.`);
     }
   };
 
@@ -380,24 +384,63 @@ export const ProductModal: React.FC = () => {
                   </button>
                 </div>
 
+                {/* Direct WhatsApp One-Click Order Button */}
+                <div className="pt-2">
+                  <a
+                    href={getWhatsAppShoeOrderUrl(shoe, selectedColor, selectedSize)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full bg-[#25D366] hover:bg-[#20ba5a] text-white py-3.5 sm:py-4 px-6 rounded-full text-xs font-bold tracking-widest uppercase transition-all shadow-md hover:shadow-xl flex items-center justify-center space-x-2.5 cursor-pointer hover:-translate-y-0.5 group"
+                  >
+                    <MessageCircle className="w-4 h-4 fill-white" />
+                    <span>Order via WhatsApp (COD)</span>
+                    <span className="text-[10px] font-mono opacity-90 hidden sm:inline">• Instant Confirmation</span>
+                  </a>
+                </div>
+
+                {/* Pakistani Courier Logistics & Delivery Banner */}
+                <div className="pt-2 flex flex-wrap items-center justify-between text-[11px] font-mono text-stone-600 bg-[#FAF7EE] p-3 rounded-2xl border border-[#E2D9CA] gap-2">
+                  <div className="flex items-center space-x-1.5 text-[#264E36] font-bold">
+                    <Truck className="w-3.5 h-3.5" />
+                    <span>Delivery: 2–4 Working Days</span>
+                  </div>
+                  <div className="flex items-center space-x-1.5 text-[10px]">
+                    <span className="bg-white px-2 py-0.5 rounded border border-[#E2D9CA] font-bold text-[#E51B24]">TCS</span>
+                    <span className="bg-white px-2 py-0.5 rounded border border-[#E2D9CA] font-bold text-[#0057B8]">TRAX</span>
+                    <span className="bg-white px-2 py-0.5 rounded border border-[#E2D9CA] font-bold text-[#2B1A11]">LEOPARDS</span>
+                    <span className="text-stone-400 font-sans">• Open Parcel COD</span>
+                  </div>
+                </div>
+
               </div>
 
               {/* Navigation Tabs */}
               <div className="mt-8 pt-6 border-t border-[#E2D9CA]">
-                <div className="flex border-b border-[#E2D9CA] text-xs font-bold uppercase tracking-wider">
+                <div className="flex border-b border-[#E2D9CA] text-xs font-bold uppercase tracking-wider overflow-x-auto no-scrollbar">
                   <button
                     onClick={() => setActiveTab('overview')}
-                    className={`pb-2.5 px-3 border-b-2 transition-colors ${
+                    className={`pb-2.5 px-3 border-b-2 transition-colors whitespace-nowrap ${
                       activeTab === 'overview'
                         ? 'border-[#2B1A11] text-[#2B1A11]'
                         : 'border-transparent text-stone-400 hover:text-[#2B1A11]'
                     }`}
                   >
-                    Story & Condition
+                    Story &amp; Condition
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('real-photos')}
+                    className={`pb-2.5 px-3 border-b-2 transition-colors whitespace-nowrap flex items-center space-x-1.5 ${
+                      activeTab === 'real-photos'
+                        ? 'border-[#264E36] text-[#264E36]'
+                        : 'border-transparent text-stone-400 hover:text-[#264E36]'
+                    }`}
+                  >
+                    <Camera className="w-3.5 h-3.5" />
+                    <span>In-Hand &amp; Real Photos</span>
                   </button>
                   <button
                     onClick={() => setActiveTab('authentication')}
-                    className={`pb-2.5 px-3 border-b-2 transition-colors ${
+                    className={`pb-2.5 px-3 border-b-2 transition-colors whitespace-nowrap ${
                       activeTab === 'authentication'
                         ? 'border-[#2B1A11] text-[#2B1A11]'
                         : 'border-transparent text-stone-400 hover:text-[#2B1A11]'
@@ -407,7 +450,7 @@ export const ProductModal: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab('specs')}
-                    className={`pb-2.5 px-3 border-b-2 transition-colors ${
+                    className={`pb-2.5 px-3 border-b-2 transition-colors whitespace-nowrap ${
                       activeTab === 'specs'
                         ? 'border-[#2B1A11] text-[#2B1A11]'
                         : 'border-transparent text-stone-400 hover:text-[#2B1A11]'
@@ -417,7 +460,7 @@ export const ProductModal: React.FC = () => {
                   </button>
                   <button
                     onClick={() => setActiveTab('reviews')}
-                    className={`pb-2.5 px-3 border-b-2 transition-colors ${
+                    className={`pb-2.5 px-3 border-b-2 transition-colors whitespace-nowrap ${
                       activeTab === 'reviews'
                         ? 'border-[#2B1A11] text-[#2B1A11]'
                         : 'border-transparent text-stone-400 hover:text-[#2B1A11]'
@@ -447,6 +490,45 @@ export const ProductModal: React.FC = () => {
                           </li>
                         ))}
                       </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Tab 2: Real In-Hand Photos & Unboxing */}
+                {activeTab === 'real-photos' && (
+                  <div className="pt-4 space-y-4 animate-fade-in text-xs">
+                    <div className="bg-[#FAF7EE] p-3.5 rounded-2xl border border-[#E2D9CA] flex items-center justify-between">
+                      <div className="flex items-center space-x-2 text-[#264E36]">
+                        <Camera className="w-4 h-4" />
+                        <span className="font-bold uppercase tracking-wider text-[11px]">Physical Warehouse Inspection Photos</span>
+                      </div>
+                      <span className="text-[10px] font-mono text-stone-500 bg-white px-2 py-0.5 rounded border border-[#E2D9CA]">
+                        100% Asal Joote Verified
+                      </span>
+                    </div>
+
+                    <p className="text-stone-600 leading-relaxed text-[11px]">
+                      Yeh tasaveer hamare warehouse mein inspection ke dauran shoot ki gayi hain taake aapko deliver hone se pehle jootay ki real texture, sole tread, stitching aur packaging ka 100% aetimad ho sake.
+                    </p>
+
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                      {shoe.images.map((img, idx) => (
+                        <div key={idx} className="relative aspect-square bg-[#FAF7EE] rounded-2xl border border-[#E2D9CA] overflow-hidden p-2 group shadow-2xs">
+                          <img
+                            src={img}
+                            alt={`${shoe.name} In Hand View ${idx + 1}`}
+                            className="w-full h-full object-contain group-hover:scale-108 transition-transform duration-300"
+                          />
+                          <div className="absolute bottom-1.5 left-1.5 bg-[#2B1A11]/80 text-white text-[8px] font-mono px-2 py-0.5 rounded-full backdrop-blur-xs">
+                            Angle {idx + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="p-3 bg-[#E8F2EC] rounded-2xl border border-[#264E36]/20 flex items-center space-x-2.5 text-[#264E36] text-[11px]">
+                      <ShieldCheck className="w-4 h-4 shrink-0" />
+                      <span><strong>Open Parcel Guarantee:</strong> Rider ke aane par aap parcel khol kar joota check kar sakte hain, phir Cash on Delivery dain!</span>
                     </div>
                   </div>
                 )}

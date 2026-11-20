@@ -12,8 +12,10 @@ import {
   ChevronDown,
   LayoutDashboard,
   Sparkles,
+  MessageCircle,
 } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import { WHATSAPP_PHONE } from '../utils/whatsapp';
 
 export const Navbar: React.FC = () => {
   const {
@@ -226,6 +228,18 @@ export const Navbar: React.FC = () => {
                 </button>
               ))}
             </div>
+
+            {/* WhatsApp Direct Helpline */}
+            <a
+              href={`https://wa.me/${WHATSAPP_PHONE}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hidden sm:flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-[#25D366]/15 hover:bg-[#25D366] text-[#1F140E] hover:text-white border border-[#25D366]/40 transition-all text-xs font-bold shadow-2xs group"
+              title="Chat with Us on WhatsApp"
+            >
+              <MessageCircle className="w-3.5 h-3.5 text-[#25D366] group-hover:text-white" />
+              <span className="hidden md:inline font-sans">WhatsApp</span>
+            </a>
 
             {/* Saved Wishlist */}
             <button

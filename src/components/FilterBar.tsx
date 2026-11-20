@@ -203,7 +203,7 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
                       <span>Sort Collection</span>
                     </span>
                     <span className="text-[10px] text-stone-500 font-mono font-semibold">
-                      {totalCount} Items
+                      {totalCount} {totalCount === 1 ? 'Item' : 'Items'}
                     </span>
                   </div>
 
@@ -243,9 +243,9 @@ export const FilterBar: React.FC<{ totalCount: number }> = ({ totalCount }) => {
             </div>
 
             {/* Silhouette Vault Count Indicator */}
-            <div className="flex items-center gap-1.5 pl-3 border-l border-[#E2D9CA] text-[11px] font-mono text-[#2B1A11] font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-1.5 pl-3 border-l border-[#E2D9CA] text-[11px] font-mono text-[#2B1A11] font-bold uppercase tracking-wider shrink-0">
               <span className="w-2 h-2 rounded-full bg-[#264E36] animate-pulse" />
-              <span>{totalCount} Grails</span>
+              <span>{totalCount} {totalCount === 1 ? 'Grail' : 'Grails'}</span>
             </div>
 
           </div>

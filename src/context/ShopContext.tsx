@@ -106,7 +106,48 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
   const [isOrderHistoryOpen, setIsOrderHistoryOpen] = useState(false);
   const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
-  const [activeShoeModal, setActiveShoeModal] = useState<Shoe | null>(null);
+  const [activeShoeModal, setActiveShoeModalState] = useState<Shoe | null>(null);
+
+  const setActiveShoeModal = useCallback((shoe: Shoe | null) => {
+    setActiveShoeModalState(shoe);
+    if (shoe) {
+      const url = `/product/${shoe.slug || shoe.id}`;
+      if (window.location.pathname !== url) {
+        window.history.pushState({ modalOpen: true, slug: shoe.slug || shoe.id }, '', url);
+      }
+      document.title = `${shoe.name} | Thrift & Trend Footwear`;
+    } else {
+      if (window.location.pathname.startsWith('/product/')) {
+        window.history.pushState(null, '', '/');
+      }
+      document.title = 'THRIFT & TREND | Where Style Meets Savings';
+    }
+  }, []);
+
+  // Handle direct product URL on mount and browser back/forward buttons
+  useEffect(() => {
+    const handleUrlRoute = () => {
+      const path = window.location.pathname;
+      const match = path.match(/^\/product\/([^/]+)$/);
+      if (match) {
+        const slug = match[1];
+        const matched =
+          shoes.find(s => s.slug === slug || s.id === slug) ||
+          SHOES.find(s => s.slug === slug || s.id === slug);
+        if (matched) {
+          setActiveShoeModalState(matched);
+          document.title = `${matched.name} | Thrift & Trend Footwear`;
+        }
+      } else if (window.location.pathname === '/') {
+        setActiveShoeModalState(null);
+        document.title = 'THRIFT & TREND | Where Style Meets Savings';
+      }
+    };
+
+    handleUrlRoute();
+    window.addEventListener('popstate', handleUrlRoute);
+    return () => window.removeEventListener('popstate', handleUrlRoute);
+  }, [shoes]);
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<ShoeCategory>('all');

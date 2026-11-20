@@ -268,8 +268,23 @@ export default async function handler(req, res) {
     }
 
     // 8. Admin Orders
-    if (pathname === '/api/admin/orders') {
+    if (pathname === '/api/admin/orders' && req.method === 'GET') {
       return res.status(200).json({ orders: db.orders, count: db.orders.length });
+    }
+
+    // 8b. Admin Orders Status & Tracking Update (PATCH /api/admin/orders/:id/status)
+    const statusMatch = pathname.match(/^\/api\/admin\/orders\/([^/]+)\/status$/);
+    if (statusMatch && (req.method === 'PATCH' || req.method === 'POST')) {
+      const orderId = statusMatch[1];
+      const body = await parseBody(req);
+      const target = db.orders.find(o => o.id === orderId);
+      if (target) {
+        if (body.status) target.status = body.status;
+        if (body.trackingNumber) target.trackingNumber = body.trackingNumber;
+        saveDB(db);
+        return res.status(200).json({ message: 'Order status updated', order: target });
+      }
+      return res.status(404).json({ message: 'Order not found' });
     }
 
     // 9. Admin Customers

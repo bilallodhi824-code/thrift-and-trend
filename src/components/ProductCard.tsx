@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Heart, Star, Eye, Plus, ShieldCheck } from 'lucide-react';
+import { Heart, Star, Eye, Plus, ShieldCheck, MessageCircle } from 'lucide-react';
 import { Shoe, ShoeColor } from '../types/shoe';
 import { useShop } from '../context/ShopContext';
 import { formatPrice } from '../utils/currency';
+import { getWhatsAppShoeOrderUrl } from '../utils/whatsapp';
 
 export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
   const {
@@ -102,17 +103,28 @@ export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
         </button>
 
         {/* Hover Action Overlay */}
-        <div className="absolute inset-x-3 bottom-3 hidden lg:flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20">
+        <div className="absolute inset-x-3 bottom-3 hidden lg:flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-20 gap-1.5">
           <button
             onClick={e => {
               e.stopPropagation();
               setActiveShoeModal(shoe);
             }}
-            className="flex-1 mr-2 bg-white/95 hover:bg-white text-[#2B1A11] text-[11px] font-bold tracking-wider uppercase py-2.5 px-3 rounded-full shadow-lg backdrop-blur-xs transition-colors flex items-center justify-center space-x-1.5 border border-[#E2D9CA]"
+            className="flex-1 bg-white/95 hover:bg-white text-[#2B1A11] text-[11px] font-bold tracking-wider uppercase py-2 px-3 rounded-full shadow-lg backdrop-blur-xs transition-colors flex items-center justify-center space-x-1.5 border border-[#E2D9CA]"
           >
             <Eye className="w-3.5 h-3.5 text-[#C59B6D]" />
-            <span>Inspect Grail</span>
+            <span>Inspect</span>
           </button>
+
+          <a
+            href={getWhatsAppShoeOrderUrl(shoe, selectedColor, shoe.sizes[0] || 42)}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={e => e.stopPropagation()}
+            className="bg-[#25D366] hover:bg-[#20ba5a] text-white p-2.5 rounded-full shadow-lg transition-transform active:scale-90 flex items-center justify-center"
+            title="Order via WhatsApp (COD)"
+          >
+            <MessageCircle className="w-4 h-4 fill-white" />
+          </a>
 
           <button
             onClick={e => {

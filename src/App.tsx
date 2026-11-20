@@ -14,6 +14,9 @@ import { AuthModal } from './components/AuthModal';
 import { OrderHistoryModal } from './components/OrderHistoryModal';
 import { AdminDashboard } from './components/AdminDashboard';
 import { BrandPhilosophy } from './components/BrandPhilosophy';
+import { CourierTrustStrip } from './components/CourierTrustStrip';
+import { RealCustomerReviews } from './components/RealCustomerReviews';
+import { MobileBottomNav } from './components/MobileBottomNav';
 import { Footer } from './components/Footer';
 import { Toast } from './components/Toast';
 
@@ -85,25 +88,34 @@ const FootwearShopContent: React.FC = () => {
       {/* 2. Top Header Navigation with Official T&T Logo, Auth & Admin Launcher */}
       <Navbar />
 
-      <main className="flex-1">
+      <main className="flex-1 pb-16 md:pb-0">
         {/* 3. Cinematic Hero: "WHERE STYLE MEETS SAVINGS" */}
         <Hero />
 
-        {/* 4. Condition Grading & Quality Standard */}
+        {/* 4. Pakistani Courier Partners & 7-Day Guarantee Trust Strip */}
+        <CourierTrustStrip />
+
+        {/* 5. Condition Grading & Quality Standard */}
         <ConditionGuide />
 
-        {/* 5. Filter & Sorter Toolbar */}
+        {/* 6. Filter & Sorter Toolbar */}
         <FilterBar totalCount={filteredShoes.length} />
 
-        {/* 6. Product Grid */}
+        {/* 7. Product Grid */}
         <ProductGrid shoes={filteredShoes} />
 
-        {/* 7. Brand Philosophy & Quality Footwear */}
+        {/* 8. Real Customer Proof, In-Hand Photos & Unboxings */}
+        <RealCustomerReviews />
+
+        {/* 9. Brand Philosophy & Quality Footwear */}
         <BrandPhilosophy />
       </main>
 
-      {/* 8. Comprehensive Footer with T&T Crest & Storefronts */}
+      {/* 10. Comprehensive Footer with T&T Crest, WhatsApp Helpline & Storefronts */}
       <Footer />
+
+      {/* 11. Mobile Bottom Floating App Navigation Bar */}
+      <MobileBottomNav />
 
       {/* Drawers & Modals */}
       <ProductModal />
