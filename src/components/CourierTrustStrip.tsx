@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Truck, ShieldCheck, RefreshCw, Clock, CheckCircle2, X } from 'lucide-react';
 
 export const CourierTrustStrip: React.FC = () => {
@@ -6,14 +7,20 @@ export const CourierTrustStrip: React.FC = () => {
 
   return (
     <>
-      <section className="bg-[#FAF7EE] border-y border-[#E2D9CA] py-6 sm:py-8">
+      <section className="bg-[#FAF7EE] border-y border-[#E2D9CA] py-6 sm:py-8 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Top 4 Pillars */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             
             {/* Pillar 1: Cash on Delivery */}
-            <div className="bg-white/80 p-4 rounded-2xl border border-[#E2D9CA] shadow-2xs flex items-start space-x-3.5 hover:border-[#C59B6D] transition-colors">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.05 }}
+              className="bg-white/80 p-4 rounded-2xl border border-[#E2D9CA] shadow-2xs flex items-start space-x-3.5 hover:border-[#C59B6D] transition-colors"
+            >
               <div className="w-10 h-10 rounded-xl bg-[#264E36]/10 text-[#264E36] flex items-center justify-center shrink-0">
                 <Truck className="w-5 h-5" />
               </div>
@@ -25,10 +32,16 @@ export const CourierTrustStrip: React.FC = () => {
                   Pay at your doorstep anywhere across Pakistan. No advance required.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 2: Delivery Timeline */}
-            <div className="bg-white/80 p-4 rounded-2xl border border-[#E2D9CA] shadow-2xs flex items-start space-x-3.5 hover:border-[#C59B6D] transition-colors">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.1 }}
+              className="bg-white/80 p-4 rounded-2xl border border-[#E2D9CA] shadow-2xs flex items-start space-x-3.5 hover:border-[#C59B6D] transition-colors"
+            >
               <div className="w-10 h-10 rounded-xl bg-[#C59B6D]/15 text-[#C59B6D] flex items-center justify-center shrink-0">
                 <Clock className="w-5 h-5" />
               </div>
@@ -40,10 +53,14 @@ export const CourierTrustStrip: React.FC = () => {
                   Orders dispatched within 24 hours with live online SMS tracking.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 3: 7-Day Exchange */}
-            <div 
+            <motion.div 
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.15 }}
               onClick={() => setIsPolicyModalOpen(true)}
               className="bg-white/80 p-4 rounded-2xl border border-[#E2D9CA] shadow-2xs flex items-start space-x-3.5 hover:border-[#C59B6D] transition-colors cursor-pointer group"
             >
@@ -61,10 +78,16 @@ export const CourierTrustStrip: React.FC = () => {
                   Size fit nahi aya? 7 din ke andar asaan replacement ya exchange.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Pillar 4: Authenticity */}
-            <div className="bg-white/80 p-4 rounded-2xl border border-[#E2D9CA] shadow-2xs flex items-start space-x-3.5 hover:border-[#C59B6D] transition-colors">
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.35, delay: 0.2 }}
+              className="bg-white/80 p-4 rounded-2xl border border-[#E2D9CA] shadow-2xs flex items-start space-x-3.5 hover:border-[#C59B6D] transition-colors"
+            >
               <div className="w-10 h-10 rounded-xl bg-[#264E36]/10 text-[#264E36] flex items-center justify-center shrink-0">
                 <ShieldCheck className="w-5 h-5" />
               </div>
@@ -76,7 +99,7 @@ export const CourierTrustStrip: React.FC = () => {
                   Every shoe physically inspected for sole wear, upper, and factory stitch.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
           </div>
 

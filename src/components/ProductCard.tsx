@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Heart, Star, Eye, Plus, ShieldCheck, MessageCircle } from 'lucide-react';
 import { Shoe, ShoeColor } from '../types/shoe';
 import { useShop } from '../context/ShopContext';
@@ -48,8 +49,12 @@ export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
   };
 
   return (
-    <div
-      className="group relative flex flex-col bg-white rounded-3xl border border-[#E2D9CA] hover:border-[#C59B6D] transition-all duration-300 hover:shadow-2xl overflow-hidden"
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+      className="group relative flex flex-col bg-white rounded-3xl border border-[#E2D9CA] hover:border-[#C59B6D] transition-colors duration-300 hover:shadow-2xl overflow-hidden"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => {
         setIsHovered(false);
@@ -249,6 +254,6 @@ export const ProductCard: React.FC<{ shoe: Shoe }> = ({ shoe }) => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };

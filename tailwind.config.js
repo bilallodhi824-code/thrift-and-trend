@@ -23,8 +23,9 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Plus Jakarta Sans', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['Space Grotesk', 'Plus Jakarta Sans', 'sans-serif'],
+        sans: ['Plus Jakarta Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+        display: ['Syne', 'Plus Jakarta Sans', 'sans-serif'],
+        mono: ['JetBrains Mono', 'monospace'],
       },
       letterSpacing: {
         tightest: '-0.04em',

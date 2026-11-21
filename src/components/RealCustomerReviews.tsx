@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Play, Star, ShieldCheck, CheckCircle2, Instagram, Sparkles, Eye, X } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
@@ -122,11 +123,15 @@ export const RealCustomerReviews: React.FC = () => {
 
         {/* Video Reel / Photo Cards Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
-          {UNBOXING_REELS.map(reel => (
-            <div
+          {UNBOXING_REELS.map((reel, idx) => (
+            <motion.div
               key={reel.id}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-30px' }}
+              transition={{ duration: 0.4, delay: idx * 0.08 }}
               onClick={() => setSelectedProof(reel)}
-              className="group bg-white rounded-3xl border border-[#E2D9CA] hover:border-[#C59B6D] overflow-hidden shadow-xs hover:shadow-xl transition-all duration-300 flex flex-col justify-between cursor-pointer"
+              className="group bg-white rounded-3xl border border-[#E2D9CA] hover:border-[#C59B6D] overflow-hidden shadow-xs hover:shadow-xl transition-colors duration-300 flex flex-col justify-between cursor-pointer"
             >
               {/* Media Preview Box */}
               <div className="relative aspect-4/3 w-full bg-[#FAF7EE] overflow-hidden flex items-center justify-center p-4">
@@ -186,7 +191,7 @@ export const RealCustomerReviews: React.FC = () => {
                 </div>
               </div>
 
-            </div>
+            </motion.div>
           ))}
         </div>
 

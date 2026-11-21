@@ -314,9 +314,9 @@ export const AdminDashboard: React.FC = () => {
           </div>
 
           <div className="pt-4 border-t border-stone-200 text-[11px] text-stone-500 hidden md:block">
-            <p className="font-semibold text-stone-800">Microsoft SQL Server 2025</p>
-            <p className="text-[10px] text-stone-400">Database: ThriftAndTrendDB</p>
-            <p className="text-[10px] text-stone-400">Auth: JWT + Bcrypt</p>
+            <p className="font-semibold text-stone-800">Enterprise Cloud Database</p>
+            <p className="text-[10px] text-stone-400">Vault: ThriftAndTrendDB</p>
+            <p className="text-[10px] text-stone-400">Security: JWT + Bcrypt SHA-256</p>
           </div>
         </aside>
 
@@ -332,7 +332,7 @@ export const AdminDashboard: React.FC = () => {
                     Executive Performance Overview
                   </h2>
                   <p className="text-xs text-stone-500">
-                    Live telemetry directly synchronized from Microsoft SQL Server.
+                    Live telemetry directly synchronized from secure enterprise cloud storage.
                   </p>
                 </div>
                 <button

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import {
   X,
   Star,
@@ -93,12 +94,20 @@ export const ProductModal: React.FC = () => {
   };
 
   return (
-    <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-neutral-950/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-5 md:p-6 animate-fade-in"
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-50 overflow-y-auto bg-neutral-950/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-5 md:p-6"
       onClick={() => setActiveShoeModal(null)}
     >
-      <div
-        className="relative bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden border border-[#E2D9CA] animate-slide-up max-h-[92vh] flex flex-col"
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ type: 'spring', damping: 26, stiffness: 320 }}
+        className="relative bg-white w-full max-w-5xl rounded-3xl shadow-2xl overflow-hidden border border-[#E2D9CA] max-h-[92vh] flex flex-col"
         onClick={e => e.stopPropagation()}
       >
         {/* Top Header */}
@@ -633,7 +642,7 @@ export const ProductModal: React.FC = () => {
           </div>
         </div>
 
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
   );
 };

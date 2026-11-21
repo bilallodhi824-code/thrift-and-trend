@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { Home, Footprints, Search, Heart, ShoppingBag } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
@@ -28,7 +29,6 @@ export const MobileBottomNav: React.FC = () => {
     if (catalogEl) {
       catalogEl.scrollIntoView({ behavior: 'smooth' });
     }
-    // trigger focus on search if available
     const searchInput = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement;
     if (searchInput) {
       searchInput.focus();
@@ -40,7 +40,8 @@ export const MobileBottomNav: React.FC = () => {
       <div className="flex items-center justify-around max-w-md mx-auto">
         
         {/* 1. Home */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={handleHomeClick}
           className="flex flex-col items-center justify-center py-1 px-2 text-[#2B1A11] hover:text-[#C59B6D] transition-colors group cursor-pointer"
         >
@@ -48,10 +49,11 @@ export const MobileBottomNav: React.FC = () => {
           <span className="text-[10px] font-bold uppercase tracking-wider mt-1 font-mono">
             Home
           </span>
-        </button>
+        </motion.button>
 
         {/* 2. Shop / Drops */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={handleShopClick}
           className="flex flex-col items-center justify-center py-1 px-2 text-[#2B1A11] hover:text-[#C59B6D] transition-colors group cursor-pointer"
         >
@@ -59,10 +61,11 @@ export const MobileBottomNav: React.FC = () => {
           <span className="text-[10px] font-bold uppercase tracking-wider mt-1 font-mono text-[#C59B6D]">
             Drops
           </span>
-        </button>
+        </motion.button>
 
         {/* 3. Search */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={handleSearchClick}
           className="flex flex-col items-center justify-center py-1 px-2 text-[#2B1A11] hover:text-[#C59B6D] transition-colors group cursor-pointer"
         >
@@ -70,10 +73,11 @@ export const MobileBottomNav: React.FC = () => {
           <span className="text-[10px] font-bold uppercase tracking-wider mt-1 font-mono">
             Search
           </span>
-        </button>
+        </motion.button>
 
         {/* 4. Wishlist */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={() => setIsWishlistOpen(true)}
           className="relative flex flex-col items-center justify-center py-1 px-2 text-[#2B1A11] hover:text-[#C59B6D] transition-colors group cursor-pointer"
         >
@@ -88,10 +92,11 @@ export const MobileBottomNav: React.FC = () => {
           <span className="text-[10px] font-bold uppercase tracking-wider mt-1 font-mono">
             Saved
           </span>
-        </button>
+        </motion.button>
 
         {/* 5. Bag / Cart */}
-        <button
+        <motion.button
+          whileTap={{ scale: 0.9 }}
           onClick={() => setIsCartOpen(true)}
           className="relative flex flex-col items-center justify-center py-1 px-2 text-[#2B1A11] hover:text-[#C59B6D] transition-colors group cursor-pointer"
         >
@@ -108,7 +113,7 @@ export const MobileBottomNav: React.FC = () => {
           <span className="text-[10px] font-bold uppercase tracking-wider mt-0.5 font-mono">
             Bag
           </span>
-        </button>
+        </motion.button>
 
       </div>
     </nav>
